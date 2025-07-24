@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Import Project="../Version.info" />
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+        <Description>Clases con métodos para uso de protocolos de red</Description>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
+        <ProjectReference Include="..\FirmarOnline.Types\FirmarOnline.Types.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
+        <PackageReference Include="FirmarOnline.Types" Version="$(ResolvedVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+        <PackageReference Include="System.Text.Json" Version="8.0.6" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.7" />
+    </ItemGroup>
+</Project>

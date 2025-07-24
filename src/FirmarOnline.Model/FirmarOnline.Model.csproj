@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../Version.info" />
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+        <Description>Tipos de datos para acceso a la API de FirmarOnline</Description>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
+        <ProjectReference Include="..\FirmarOnline.Types\FirmarOnline.Types.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
+        <PackageReference Include="FirmarOnline.Types" Version="$(ResolvedVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+</Project>

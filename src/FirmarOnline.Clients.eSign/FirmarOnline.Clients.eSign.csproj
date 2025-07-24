@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../Version.info" />
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+        <Description>Cliente para acceso a la API pública de Firma Avanzada</Description>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
+        <ProjectReference Include="..\FirmarOnline.Clients.Common\FirmarOnline.Clients.Common.csproj" />
+        <ProjectReference Include="..\FirmarOnline.Model.eSign\FirmarOnline.Model.eSign.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
+        <PackageReference Include="FirmarOnline.Clientes.Common" Version="$(ResolvedVersion)" />
+        <PackageReference Include="FirmarOnline.Model.eSign" Version="$(ResolvedVersion)" />
+    </ItemGroup>
+
+</Project>

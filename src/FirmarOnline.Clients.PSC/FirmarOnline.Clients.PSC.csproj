@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Description>Cliente para acceso a la API pública del Prestador de Servicios de Confianza (PSC) de firmar.online</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>7</WarningLevel>
+    <WarningsNotAsErrors>NU1901,NU1902,NU1903,NU1904</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <Import Project="../../Version.info" />
+  <ItemGroup>
+    <PackageReference Include="Edatalia.Net" Version="2.1.1" />
+    <PackageReference Include="ESSNET.Model" Version="3.2.140" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FirmarOnline.Model.PSC\FirmarOnline.Model.PSC.csproj" />
+    <ProjectReference Include="..\..\FirmarOnline.Model\FirmarOnline.Model.csproj" />
+  </ItemGroup>
+
+</Project>

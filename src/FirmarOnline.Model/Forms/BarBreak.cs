@@ -1,0 +1,10 @@
+﻿#if NET6_0_OR_GREATER
+namespace FirmarOnline.Model.Forms
+{
+    /// <summary>
+    /// Barra de separación.
+    /// </summary>
+    public class BarBreak : VisibleItemBase
+    { }
+}
+#endif

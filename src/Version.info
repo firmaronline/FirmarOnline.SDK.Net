@@ -1,0 +1,27 @@
+<Project>
+    <PropertyGroup>
+        <LangVersion>12.0</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WarningLevel>7</WarningLevel>
+        <Authors>edatalia data solutions, s.l.</Authors>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
+        <FileVersion>3.0.0.0</FileVersion>
+        <VersionPrefix>3.0.0.0</VersionPrefix>
+        <VersionSuffix>beta</VersionSuffix>
+        <Configurations>Debug;Release;Development</Configurations>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(VersionSuffix) == ''">
+        <ResolvedVersion>$(VersionPrefix)</ResolvedVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(VersionSuffix) != ''">
+        <ResolvedVersion>$(VersionPrefix)-$(VersionSuffix)</ResolvedVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Development'">
+        <UseProjectReference>true</UseProjectReference>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' != 'Development'">
+        <UseProjectReference>false</UseProjectReference>
+    </PropertyGroup>
+</Project>

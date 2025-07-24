@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Description>Tipos de datos para acceso a la API de PSC de FirmarOnline</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>0618</WarningsNotAsErrors>
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>0618</WarningsNotAsErrors>
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <Import Project="../Version.info" />
+
+  <ItemGroup>
+    <PackageReference Include="FirmarOnline.Types" Version="1.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FirmarOnline.Api.Enums\FirmarOnline.Api.Enums.csproj" />
+    <ProjectReference Include="..\FirmarOnline.Model\FirmarOnline.Model.csproj" />
+  </ItemGroup>
+
+</Project>
