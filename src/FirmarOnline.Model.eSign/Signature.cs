@@ -1,7 +1,6 @@
 ﻿using FirmarOnline.Model.Certificates;
+using FirmarOnline.Model.Validations;
 using FirmarOnline.Model.Widgets;
-using FirmarOnline.Types;
-using FirmarOnline.Types.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.eSign

@@ -1,6 +1,4 @@
-﻿using Edatalia.Net.ApiClients;
-using Edatalia.Net.ApiClients.Response;
-using Edatalia.Types;
+﻿using FirmarOnline.Clients.Common;
 using FirmarOnline.Model;
 using FirmarOnline.Model.PSC;
 using System;
@@ -16,32 +14,31 @@ namespace FirmarOnline.Clients.PSC
     /// </summary>
     public partial class PSCClient : ApiClientBase
     {
-        private readonly Uri _verifyApiBaseAddress;
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="PSCClient"/>
+        /// </summary>
+        /// <param name="apiBaseAddress">Url base de la api del PSC</param>
+        /// <param name="authenticationToken">Token de autenticación</param>
+        public PSCClient(Uri apiBaseAddress, string authenticationToken)
+            : base(apiBaseAddress, authenticationToken) { }
 
         /// <summary>
         /// Inicializa una nueva instancia de <see cref="PSCClient"/>
         /// </summary>
-        /// <param name="httpClientFactory"></param>
+        /// <param name="httpClientFactory">Factoría para crear instancias de <see cref="HttpClient"/></param>
         public PSCClient(IHttpClientFactory httpClientFactory)
-            : base(httpClientFactory)
-        {
-            // TODO: Los métodos de verificación deberíamos moverlos a otro cliente, no son específicos del PSC
-            // Url base para la api de verify. Reemplazamos el segmento "psc" por "verify"
-            // Creamos un HttpClient únicamente para obtener la url base del psc
-            var httpClient = httpClientFactory.CreateClient(GetType().FullName);
-            var builder = new UriBuilder(httpClient.BaseAddress);
-            var segments = builder.Path.Split('/');
-            for (int i = 0; i < segments.Length; i++)
-            {
-                if (segments[i] == "psc")
-                {
-                    segments.SetValue("verify", i);
-                }
-            }
+            : base(httpClientFactory) { }
 
-            builder.Path = string.Join("/", segments);
-            _verifyApiBaseAddress = builder.Uri;
-        }
+        /// <summary>
+        /// Url de la API del PSC en el entorno de pruebas
+        /// </summary>
+        public static readonly Uri PSCSandboxEnvironmentUrl = new("https://restapi.firmar.info/psc");
+
+        /// <summary>
+        /// Url de la API del PSC en el entorno de producción
+        /// </summary>
+        public static readonly Uri PSCProductionEnvironmentUrl = new("https://restapi.firmar.online/psc");
+
 
         /// <summary>
         /// Recupera el estado actual de un sobre
@@ -50,7 +47,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Un objeto <see cref="DocumentSetStatusCode"/> con el estado del sobre</returns>
         public async Task<DocumentSetStatusCode> GetDocumentSetStatusAsync(string documentSetId)
         {
-            var result = await GetAsync<DocumentSetStatusCode>($"documentset/status/{documentSetId}");
+            var result = await GetAsync<DocumentSetStatusCode>($"v40/documentset/status/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -63,7 +60,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>El documento de evidencias</returns>
         public async Task<Stream> GetEvidencesAsync(string documentSetId)
         {
-            var result = await GetFileAsync($"documentset/evidences/{documentSetId}");
+            var result = await GetFileAsync($"v40/documentset/evidences/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -78,7 +75,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>El contenido del documento</returns>
         public async Task<FileResult> GetDocumentAsync(string documentSetId, string documentId = null)
         {
-            var url = $"documentset/document/{documentSetId}{(string.IsNullOrEmpty(documentId) ? string.Empty : $"/{documentId}")}";
+            var url = $"v41/documentset/document/{documentSetId}{(string.IsNullOrEmpty(documentId) ? string.Empty : $"/{documentId}")}";
             var result = await GetFileAsync(url);
 
             CheckResponseStatus(result);
@@ -97,7 +94,7 @@ namespace FirmarOnline.Clients.PSC
         /// <param name="documentSetId">Identificador único del sobre</param>
         public async Task ResendDocumentSetAsync(string documentSetId)
         {
-            var result = await PutAsync($"documentset/resend/{documentSetId}");
+            var result = await PutAsync($"v40/documentset/resend/{documentSetId}");
 
             CheckResponseStatus(result);
         }
@@ -108,7 +105,7 @@ namespace FirmarOnline.Clients.PSC
         /// <param name="documentSetId">Identificador único del sobre</param>
         public async Task CancelDocumentSetAsync(string documentSetId)
         {
-            var result = await PutAsync($"documentset/cancel/{documentSetId}");
+            var result = await PutAsync($"v40/documentset/cancel/{documentSetId}");
 
             CheckResponseStatus(result);
         }
@@ -119,7 +116,7 @@ namespace FirmarOnline.Clients.PSC
         /// <param name="documentSetId">Identificador único del sobre</param>
         public async Task PurgeDocumentSetAsync(string documentSetId)
         {
-            var result = await PutAsync($"documentset/purge/{documentSetId}");
+            var result = await PutAsync($"v40/documentset/purge/{documentSetId}");
 
             CheckResponseStatus(result);
         }
@@ -131,7 +128,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Url del sobre</returns>
         public async Task<string> GetDocumentSetUrlAsync(string documentSetId)
         {
-            var result = await GetAsync<string>($"documentset/url/{documentSetId}");
+            var result = await GetAsync<string>($"v40/documentset/url/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -144,7 +141,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Objeto <see cref="DocumentSetErrorInfo"/> con el detalle del error</returns>
         public async Task<DocumentSetErrorInfo> GetDocumentSetErrorInfoAsync(string documentSetId)
         {
-            var result = await GetAsync<DocumentSetErrorInfo>($"documentset/error/{documentSetId}");
+            var result = await GetAsync<DocumentSetErrorInfo>($"v40/documentset/error/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -157,7 +154,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Colección de objetos <see cref="AuditEvent"/> con el detalle de los eventos</returns>
         public async Task<ICollection<AuditEvent>> GetAuditTrailAsync(string documentSetId)
         {
-            var result = await GetAsync<ICollection<AuditEvent>>($"documentset/audittrail/{documentSetId}");
+            var result = await GetAsync<ICollection<AuditEvent>>($"v40/documentset/audittrail/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -170,7 +167,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Stream con el json firmado (información del sobre + evidencias)</returns>
         public async Task<Stream> GetLegalAuditTrailAsync(string documentSetId)
         {
-            var result = await GetFileAsync($"documentset/legalaudittrail/{documentSetId}");
+            var result = await GetFileAsync($"v40/documentset/legalaudittrail/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -183,7 +180,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Un objeto <see cref="DocumentSetInfo"/> con la información del sobre</returns>
         public async Task<DocumentSetInfo> GetDocumentSetInfoAsync(string documentSetId)
         {
-            var result = await GetAsync<DocumentSetInfo>($"documentset/{documentSetId}");
+            var result = await GetAsync<DocumentSetInfo>($"v40/documentset/{documentSetId}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -196,7 +193,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Información del sobre</returns>
         public async Task<ICollection<DocumentSetInfo>> GetDocumentSetsInfoByReferenceAsync(string documentSetReference)
         {
-            var result = await GetAsync<ICollection<DocumentSetInfo>>($"documentset/infobyreference/{documentSetReference}");
+            var result = await GetAsync<ICollection<DocumentSetInfo>>($"v40/documentset/infobyreference/{documentSetReference}");
 
             CheckResponseStatus(result);
             return result.Value;
@@ -210,7 +207,7 @@ namespace FirmarOnline.Clients.PSC
         /// <returns>Información y contenido del anexo</returns>
         public async Task<FileResult> GetAttachmentAsync(string documentSetId, string attachmentId)
         {
-            var result = await GetFileAsync($"documentset/attachment/{documentSetId}/{attachmentId}");
+            var result = await GetFileAsync($"v40/documentset/attachment/{documentSetId}/{attachmentId}");
 
             CheckResponseStatus(result);
             return new FileResult
@@ -227,7 +224,7 @@ namespace FirmarOnline.Clients.PSC
         /// <param name="documentSetId">Identificador único de sobre</param>
         public async Task<bool> TestWebHookAsync(int? documentSetId = null)
         {
-            var result = await PostAsync<object>($"webhook/test{(documentSetId.HasValue ? $"/{documentSetId}" : string.Empty)}", null);
+            var result = await PostAsync<object>($"v40/webhook/test{(documentSetId.HasValue ? $"/{documentSetId}" : string.Empty)}", null);
 
             CheckResponseStatus(result);
             return true;
@@ -241,49 +238,10 @@ namespace FirmarOnline.Clients.PSC
         /// </returns>
         public async Task<ICollection<UserDevice>> GetDeviceAsync()
         {
-            var result = await GetAsync<ICollection<UserDevice>>($"device");
+            var result = await GetAsync<ICollection<UserDevice>>($"v40/device");
 
             CheckResponseStatus(result);
             return result.Value;
-        }
-
-        private static void CheckResponseStatus(ApiResponse response)
-        {
-            if (!response.IsSuccessStatusCode)
-            {
-                FirmarOnlineRequestException exception;
-                if (response.Problem?.ProblemDetails != null)
-                {
-                    var problemDetails = new ProblemDetails
-                    {
-                        Detail = response.Problem.ProblemDetails.Detail,
-                        Extensions = response.Problem.ProblemDetails.Extensions,
-                        Instance = response.Problem.ProblemDetails.Instance,
-                        Status = (int)response.Problem.ProblemDetails.Status,
-                        Title = response.Problem.ProblemDetails.Title,
-                        Type = response.Problem.ProblemDetails.Type
-                    };
-                    exception = new FirmarOnlineRequestException(problemDetails, response.Problem.ReasonPhrase, response.Problem.RequestUri, response.Problem.RequestMethod);
-                }
-                else
-                {
-                    exception = new FirmarOnlineRequestException(response.Problem?.ReasonPhrase, response.Problem?.RequestUri, response.Problem?.RequestMethod);
-                }
-                exception.Content = response.Problem?.Content;
-                throw exception;
-            }
-        }
-
-        private static async Task<string> Stream2Base64Async(Stream pdfFile)
-        {
-            string base64;
-            using (var memoryStream = new MemoryStream())
-            {
-                await pdfFile.CopyToAsync(memoryStream);
-                base64 = Convert.ToBase64String(memoryStream.ToArray());
-            }
-
-            return base64;
         }
     }
 }

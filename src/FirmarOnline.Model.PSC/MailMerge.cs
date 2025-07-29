@@ -1,4 +1,4 @@
-﻿using Edatalia.Validation;
+﻿using FirmarOnline.Model.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC

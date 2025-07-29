@@ -1,5 +1,4 @@
-﻿using Edatalia.Types;
-using FirmarOnline.Model;
+﻿using FirmarOnline.Model;
 using FirmarOnline.Model.PSC;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace FirmarOnline.Clients.PSC
         public async Task<PageResult<DocumentSetSummary>> GetHistoryAsync(
             DocumentSetFilter filter = null, string documentSetId = null)
         {
-            var requestUrl = "history";
+            var requestUrl = "v40/history";
 
             var query = new List<KeyValuePair<string, string>>();
 

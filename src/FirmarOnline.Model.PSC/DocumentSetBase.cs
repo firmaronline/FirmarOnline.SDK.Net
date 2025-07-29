@@ -43,7 +43,11 @@ namespace FirmarOnline.Model.PSC
         {
             if (!documents.Any()) return true;
 
+#if NET6_0_OR_GREATER
             var documentTypes = documents.Select(d => d.Form != null || d.FormId != null ? 0 : 1).ToList();
+#else
+            var documentTypes = documents.Select(d => d.FormId != null ? 0 : 1).ToList();
+#endif
 
             // Orden ascendente
             if (documentTypes.FirstOrDefault() == 0)
@@ -60,14 +64,11 @@ namespace FirmarOnline.Model.PSC
         /// <returns>False si hay más de un destinatario y uno o más formularios. True en caso contrario.</returns>
         internal static bool CheckDocumentTypeByRecipients(IEnumerable<Document> documents, IEnumerable<RecipientBase> recipients)
         {
-            if (recipients.Count() > 1 && (documents.Any(doc => doc.Form != null) || documents.Any(doc => doc.FormId != null)))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+#if NET6_0_OR_GREATER
+            return recipients.Count() == 1 || documents.All(doc => doc.Form == null && doc.FormId == null);
+#else
+            return recipients.Count() == 1 || documents.All(doc => doc.FormId == null);
+#endif
         }
 
         /// <summary>
@@ -96,7 +97,11 @@ namespace FirmarOnline.Model.PSC
         internal static bool CheckDocumentTypeByActionType60(IEnumerable<DocumentContent> documentsContent, IEnumerable<RecipientWithSignatureType> recipients)
         {
             if (recipients.Any(r => r.ActionType == RecipientActionType.CryptoAPISignature) &&
-                (documentsContent.Any(doc => doc.Form != null) || documentsContent.Any(doc => doc.FormId != null)))
+#if NET6_0_OR_GREATER
+                documentsContent.Any(doc => doc.Form != null || doc.FormId != null))
+#else
+                documentsContent.Any(doc => doc.FormId != null))
+#endif
             {
                 return false;
             }

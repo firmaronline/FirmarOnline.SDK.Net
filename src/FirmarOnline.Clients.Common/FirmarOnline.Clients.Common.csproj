@@ -7,15 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
-        <ProjectReference Include="..\FirmarOnline.Types\FirmarOnline.Types.csproj" />
+        <ProjectReference Include="..\FirmarOnline.Model\FirmarOnline.Model.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
-        <PackageReference Include="FirmarOnline.Types" Version="$(ResolvedVersion)" />
+        <PackageReference Include="FirmarOnline.Model" Version="$(ResolvedVersion)" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-        <PackageReference Include="System.Text.Json" Version="8.0.6" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 

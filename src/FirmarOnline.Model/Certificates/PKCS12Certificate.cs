@@ -1,4 +1,4 @@
-﻿using FirmarOnline.Types.Validations;
+﻿using FirmarOnline.Model.Validations;
 
 namespace FirmarOnline.Model.Certificates
 {

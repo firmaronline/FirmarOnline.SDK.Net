@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using FirmarOnline.Types.Validations;
+using FirmarOnline.Model.Validations;
+
 
 #if NET6_0_OR_GREATER
 using System.Text.Json.Serialization;

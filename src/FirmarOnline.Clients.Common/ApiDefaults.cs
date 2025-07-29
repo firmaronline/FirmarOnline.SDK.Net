@@ -13,26 +13,6 @@ namespace FirmarOnline.Clients.Common
     /// </summary>
     public static class ApiDefaults
     {
-        /// <summary>
-        /// Url de la API del PSC en el entorno de pruebas
-        /// </summary>
-        public static readonly Uri PSCSandboxEnvironmentUrl = new("https://restapi.firmar.info/psc/v40");
-
-        /// <summary>
-        /// Url de la API del PSC en el entorno de producción
-        /// </summary>
-        public static readonly Uri PSCProductionEnvironmentUrl = new("https://restapi.firmar.online/psc/v40");
-
-        /// <summary>
-        /// Url de la API del eSign en el entorno de pruebas
-        /// </summary>
-        public static readonly Uri eSignSandboxEnvironmentUrl = new("https://restapi.firmar.info/esign/v40");
-
-        /// <summary>
-        /// Url de la API del eSign en el entorno de producción
-        /// </summary>
-        public static readonly Uri eSignProductionEnvironmentUrl = new("https://restapi.firmar.online/esign/v40");
-
 #if NET6_0_OR_GREATER
         private static readonly JsonSerializerOptions _defaultJsonSerializerOptions = new()
         {

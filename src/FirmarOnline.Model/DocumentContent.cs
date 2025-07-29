@@ -1,11 +1,8 @@
-﻿using FirmarOnline.Types.Validations;
+﻿using FirmarOnline.Model.Forms;
+using FirmarOnline.Model.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-#if NET6_0_OR_GREATER
-using FirmarOnline.Model.Forms;
-#endif
 
 namespace FirmarOnline.Model
 {
@@ -53,46 +50,23 @@ namespace FirmarOnline.Model
         /// <returns></returns>
         public static ValidationResult ValidateDocumentContent(DocumentContent documentContent)
         {
-            int countDocumentContent = 0;
-            if (!string.IsNullOrWhiteSpace(documentContent.B64PDFContent))
-            {
-                countDocumentContent++;
-            }
-
+            bool hasB64Content = !string.IsNullOrWhiteSpace(documentContent.B64PDFContent);
 #if NET6_0_OR_GREATER
-            if (documentContent.Form != null)
-            {
-                countDocumentContent++;
-            }
+            bool hasForm = documentContent.Form != null;
+#else
+            bool hasForm = false;
 #endif
+            bool hasFormId = !string.IsNullOrWhiteSpace(documentContent.FormId);
 
-            if (!string.IsNullOrWhiteSpace(documentContent.FormId))
-            {
-                countDocumentContent++;
-            }
+            int informedCount = Convert.ToInt32(hasB64Content) + Convert.ToInt32(hasForm) + Convert.ToInt32(hasFormId);
 
-            if (countDocumentContent != 1)
+            if (informedCount != 1)
             {
-                return new ValidationResult("Only one document content property can be non-null and at least one document content property must be non-null");
+                return new ValidationResult(
+                    "Exactly one of the following properties must be provided: B64PDFContent, Form, or FormId.");
             }
 
             return ValidationResult.Success;
         }
-    }
-
-    /// <summary>
-    /// Valores de Formulario (WebForms).
-    /// </summary>
-    public class FormValue
-    {
-        /// <summary>
-        /// Identificador.
-        /// </summary>
-        public String Id { get; set; }
-
-        /// <summary>
-        /// Valor.
-        /// </summary>
-        public object Value { get; set; }
     }
 }

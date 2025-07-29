@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+  </PropertyGroup>
+    <Import Project="../Version.info" />
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>Tipos de datos para acceso a la API de verificación de documentos firmados</Description>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
+        <ProjectReference Include="..\FirmarOnline.Model\FirmarOnline.Model.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
+        <PackageReference Include="FirmarOnline.Model" Version="$(ResolvedVersion)" />
+    </ItemGroup>
+
+</Project>

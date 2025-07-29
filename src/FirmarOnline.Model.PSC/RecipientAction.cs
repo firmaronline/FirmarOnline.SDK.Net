@@ -1,4 +1,4 @@
-﻿using FirmarOnline.Types.Widgets;
+﻿using FirmarOnline.Model.Widgets;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC

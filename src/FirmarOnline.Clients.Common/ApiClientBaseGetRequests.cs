@@ -1,5 +1,5 @@
 ﻿using FirmarOnline.Clients.Common.Responses;
-using FirmarOnline.Types;
+using FirmarOnline.Model;
 using System;
 using System.Threading.Tasks;
 

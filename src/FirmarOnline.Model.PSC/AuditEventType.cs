@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC
 {
@@ -71,13 +70,6 @@ namespace FirmarOnline.Model.PSC
         DocumentSetError = 108,
 
         /// <summary>
-        /// Se ha recuperado de un error antes de superar reintentos
-        /// </summary>
-        [Obsolete(nameof(AuditEventType.DocumentSetRecoveredError) + " value is obsolete and will be removed in a future release.")]
-        [Display(Name = "Se ha recuperado de un error antes de superar reintentos")]
-        DocumentSetRecoveredError = 109,
-
-        /// <summary>
         /// Purgado manual
         /// </summary>
         [Display(Name = "Purgado manual")]
@@ -114,20 +106,6 @@ namespace FirmarOnline.Model.PSC
         #endregion Eventos a nivel de destinatario
 
         #region Eventos a nivel de documento
-
-        /// <summary>
-        /// Documento creado
-        /// </summary>
-        [Obsolete(nameof(AuditEventType.DocumentCreated) + " value is obsolete and will be removed in a future release. Use {nameof(AuditEventType.DocumentSetCreated)} instead.")]
-        [Display(Name = "Documento creado")]
-        DocumentCreated = 300,
-
-        /// <summary>
-        /// Documento activo
-        /// </summary>
-        [Obsolete(nameof(AuditEventType.DocumentInProcess) + " value is obsolete and will be removed in a future release. Use {nameof(AuditEventType.RecipientInProcess)} instead.")]
-        [Display(Name = "Documento activo")]
-        DocumentInProcess = 301,
 
         /// <summary>
         /// Documento abierto
@@ -272,13 +250,6 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         [Display(Name = "Anexo.")]
         Attachment = 326,
-
-        /// <summary>
-        /// Documento cancelado
-        /// </summary>
-        [Obsolete(nameof(AuditEventType.DocumentCanceled) + " value is obsolete and will be removed in a future release. Use {nameof(AuditEventType.DocumentSetCanceled)} instead.")]
-        [Display(Name = "Documento cancelado")]
-        DocumentCanceled = 360,
 
         // Notificaciones
         /// <summary>

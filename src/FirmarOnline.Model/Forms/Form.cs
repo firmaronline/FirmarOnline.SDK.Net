@@ -1,5 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
 
+using FirmarOnline.Model.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

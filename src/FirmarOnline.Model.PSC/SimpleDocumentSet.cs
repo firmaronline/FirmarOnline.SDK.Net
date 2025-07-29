@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC
@@ -14,7 +13,7 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Firma corporativa
         /// </summary>
-        public CorporateSignatureSimple CorporateSignature { get; set; }
+        public SingleDocumentCorporateSignature CorporateSignature { get; set; }
 
         /// <summary>
         /// Documento
@@ -34,7 +33,11 @@ namespace FirmarOnline.Model.PSC
         public static ValidationResult ValidateSimpleDocumentSet(SimpleDocumentSet simpleDocumentSet)
         {
             // Validaciones si el contenido del documento es WebForm.
+#if NET6_0_OR_GREATER
             if (simpleDocumentSet.Document.Form != null || simpleDocumentSet.Document.FormId != null)
+#else
+            if (simpleDocumentSet.Document.FormId != null)
+#endif
             {
                 // Hay que verificar que el documento WebForm no tenga firma corporativa al inicio.
                 if (simpleDocumentSet.CorporateSignature != null &&
@@ -57,13 +60,13 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByActionType60(SimpleDocumentSet simpleDocumentSet)
         {
-            if (CheckDocumentTypeByActionType60(new List<DocumentContent> { simpleDocumentSet.Document }, new List<RecipientWithSignatureType> { simpleDocumentSet.Recipient }))
+            if (CheckDocumentTypeByActionType60([simpleDocumentSet.Document], [simpleDocumentSet.Recipient]))
             {
                 return ValidationResult.Success;
             }
             else
             {
-                return new ValidationResult("A document set cannot contain recipients with Action Type 60 and WebForms.", new string[] { nameof(simpleDocumentSet.Document) });
+                return new ValidationResult("A document set cannot contain recipients with Action Type 60 and WebForms.", [nameof(simpleDocumentSet.Document)]);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using Edatalia.Validation;
+﻿using FirmarOnline.Model.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

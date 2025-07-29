@@ -1,4 +1,4 @@
-﻿using FirmarOnline.Types.Widgets;
+﻿using FirmarOnline.Model.Widgets;
 
 namespace FirmarOnline.Model.PSC /*OJO*/ // Debería ser privado?
 {

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../Version.info" />
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+        <LangVersion>12.0</LangVersion>
+        <Description>Cliente para acceso a la API pública de verificación de documentos firmados</Description>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
+        <ProjectReference Include="..\FirmarOnline.Clients.Common\FirmarOnline.Clients.Common.csproj" />
+        <ProjectReference Include="..\FirmarOnline.Model.Verify\FirmarOnline.Model.Verify.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
+        <PackageReference Include="FirmarOnline.Clientes.Verify" Version="$(ResolvedVersion)" />
+        <PackageReference Include="FirmarOnline.Model.Verify" Version="$(ResolvedVersion)" />
+    </ItemGroup>
+
+</Project>

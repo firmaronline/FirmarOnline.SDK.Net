@@ -1,11 +1,9 @@
 ﻿using FirmarOnline.Clients.Common;
-using FirmarOnline.Clients.Common.Responses;
 using FirmarOnline.Model;
 using FirmarOnline.Model.eSign;
 using FirmarOnline.Model.Widgets;
 using System;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -30,6 +28,16 @@ namespace FirmarOnline.Clients.eSign
         /// <param name="httpClientFactory">Factoría para crear instancias de <see cref="HttpClient"/></param>
         protected ESignClient(IHttpClientFactory httpClientFactory)
             : base(httpClientFactory) { }
+
+        /// <summary>
+        /// Url de la API del eSign en el entorno de pruebas
+        /// </summary>
+        public static readonly Uri eSignSandboxEnvironmentUrl = new("https://restapi.firmar.info/esign");
+
+        /// <summary>
+        /// Url de la API del eSign en el entorno de producción
+        /// </summary>
+        public static readonly Uri eSignProductionEnvironmentUrl = new("https://restapi.firmar.online/esign");
 
         /// <summary>
         /// Firma un documento con certificado electrónico
@@ -69,7 +77,7 @@ namespace FirmarOnline.Clients.eSign
                 throw new ArgumentException("PDF content cannot be null or empty.", nameof(b64PDFContent));
             }
 #endif
-            var result = await PostAndGetFileAsync("", new Signature
+            var result = await PostAndGetFileAsync("v40/", new Signature
             {
                 B64PDFContent = b64PDFContent,
                 Widget = widget,
@@ -98,7 +106,7 @@ namespace FirmarOnline.Clients.eSign
         /// <returns>El documento PDF con el sello de tiempo</returns>
         public async Task<Stream> TimeStampAsync(string b64PDFContent)
         {
-            var result = await PostAndGetFileAsync("timestamp", new Timestamp
+            var result = await PostAndGetFileAsync("v40/timestamp", new Timestamp
             {
                 B64PDFContent = b64PDFContent
             });
@@ -113,7 +121,7 @@ namespace FirmarOnline.Clients.eSign
         /// <param name="generateOTP">Datos para la geneción del OTP.</param>
         public async Task GenerateOtpAsync(GenerateOTP generateOTP)
         {
-            var result = await PostAsync("GenerateOTP", generateOTP);
+            var result = await PostAsync("v40/GenerateOTP", generateOTP);
             CheckResponseStatus(result);
         }
 
@@ -123,38 +131,8 @@ namespace FirmarOnline.Clients.eSign
         /// <param name="validateOTP">Datos para la validación del OTP.</param>
         public async Task ValidateOtpAsync(ValidateOTP validateOTP)
         {
-            var result = await PostAsync("ValidateOTP", validateOTP);
+            var result = await PostAsync("v40/ValidateOTP", validateOTP);
             CheckResponseStatus(result);
-        }
-
-        private static async Task<string> Stream2Base64Async(Stream pdfFile)
-        {
-            string base64;
-            using (var memoryStream = new MemoryStream())
-            {
-                await pdfFile.CopyToAsync(memoryStream);
-                base64 = Convert.ToBase64String(memoryStream.ToArray());
-            }
-
-            return base64;
-        }
-
-        private static void CheckResponseStatus(ApiResponse response)
-        {
-            if (!response.IsSuccessStatusCode)
-            {
-                var uri = response.Problem?.RequestUri?.ToString() ?? "unknown";
-                var status = response.StatusCode;
-                var reason = response.Problem?.ReasonPhrase ?? "No reason provided";
-                var content = response.Problem?.Content ?? string.Empty;
-
-                throw response.StatusCode switch
-                {
-                    HttpStatusCode.Unauthorized => new UnauthorizedAccessException($"Unauthorized request to {uri}."),
-                    HttpStatusCode.RequestTimeout => new TimeoutException($"Request to {uri} timed out."),
-                    _ => new HttpRequestException($"Request error calling {uri}. Status Code: {status}. Reason: {reason}. Content: {content}")
-                };
-            }
         }
     }
 }

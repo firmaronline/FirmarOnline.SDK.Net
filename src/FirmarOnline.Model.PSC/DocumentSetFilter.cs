@@ -1,5 +1,4 @@
-﻿using Edatalia.Types;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC

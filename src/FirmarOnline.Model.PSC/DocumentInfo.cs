@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FirmarOnline.Model.PSC
+﻿namespace FirmarOnline.Model.PSC
 {
     /// <summary>
     /// Información del documento

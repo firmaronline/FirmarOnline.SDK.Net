@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 using System;
 using FirmarOnline.Clients.Common.Responses;
 using System.Net.Http.Headers;
+using System.Net;
+using System.IO;
+
+
 
 #if NET6_0_OR_GREATER
 using System.Net.Http.Json;
@@ -168,5 +172,43 @@ namespace FirmarOnline.Clients.Common
             return apiResponse;
         }
 
+        /// <summary>
+        /// Comprueba el estado de la respuesta de la API y lanza una excepción si no es exitosa.
+        /// </summary>
+        /// <param name="response">Respuesta recibida por una llamada a la API</param>
+        protected static void CheckResponseStatus(ApiResponse response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var uri = response.Problem?.RequestUri?.ToString() ?? "unknown";
+                var status = response.StatusCode;
+                var reason = response.Problem?.ReasonPhrase ?? "No reason provided";
+                var content = response.Problem?.Content ?? string.Empty;
+
+                throw response.StatusCode switch
+                {
+                    HttpStatusCode.Unauthorized => new UnauthorizedAccessException($"Unauthorized request to {uri}."),
+                    HttpStatusCode.RequestTimeout => new TimeoutException($"Request to {uri} timed out."),
+                    _ => new HttpRequestException($"Request error calling {uri}. Status Code: {status}. Reason: {reason}. Content: {content}")
+                };
+            }
+        }
+
+        /// <summary>
+        /// Convierte un <see cref="Stream"/> de un fichero a una cadena en base 64.
+        /// </summary>
+        /// <param name="file">Contenido del fichero a convertir</param>
+        /// <returns>Cadena en base 64 con el contenido del fichero</returns>
+        protected static async Task<string> Stream2Base64Async(Stream file)
+        {
+            string base64;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                base64 = Convert.ToBase64String(memoryStream.ToArray());
+            }
+
+            return base64;
+        }
     }
 }

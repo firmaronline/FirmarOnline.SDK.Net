@@ -1,5 +1,4 @@
-﻿using FirmarOnline.Types;
-using FirmarOnline.Types.Validations;
+﻿using FirmarOnline.Model.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.eSign
