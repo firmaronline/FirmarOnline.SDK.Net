@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static FirmarOnline.Model.PSC.ErrorData;
 
 namespace FirmarOnline.Model.PSC
 {

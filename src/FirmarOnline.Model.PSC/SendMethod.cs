@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace FirmarOnline.Model
+namespace FirmarOnline.Model.PSC
 {
     /// <summary>
     /// Método de envío

@@ -1,10 +1,10 @@
-﻿using FirmarOnline.Model.Forms;
+﻿using FirmarOnline.Model.PSC.Forms;
 using FirmarOnline.Model.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace FirmarOnline.Model
+namespace FirmarOnline.Model.PSC
 {
     /// <summary>
     /// Clase para definir un documento

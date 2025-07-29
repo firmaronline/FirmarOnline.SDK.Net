@@ -30,7 +30,7 @@ namespace FirmarOnline.Model.PSC
             if (documentSetFlow.Recipients.Any(r => r.Order != null))
             {
                 // No se puede usar el metodo de envio por URL
-                if (documentSetFlow.SendMethod == Model.SendMethod.None)
+                if (documentSetFlow.SendMethod == PSC.SendMethod.None)
                 {
                     return new ValidationResult("Cannot indicate the order of the recipients if the send method is not indicated.", new string[] { nameof(Recipients) });
                 }

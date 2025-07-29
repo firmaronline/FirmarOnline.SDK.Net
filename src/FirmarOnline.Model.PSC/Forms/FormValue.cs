@@ -1,4 +1,4 @@
-﻿namespace FirmarOnline.Model.Forms
+﻿namespace FirmarOnline.Model.PSC.Forms
 {
     /// <summary>
     /// Valores de Formulario (WebForms).

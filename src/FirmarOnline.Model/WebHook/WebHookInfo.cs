@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace FirmarOnline.Model.WebHook
 {
     /// <summary>
-    /// Webhook Edatalia compartido entre PSC,SignFromApp, y futuras integraciones
+    /// Define el formato en el que se envían las notificaciones de eventos a través de WebHooks.
     /// </summary>
     public class WebHookInfo
     {

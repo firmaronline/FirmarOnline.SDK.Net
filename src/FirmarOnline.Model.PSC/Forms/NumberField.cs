@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace FirmarOnline.Model.Forms
+namespace FirmarOnline.Model.PSC.Forms
 {
     /// <summary>
     ///

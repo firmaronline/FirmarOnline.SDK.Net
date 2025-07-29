@@ -1,6 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
 
-namespace FirmarOnline.Model.Forms
+namespace FirmarOnline.Model.PSC.Forms
 {
     /// <summary>
     /// Salto de página.

@@ -1,6 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
 
-using FirmarOnline.Model.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace FirmarOnline.Model.Forms
+namespace FirmarOnline.Model.PSC.Forms
 {
     /// <summary>
     /// Formulario de WebForms.

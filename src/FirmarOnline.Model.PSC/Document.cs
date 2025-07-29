@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FirmarOnline.Model
+namespace FirmarOnline.Model.PSC
 {
     /// <summary>
     /// Define un documento de firmar.online Store

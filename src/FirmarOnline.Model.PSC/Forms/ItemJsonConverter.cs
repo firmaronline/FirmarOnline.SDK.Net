@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace FirmarOnline.Model.Forms
+namespace FirmarOnline.Model.PSC.Forms
 {
     /// <summary>
     /// Convierte un <see cref="ItemBase"/> en JSON o desde JSON.

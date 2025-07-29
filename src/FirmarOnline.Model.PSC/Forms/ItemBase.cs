@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace FirmarOnline.Model.Forms
+namespace FirmarOnline.Model.PSC.Forms
 {
     /// <summary>
     /// Elementos del formulario.

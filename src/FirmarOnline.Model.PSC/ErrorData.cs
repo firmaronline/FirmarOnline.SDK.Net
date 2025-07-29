@@ -1,100 +1,68 @@
 ﻿namespace FirmarOnline.Model.PSC
 {
     /// <summary>
-    /// Clase enumeraciones módulo errores
+    /// Enumeración tipo de error
     /// </summary>
-    public class ErrorData
+    public enum ErrorType
     {
         /// <summary>
-        /// Enumeración tipo de error
+        /// No disponible
         /// </summary>
-        public enum ErrorType
-        {
-            /// <summary>
-            /// No disponible
-            /// </summary>
-            NA,
-
-            /// <summary>
-            /// Error interno del sistema
-            /// </summary>
-            InternalError,
-
-            /// <summary>
-            /// Error en el módulo de envío de emails
-            /// </summary>
-            SendMail,
-
-            /// <summary>
-            /// Error en el módulo de envío de SMS
-            /// </summary>
-            SendSMS,
-
-            /// <summary>
-            /// Error en el módulo de envío de WhatsApp
-            /// </summary>
-            SendWhatsApp,
-
-            /// <summary>
-            /// Error en la validación de los OTP
-            /// </summary>
-            ValidationOTP,
-
-            /// <summary>
-            /// Error en la validación de los OTP por WhatsApp
-            /// </summary>
-            ValidationWhatsApp,
-
-            /// <summary>
-            /// Error modulo interno encriptación
-            /// </summary>
-            InternalEncryptError,
-
-            /// <summary>
-            /// Error en validación de código de acceso
-            /// </summary>
-            ValidationAccessCode,
-
-            /// <summary>
-            /// Error en validación de MRZ
-            /// </summary>
-            ValidationMRZ,
-
-            /// <summary>
-            /// Archivo PDF no válido
-            /// </summary>
-            InvalidPDFFile,
-
-            /// <summary>
-            /// Error enviado por un dispositivo
-            /// </summary>
-            DeviceError
-        }
+        NA,
 
         /// <summary>
-        /// Enumeración resultado operación
+        /// Error interno del sistema
         /// </summary>
-        public enum ErrorResult
-        {
-            /// <summary>
-            /// No disponible
-            /// </summary>
-            NA,
+        InternalError,
 
-            /// <summary>
-            /// Ninguno
-            /// </summary>
-            None,
+        /// <summary>
+        /// Error en el módulo de envío de emails
+        /// </summary>
+        SendMail,
 
-            /// <summary>
-            /// OK
-            /// </summary>
-            Ok,
+        /// <summary>
+        /// Error en el módulo de envío de SMS
+        /// </summary>
+        SendSMS,
 
-            /// <summary>
-            /// Error
-            /// </summary>
-            Fault
-        }
+        /// <summary>
+        /// Error en el módulo de envío de WhatsApp
+        /// </summary>
+        SendWhatsApp,
+
+        /// <summary>
+        /// Error en la validación de los OTP
+        /// </summary>
+        ValidationOTP,
+
+        /// <summary>
+        /// Error en la validación de los OTP por WhatsApp
+        /// </summary>
+        ValidationWhatsApp,
+
+        /// <summary>
+        /// Error modulo interno encriptación
+        /// </summary>
+        InternalEncryptError,
+
+        /// <summary>
+        /// Error en validación de código de acceso
+        /// </summary>
+        ValidationAccessCode,
+
+        /// <summary>
+        /// Error en validación de MRZ
+        /// </summary>
+        ValidationMRZ,
+
+        /// <summary>
+        /// Archivo PDF no válido
+        /// </summary>
+        InvalidPDFFile,
+
+        /// <summary>
+        /// Error enviado por un dispositivo
+        /// </summary>
+        DeviceError
     }
 }
