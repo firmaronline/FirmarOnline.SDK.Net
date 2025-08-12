@@ -63,7 +63,7 @@ namespace FirmarOnline.Model.PSC
             if (documentSet.ReminderDays >= documentSet.ExpirationDaysTimeout)
             {
                 return new ValidationResult($"The value of {nameof(ReminderDays)} must be less than the value of {nameof(ExpirationDaysTimeout)}.",
-                    new string[] { nameof(ReminderDays), nameof(ExpirationDaysTimeout) });
+                    [nameof(ReminderDays), nameof(ExpirationDaysTimeout)]);
             }
 
             if (documentSet.Recipients.Any(
@@ -71,7 +71,7 @@ namespace FirmarOnline.Model.PSC
                     (r.ActionType.UseSMS() ? 1 : 0) + (r.AuthType?.UseSMS() ?? false ? 1 : 0)) > 1))
             {
                 return new ValidationResult("Only one SMS or WhatsApp message per recipient is allowed.",
-                    new string[] { nameof(SendMethod), nameof(Recipient.ActionType), nameof(Recipient.AuthType) });
+                    [nameof(SendMethod), nameof(Recipient.ActionType), nameof(Recipient.AuthType)]);
             }
 
             // Si se ha indicado el orden de los destinatarios
@@ -80,13 +80,13 @@ namespace FirmarOnline.Model.PSC
                 // No se puede usar el metodo de envio por URL
                 if (documentSet.SendMethod == SendMethod.None)
                 {
-                    return new ValidationResult("Cannot indicate the order of the recipients if the send method is not indicated.", new string[] { nameof(Recipients) });
+                    return new ValidationResult("Cannot indicate the order of the recipients if the send method is not indicated.", [nameof(Recipients)]);
                 }
 
                 // Validamos que se indique un orden a todos los destinatarios y que no sea 0
                 if (documentSet.Recipients.Any(r => r.Order == null || r.Order == 0))
                 {
-                    return new ValidationResult("You must indicate the order to all recipients.", new string[] { nameof(Recipients) });
+                    return new ValidationResult("You must indicate the order to all recipients.", [nameof(Recipients)]);
                 }
             }
 
@@ -107,7 +107,7 @@ namespace FirmarOnline.Model.PSC
             if (CheckDocumentsSortedByType(documentSet.Documents))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("WebForms and PDFs must be grouped.", new string[] { nameof(documentSet.Documents) });
+                return new ValidationResult("WebForms and PDFs must be grouped.", [nameof(documentSet.Documents)]);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace FirmarOnline.Model.PSC
             if (CheckDocumentTypeByRecipients(documentSet.Documents, documentSet.Recipients.Cast<RecipientBase>()))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("WebForms can only have one recipient.", new string[] { nameof(documentSet.Documents) });
+                return new ValidationResult("WebForms can only have one recipient.", [nameof(documentSet.Documents)]);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace FirmarOnline.Model.PSC
             if (CheckOnlyOneFormId(documentSet.Documents))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("Only one WebForm can be defined by FormId.", new string[] { nameof(DocumentContent.FormId) });
+                return new ValidationResult("Only one WebForm can be defined by FormId.", [nameof(DocumentContent.FormId)]);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace FirmarOnline.Model.PSC
 
             if (recipientsCryptoAPISignature.Any() && recipientsCryptoAPISignature.GroupBy(r => r.Order).Where(g => g.Count() > 1).Any())
             {
-                return new ValidationResult("A document set cannot contain parallel recipients and Action Type 60.", new string[] { nameof(Recipients) });
+                return new ValidationResult("A document set cannot contain parallel recipients and Action Type 60.", [nameof(Recipients)]);
             }
             else
             {
@@ -161,7 +161,7 @@ namespace FirmarOnline.Model.PSC
             }
             else
             {
-                return new ValidationResult("A document set cannot contain recipients with Action Type 60 and WebForms.", new string[] { nameof(documentSet.Documents) });
+                return new ValidationResult("A document set cannot contain recipients with Action Type 60 and WebForms.", [nameof(documentSet.Documents)]);
             }
         }
     }

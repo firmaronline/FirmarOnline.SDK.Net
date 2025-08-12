@@ -36,10 +36,10 @@ namespace FirmarOnline.Model.PSC
     public static class CorporateSignatureTypeExtensions
     {
         private static readonly CorporateSignatureType[] _startType =
-            new[] { CorporateSignatureType.Start, CorporateSignatureType.StartAndEnd };
+            [CorporateSignatureType.Start, CorporateSignatureType.StartAndEnd];
 
         private static readonly CorporateSignatureType[] _endType =
-            new[] { CorporateSignatureType.End, CorporateSignatureType.StartAndEnd };
+            [CorporateSignatureType.End, CorporateSignatureType.StartAndEnd];
 
         
         /// <summary>

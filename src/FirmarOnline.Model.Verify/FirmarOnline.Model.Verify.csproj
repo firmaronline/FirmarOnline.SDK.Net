@@ -2,7 +2,7 @@
 
   <PropertyGroup>
   </PropertyGroup>
-    <Import Project="../Version.info" />
+    <Import Project="../Project.props" />
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Description>Tipos de datos para acceso a la API de verificación de documentos firmados</Description>

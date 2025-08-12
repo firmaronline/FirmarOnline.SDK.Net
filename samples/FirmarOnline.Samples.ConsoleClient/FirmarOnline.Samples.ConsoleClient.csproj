@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="resources\legal_audit_trail.jws" />
+    <None Remove="resources\sample_document.pdf" />
+    <None Remove="resources\signed_document.pdf" />
+    <None Remove="resources\widget.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="resources\legal_audit_trail.jws" />
+    <EmbeddedResource Include="resources\sample_document.pdf" />
+    <EmbeddedResource Include="resources\signed_document.pdf" />
+    <EmbeddedResource Include="resources\widget.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FirmarOnline.Clients.eSign" Version="6.0.0-beta006" />
+    <PackageReference Include="FirmarOnline.Clients.PSC" Version="6.0.0-beta006" />
+    <PackageReference Include="FirmarOnline.Clients.Verify" Version="6.0.0-beta006" />
+  </ItemGroup>
+
+</Project>

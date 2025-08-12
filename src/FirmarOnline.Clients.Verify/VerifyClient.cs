@@ -31,12 +31,12 @@ namespace FirmarOnline.Clients.Verify
         /// <summary>
         /// Url de la API de verificación de documentos firmados en el entorno de pruebas
         /// </summary>
-        public static readonly Uri verifySandboxEnvironmentUrl = new("https://restapi.firmar.info/verify");
+        public static readonly Uri verifySandboxEnvironmentUrl = new("https://restapi.firmar.info/verify/");
 
         /// <summary>
         /// Url de la API de verificación de documentos firmados en el entorno de producción
         /// </summary>
-        public static readonly Uri verifyProductionEnvironmentUrl = new("https://restapi.firmar.online/verify");
+        public static readonly Uri verifyProductionEnvironmentUrl = new("https://restapi.firmar.online/verify/");
 
         /// <summary>
         /// Verifica que un certificado de trazabilidad es válido

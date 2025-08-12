@@ -32,12 +32,12 @@ namespace FirmarOnline.Clients.eSign
         /// <summary>
         /// Url de la API del eSign en el entorno de pruebas
         /// </summary>
-        public static readonly Uri eSignSandboxEnvironmentUrl = new("https://restapi.firmar.info/esign");
+        public static readonly Uri eSignSandboxEnvironmentUrl = new("https://restapi.firmar.info/esign/");
 
         /// <summary>
         /// Url de la API del eSign en el entorno de producción
         /// </summary>
-        public static readonly Uri eSignProductionEnvironmentUrl = new("https://restapi.firmar.online/esign");
+        public static readonly Uri eSignProductionEnvironmentUrl = new("https://restapi.firmar.online/esign/");
 
         /// <summary>
         /// Firma un documento con certificado electrónico

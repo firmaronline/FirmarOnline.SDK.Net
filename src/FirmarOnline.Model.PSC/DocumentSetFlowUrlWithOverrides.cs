@@ -7,11 +7,11 @@ namespace FirmarOnline.Model.PSC
     /// <summary>
     /// Define un sobre de documentos a partir de un flujo para enviar a firma remota
     /// </summary>
-    [CustomValidation(typeof(DocumentSetFlowUrl), nameof(ValidateDocumentSetFlowUrl), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
-    [CustomValidation(typeof(DocumentSetFlowUrl), nameof(ValidateDocumentsSortedByType), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
-    [CustomValidation(typeof(DocumentSetFlowUrl), nameof(ValidateDocumentTypeByRecipients), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
-    [CustomValidation(typeof(DocumentSetFlowUrl), nameof(ValidateOnlyOneFormId), ErrorMessage = "The documentSet definition is not valid.")]
-    public class DocumentSetFlowUrl : DocumentSetFlowBase
+    [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentSetFlowUrl), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
+    [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentsSortedByType), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
+    [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentTypeByRecipients), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
+    [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateOnlyOneFormId), ErrorMessage = "The documentSet definition is not valid.")]
+    public class DocumentSetFlowUrlWithOverrides : DocumentSetFlow
     {
         /// <summary>
         /// Idioma de flujo
@@ -94,12 +94,12 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         /// <param name="documentSetFlowUrl">Definición del sobre</param>
         /// <returns>Un <see cref="ValidationResult"/> con el resultado de la validación</returns>
-        public static ValidationResult ValidateDocumentSetFlowUrl(DocumentSetFlowUrl documentSetFlowUrl)
+        public static ValidationResult ValidateDocumentSetFlowUrl(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
             // Si se ha indicado un orden de destinatarios
             if (documentSetFlowUrl.GetType().Name.Equals("DocumentSetFlowUrl") && documentSetFlowUrl.Recipients.Any(r => r.Order != null))
             {
-                return new ValidationResult("It is not possible to indicate the order of the recipients in this send method", new string[] { nameof(Recipients) });
+                return new ValidationResult("It is not possible to indicate the order of the recipients in this send method", [nameof(Recipients)]);
             }
 
             // Solo se puede enviar un mensaje por SMS o WhatsApp a cada destinatario
@@ -107,7 +107,7 @@ namespace FirmarOnline.Model.PSC
                 (documentSetFlowUrl.AuthenticationType.HasValue && documentSetFlowUrl.AuthenticationType.Value.UseSMS() ? 1 : 0)) > 1)
             {
                 return new ValidationResult("Only the sending of an SMS or WhatsApp by envelope generated to authenticate the recipient(s) is allowed.",
-                        new string[] { nameof(ActionType), nameof(AuthenticationType) });
+                        [nameof(ActionType), nameof(AuthenticationType)]);
             }
 
             return ValidationResult.Success;
@@ -118,35 +118,35 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         /// <param name="documentSetFlowUrl">Sobre de flujo Url.</param>
         /// <returns></returns>
-        public static ValidationResult ValidateDocumentsSortedByType(DocumentSetFlowUrl documentSetFlowUrl)
+        public static ValidationResult ValidateDocumentsSortedByType(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
             if (CheckDocumentsSortedByType(documentSetFlowUrl.Documents))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("WebForms and PDFs must be grouped.", new string[] { nameof(documentSetFlowUrl.Documents) });
+                return new ValidationResult("WebForms and PDFs must be grouped.", [nameof(documentSetFlowUrl.Documents)]);
         }
 
         /// <summary>
         /// Validación de que si hay formularios no puede haber más de un destinatario.
         /// </summary>
-        public static ValidationResult ValidateDocumentTypeByRecipients(DocumentSetFlowUrl documentSetFlowUrl)
+        public static ValidationResult ValidateDocumentTypeByRecipients(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
             if (CheckDocumentTypeByRecipients(documentSetFlowUrl.Documents, documentSetFlowUrl.Recipients.Cast<RecipientBase>()))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("WebForms can only have one recipient.", new string[] { nameof(documentSetFlowUrl.Documents) });
+                return new ValidationResult("WebForms can only have one recipient.", [nameof(documentSetFlowUrl.Documents)]);
         }
 
 
         /// <summary>
         /// Validación de que no puede haber más de un formulario definido mediante un identificador de formulario.
         /// </summary>
-        public static ValidationResult ValidateOnlyOneFormId(DocumentSetFlowUrl documentSetFlowUrl)
+        public static ValidationResult ValidateOnlyOneFormId(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
             if (CheckOnlyOneFormId(documentSetFlowUrl.Documents))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("Only one WebForm can be defined by FormId.", new string[] { nameof(DocumentContent.FormId) });
+                return new ValidationResult("Only one WebForm can be defined by FormId.", [nameof(DocumentContent.FormId)]);
         }
     }
 }

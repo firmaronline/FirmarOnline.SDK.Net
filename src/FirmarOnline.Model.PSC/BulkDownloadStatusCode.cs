@@ -31,7 +31,7 @@ namespace FirmarOnline.Model.PSC
     public static class BulkDownloadStatusCodeExtensions
     {
         private static readonly BulkDownloadStatusCode[] _notfinalizedStatusCodes =
-            new[] { BulkDownloadStatusCode.Created, BulkDownloadStatusCode.InProcess };
+            [BulkDownloadStatusCode.Created, BulkDownloadStatusCode.InProcess];
 
         /// <summary>
         /// Comprueba si el valor del estado indica que la descarga masiva de documentos está pendiente de

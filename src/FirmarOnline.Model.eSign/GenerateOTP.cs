@@ -59,12 +59,12 @@ namespace FirmarOnline.Model.eSign
 
             if (!isValidPhoneNumber)
             {
-                return new ValidationResult("Invalid phone number validation.", new string[] { nameof(generateOTP.PhoneNumber) });
+                return new ValidationResult("Invalid phone number validation.", [nameof(generateOTP.PhoneNumber)]);
             }
 
             if (!generateOTP.Text.Contains("##OTP##"))
             {
-                return new ValidationResult("The SMS message does not contain the tag ##OTP##.", new string[] { nameof(generateOTP.Text) });
+                return new ValidationResult("The SMS message does not contain the tag ##OTP##.", [nameof(generateOTP.Text)]);
             }
 
             return ValidationResult.Success;

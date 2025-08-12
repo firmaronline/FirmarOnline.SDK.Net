@@ -61,13 +61,13 @@ namespace FirmarOnline.Model.PSC
     public static class DocumentSetStatusCodeExtensions
     {
         private static readonly DocumentSetStatusCode[] _completedStatusCodes =
-                new[] { DocumentSetStatusCode.Completed, DocumentSetStatusCode.Rejected };
+                [DocumentSetStatusCode.Completed, DocumentSetStatusCode.Rejected];
 
         private static readonly DocumentSetStatusCode[] _notfinalizedStatusCodes =
-            new[] { DocumentSetStatusCode.None, DocumentSetStatusCode.Created, DocumentSetStatusCode.InProcess };
+            [DocumentSetStatusCode.None, DocumentSetStatusCode.Created, DocumentSetStatusCode.InProcess];
 
         private static readonly DocumentSetStatusCode[] _finalizedStatusCodes =
-            new[] { DocumentSetStatusCode.Completed, DocumentSetStatusCode.Canceled, DocumentSetStatusCode.Rejected, DocumentSetStatusCode.Deleted, DocumentSetStatusCode.Expired, DocumentSetStatusCode.Error };
+            [DocumentSetStatusCode.Completed, DocumentSetStatusCode.Canceled, DocumentSetStatusCode.Rejected, DocumentSetStatusCode.Deleted, DocumentSetStatusCode.Expired, DocumentSetStatusCode.Error];
 
         /// <summary>
         /// Comprueba si el valor del estado indica que el procesamiento del sobre

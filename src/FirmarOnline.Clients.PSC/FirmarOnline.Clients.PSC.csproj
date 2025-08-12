@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="../Version.info" />
+    <Import Project="../Project.props" />
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
         <LangVersion>12.0</LangVersion>
@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(UseProjectReference)' == 'false'">
-        <PackageReference Include="FirmarOnline.Clientes.Common" Version="$(ResolvedVersion)" />
+        <PackageReference Include="FirmarOnline.Clients.Common" Version="$(ResolvedVersion)" />
         <PackageReference Include="FirmarOnline.Model.PSC" Version="$(ResolvedVersion)" />
     </ItemGroup>
 

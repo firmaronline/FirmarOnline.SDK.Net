@@ -32,12 +32,12 @@ namespace FirmarOnline.Clients.PSC
         /// <summary>
         /// Url de la API del PSC en el entorno de pruebas
         /// </summary>
-        public static readonly Uri PSCSandboxEnvironmentUrl = new("https://restapi.firmar.info/psc");
+        public static readonly Uri PSCSandboxEnvironmentUrl = new("https://restapi.firmar.info/psc/");
 
         /// <summary>
         /// Url de la API del PSC en el entorno de producción
         /// </summary>
-        public static readonly Uri PSCProductionEnvironmentUrl = new("https://restapi.firmar.online/psc");
+        public static readonly Uri PSCProductionEnvironmentUrl = new("https://restapi.firmar.online/psc/");
 
 
         /// <summary>
