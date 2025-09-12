@@ -38,7 +38,7 @@ namespace FirmarOnline.Model.Verify
         /// <summary>
         /// forma de la firma PAdES
         /// </summary>
-        public PAdESSignatureForm SignatureFormPAdES { get; set; }
+        public PadesSignatureForm SignatureFormPAdES { get; set; }
 
 
         /// <summary>
@@ -92,17 +92,17 @@ namespace FirmarOnline.Model.Verify
         /// <summary>
         /// información del sello de hora
         /// </summary>
-        public TSPInfo[] TSPInfo { get; set; }
+        public TspInfo[] TSPInfo { get; set; }
 
         /// <summary>
         /// información de respuesta de revocación OCSP
         /// </summary>
-        public OCSPInfo[] OCSPInfo { get; set; }
+        public OcspInfo[] OCSPInfo { get; set; }
 
         /// <summary>
         /// información de respuesta de revocación OCSP
         /// </summary>
-        public CRLInfo[] CRLInfo { get; set; }
+        public CrlInfo[] CRLInfo { get; set; }
 
         /// <summary>
         /// Otra información de la firma digital, propiedades del widget, etc...

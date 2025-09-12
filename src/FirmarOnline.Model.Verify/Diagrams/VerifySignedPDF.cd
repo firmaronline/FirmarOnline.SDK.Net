@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="FirmarOnline.Model.Verify.VerifyPdfDocument">
+    <Position X="5.5" Y="1" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAIAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>VerifyPdfDocument.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Certificate" />
+      <Property Name="Mode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FirmarOnline.Model.Certificates.PKCS12Certificate">
+    <Position X="2.5" Y="1" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FirmarOnline.Model.Certificates.Certificate">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FirmarOnline.Model.Verify.DocumentSignatureCollection">
+    <Position X="8.25" Y="5.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>DocumentSignatureCollection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="BioSignatures" />
+      <Property Name="DigitalSignatures" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FirmarOnline.Model.Verify.DigitalSignatureCollection">
+    <Position X="13" Y="5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>DigitalSignatureCollection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Signatures" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FirmarOnline.Model.Verify.BioSignatureCollection">
+    <Position X="12.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BioSignatureCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.Verify.DigitalSignatureInfo">
+    <Position X="18.5" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAAABAIAgYIACAIAACABAAAAEACAJAAACBg=</HashCode>
+      <FileName>DigitalSignatureInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="FirmarOnline.Model.Verify.VerifyMode">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAgAIAAAAAAAAA=</HashCode>
+      <FileName>VerifyMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

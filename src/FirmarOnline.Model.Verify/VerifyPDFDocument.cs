@@ -7,9 +7,9 @@ namespace FirmarOnline.Model.Verify
     /// <summary>
     /// Definición de verificación de firmas de un documento PDF
     /// </summary>
-    [CustomValidation(typeof(VerifyPDFDocument), nameof(ValidateVerifyPDFDocument),
+    [CustomValidation(typeof(VerifyPdfDocument), nameof(ValidateVerifyPDFDocument),
         ErrorMessage = "The verify pdf document definition is not valid.")]
-    public class VerifyPDFDocument
+    public class VerifyPdfDocument
     {
         /// <summary>
         /// Contenido del documento en base 64
@@ -34,7 +34,7 @@ namespace FirmarOnline.Model.Verify
         /// </summary>
         /// <param name="verifyPdfDocument">Datos para la verificación</param>
         /// <returns>Un <see cref="ValidationResult"/> con el resultado de la validación</returns>
-        public static ValidationResult ValidateVerifyPDFDocument(VerifyPDFDocument verifyPdfDocument)
+        public static ValidationResult ValidateVerifyPDFDocument(VerifyPdfDocument verifyPdfDocument)
         {
             // Certificado
             if (verifyPdfDocument.Certificate != null && string.IsNullOrEmpty(verifyPdfDocument.Certificate.P12Certificate))

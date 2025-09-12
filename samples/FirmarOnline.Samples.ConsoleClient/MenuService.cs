@@ -1,4 +1,6 @@
-﻿using FirmarOnline.Samples.ConsoleClient.PSC;
+﻿using FirmarOnline.Samples.ConsoleClient.ESign;
+using FirmarOnline.Samples.ConsoleClient.PSC;
+using FirmarOnline.Samples.ConsoleClient.Verify;
 
 namespace FirmarOnline.Samples.ConsoleClient
 {
@@ -30,9 +32,9 @@ namespace FirmarOnline.Samples.ConsoleClient
                         ['1'] = ("1. Simple (1 documento y 1 destinatario)", CreateDocumentSetSamples.CreateSimpleDocumentSetAsync),
                         ['2'] = ("2. Simple y devuelve URL del visor", CreateDocumentSetSamples.CreateDocumentSetAndGetUrl),
                         ['3'] = ("3. Completo", CreateDocumentSetSamples.CreateDocumentSetAsync),
-                        ['4'] = ("4. Flujo simple (1 documento y 1 destinatario)", CreateDocumentSetSamples.CreateDocumentSetFromFlowAsync),
+                        ['4'] = ("4. Flujo simple (1 documento y 1 destinatario)", CreateDocumentSetSamples.CreateDocumentSetFromFlowSimpleAsync),
                         ['5'] = ("5. Flujo simple y devuelve URL del visor", CreateDocumentSetSamples.CreateDocumentSetFromFlowAndGetUrlAsync),
-                        //['6'] = ("6. Flujo completo", () => PscDocumentSetPostService.NewDocumentSetFlowAsync(pscClient, dsCreateSettings))
+                        ['6'] = ("6. Flujo completo", () => CreateDocumentSetSamples.CreateDocumentSetFromFlowAsync())
                     });
                     return;
                 }
@@ -41,19 +43,19 @@ namespace FirmarOnline.Samples.ConsoleClient
                 {
                     await RunMenuAsync("API PSC - OBTENER INFORMACIÓN DE SOBRES", new()
                     {
-                        //['A'] = ("A. Estado actual", () => PscDocumentSetGetService.GetDocumentSetStatusAsync(pscClient)),
-                        //['B'] = ("B. URL visor", () => PscDocumentSetGetService.GetDocumentSetUrlAsync(pscClient)),
-                        //['C'] = ("C. Detalle", () => PscDocumentSetGetService.GetDocumentSetInfoAsync(pscClient)),
-                        //['D'] = ("D. Errores", () => PscDocumentSetGetService.GetDocumentSetErrorInfoAsync(pscClient)),
-                        //['E'] = ("E. Listado histórico por referencia externa", () => PscDocumentSetGetService.GetDocumentSetsInfoByReferenceAsync(pscClient)),                        
-                        //['F'] = ("F. Listado histórico", () => PscDocumentSetGetService.GetHistoryAsync(pscClient)),
-                        //['G'] = ("G. Listado dispositivos", () => PscDocumentSetGetService.GetDevicesAsync(pscClient)),
-                        //['H'] = ("H. Eventos", () => PscDocumentSetGetService.GetAuditTrailAsync(pscClient, sdkSettings)),                        
-                        //['I'] = ("I. PDF evidencias", () => PscDocumentSetGetService.GetEvidencesAsync(pscClient, sdkSettings)),
-                        //['J'] = ("J. JWT evidencias", () => PscDocumentSetGetService.GetLegalAuditTrailAsync(pscClient, sdkSettings)),                        
-                        //['K'] = ("K. Descargar documento", () => PscDocumentSetGetService.GetDocumentAsync(pscClient, sdkSettings)),
-                        //['L'] = ("L. Descargar documento seleccionado", () => PscDocumentSetGetService.GetDocumentWhenOnlyOneAsync(pscClient, sdkSettings)),
-                        //['M'] = ("M. Descargar adjunto", () => PscDocumentSetGetService.GetAttachmentAsync(pscClient, sdkSettings))
+                        ['A'] = ("A. Estado actual", () => GetDocumentSetSamples.GetDocumentSetStatusAsync()),
+                        ['B'] = ("B. URL visor", () => GetDocumentSetSamples.GetDocumentSetUrlAsync()),
+                        ['C'] = ("C. Detalle", () => GetDocumentSetSamples.GetDocumentSetInfoAsync()),
+                        ['D'] = ("D. Errores", () => GetDocumentSetSamples.GetDocumentSetErrorInfoAsync()),
+                        ['E'] = ("E. Listado histórico por referencia externa", () => GetDocumentSetSamples.GetDocumentSetsInfoByReferenceAsync()),                        
+                        ['F'] = ("F. Listado histórico", () => GetDocumentSetSamples.GetHistoryAsync()),
+                        ['G'] = ("G. Listado dispositivos", () => GetDocumentSetSamples.GetDevicesAsync()),
+                        ['H'] = ("H. Eventos (AuditTrail)", () => GetDocumentSetSamples.GeDocumentSetAuditTrailAsync()),                        
+                        ['I'] = ("I. PDF evidencias", () => GetDocumentSetSamples.GetEvidencesAsync()),
+                        ['J'] = ("J. JWT evidencias", () => GetDocumentSetSamples.GetDocumentSetLegalAuditTrailAsync()),                        
+                        ['K'] = ("K. Descargar documento", () => GetDocumentSetSamples.GetDocumentAsync()),
+                        ['L'] = ("L. Descargar documento seleccionado", () => GetDocumentSetSamples.GetDocumentWhenOnlyOneAsync()),
+                        ['M'] = ("M. Descargar adjunto", () => GetDocumentSetSamples.GetAttachmentAsync())
                     });
                     return;
                 }
@@ -62,10 +64,10 @@ namespace FirmarOnline.Samples.ConsoleClient
                 {
                     await RunMenuAsync("API PSC - ACCIONES CONTRA SOBRES", new()
                     {
-                        //['1'] = ("1. Cancelar", () => PscDocumentSetPutService.CancelDocumentSetAsync(pscClient)),
-                        //['2'] = ("2. Reenviar email", () => PscDocumentSetPutService.ResendDocumentSetAsync(pscClient)),
-                        //['3'] = ("3. Borrar documentos", () => PscDocumentSetPutService.PurgeDocumentSetAsync(pscClient)),
-                        //['4'] = ("4. Test WebHook", () => PscDocumentSetPutService.TestWebHookAsync(pscClient))
+                        ['1'] = ("1. Cancelar", () => PutDocumentSetSamples.CancelDocumentSetAsync()),
+                        ['2'] = ("2. Reenviar email", () => PutDocumentSetSamples.ResendDocumentSetAsync()),
+                        ['3'] = ("3. Borrar documentos", () => PutDocumentSetSamples.PurgeDocumentSetAsync()),
+                        ['4'] = ("4. Test WebHook", () => PutWebHookSamples.TestWebHookAsync())
                     });
                     return;
                 }
@@ -74,10 +76,10 @@ namespace FirmarOnline.Samples.ConsoleClient
                 {
                     await RunMenuAsync("API ESIGN - SERVICIO DE FIRMA AVANZADA", new()
                     {
-                        //['1'] = ("1. Firmar PDF", () => ESignService.SignPDFAsync(eSignClient, sdkSettings, eSignSettings)),
-                        //['2'] = ("2. Añadir sello de tiempo", () => ESignService.TimeStampAsync(eSignClient, sdkSettings, eSignSettings)),
-                        //['3'] = ("3. Generar OTP", () => ESignService.GenerateOtpAsync(eSignClient, eSignSettings)),
-                        //['4'] = ("4. Validar OTP", () => ESignService.ValidateOtpAsync(eSignClient, eSignSettings))
+                        ['1'] = ("1. Firmar PDF", () => ESignSamples.SignPDFAsync()),
+                        ['2'] = ("2. Añadir sello de tiempo", () => ESignSamples.TimeStampPdfAsync()),
+                        ['3'] = ("3. Generar OTP", () => ESignSamples.GenerateOtpAsync()),
+                        ['4'] = ("4. Validar OTP", () => ESignSamples.ValidateOtpAsync())
                     });
                     return;
                 }
@@ -86,8 +88,8 @@ namespace FirmarOnline.Samples.ConsoleClient
                 {
                     await RunMenuAsync("API VERIFY - SERVICIO DE VALIDACIÓN", new()
                     {
-                        //['1'] = ("1. Verificar trazabilidad", () => VerifyService.VerifyLegalAuditTrailAsync(pscClient, sdkSettings, verifySettings)),
-                        //['2'] = ("2. Verificar firmas PDF", () => VerifyService.VerifySignedPDFAsync(pscClient, sdkSettings, verifySettings))
+                        ['1'] = ("1. Verificar trazabilidad", () => VerifySamples.VerifyLegalAuditTrailAsync()),
+                        ['2'] = ("2. Verificar firmas PDF", () => VerifySamples.VerifySignedPDFAsync())
                     });
                     return;
                 }
@@ -133,7 +135,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         {
             var originalColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
-            Console.WriteLine(message);
+            Console.WriteLine($"\n\t\t{message}");
             Console.ForegroundColor = originalColor;
         }
 
@@ -145,7 +147,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// Por defecto es <c>true</c>.
         /// </param>
         /// <returns>El identificador del sobre ingresado por el usuario.</returns>
-        internal static string PromptDocumentSetId(bool showMessage = true) =>
+        internal static string PromptDocumentSetId(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.DOCUMENTSET_TOKEN_ID, showMessage);
 
         /// <summary>
@@ -156,7 +158,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// Por defecto es <c>true</c>.
         /// </param>
         /// <returns>La referencia externa ingresada por el usuario.</returns>
-        internal static string PromptDocumentSetReference(bool showMessage = true) =>
+        internal static string PromptDocumentSetReference(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.DOCUMENTSET_REFERENCE, showMessage);
 
         /// <summary>
@@ -167,7 +169,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// Por defecto es <c>true</c>.
         /// </param>
         /// <returns>El identificador del documento ingresado por el usuario.</returns>
-        internal static string PromptDocumentSetDocumentId(bool showMessage = true) =>
+        internal static string PromptDocumentSetDocumentId(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.DOCUMENTSET_DOCUMENT, showMessage);
 
         /// <summary>
@@ -178,7 +180,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// Por defecto es <c>true</c>.
         /// </param>
         /// <returns>El identificador del adjunto ingresado por el usuario.</returns>
-        internal static string PromptDocumentSetAttachmentId(bool showMessage = true) =>
+        internal static string PromptDocumentSetAttachmentId(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.DOCUMENTSET_ATTACHMENT, showMessage);
 
         /// <summary>
@@ -186,7 +188,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// </summary>
         /// <param name="showMessage">Si es <c>true</c>, se muestra un mensaje de ayuda antes de pedir el número.</param>
         /// <returns>Una cadena con el número de teléfono introducido por el usuario.</returns>
-        internal static string PromptPhoneNumber(bool showMessage = true) =>
+        internal static string PromptPhoneNumber(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.PHONE_NUMBER, showMessage);
 
         /// <summary>
@@ -194,7 +196,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// </summary>
         /// <param name="showMessage">Si es <c>true</c>, se muestra un mensaje de ayuda antes de pedir el código OTP.</param>
         /// <returns>Una cadena con el código OTP introducido por el usuario.</returns>
-        internal static string PromptValidateOTP(bool showMessage = true) =>
+        internal static string PromptValidateOTP(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.VALIDATE_OTP_CODE, showMessage);
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// </summary>
         /// <param name="showMessage">Si es <c>true</c>, se muestra un mensaje de ayuda antes de pedir el identificador.</param>
         /// <returns>Una cadena con el FlowTokenId introducido por el usuario.</returns>
-        internal static string PromptFlowTokenId(bool showMessage = true) =>
+        internal static string PromptFlowTokenId(bool showMessage = false) =>
             ShowMenuInput(MenuPrompts.DOCUMENTSET_FLOWTOKENID, showMessage);
 
         #endregion
@@ -285,7 +287,7 @@ namespace FirmarOnline.Samples.ConsoleClient
             string? input;
             do
             {
-                Console.Write($"\n\t - {prompt}: ");
+                Console.Write($"\n\t\t - {prompt}: ");
                 input = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(input))

@@ -5,7 +5,7 @@ namespace FirmarOnline.Model.Verify
     /// <summary>
     /// Información del sello de tiempo de la firma
     /// </summary>
-    public class TSPInfo
+    public class TspInfo
     {
         /// <summary>
         /// La fecha/hora del sello de tiempo

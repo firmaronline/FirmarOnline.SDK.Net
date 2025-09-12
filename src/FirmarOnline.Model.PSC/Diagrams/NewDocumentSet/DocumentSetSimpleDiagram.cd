@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FirmarOnline.Model.PSC.SimpleDocumentSet">
+    <Position X="5.5" Y="2.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAACAAACBAAAAAAAQAA=</HashCode>
+      <FileName>SimpleDocumentSet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CorporateSignature" />
+      <Property Name="Document" />
+      <Property Name="Recipient" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.DocumentSetStandAloneBase">
+    <Position X="1" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAIAAAAAEAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>DocumentSetStandAloneBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.DocumentSetBase">
+    <Position X="0.75" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAACBAAAgAAAAAAABAAACAAIAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>DocumentSetBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.DocumentContent">
+    <Position X="4.5" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAABIAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DocumentContent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.SingleDocumentRecipient">
+    <Position X="7.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SingleDocumentRecipient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.RecipientWithSignatureType">
+    <Position X="7.5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABACAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RecipientWithSignatureType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.RecipientBase">
+    <Position X="7.5" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAEAAAIAQBQAAAAAAAAAEAAAAAgAAAA=</HashCode>
+      <FileName>RecipientBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AccessCode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.SingleDocumentCorporateSignature">
+    <Position X="12.75" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SingleDocumentCorporateSignature.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.CorporateSignatureBase">
+    <Position X="13" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAEAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>CorporateSignatureBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.SimpleDocumentSetWithSendMethod">
+    <Position X="5.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SimpleDocumentSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.RecipientAccessCode">
+    <Position X="7.75" Y="11.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>RecipientAccessCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

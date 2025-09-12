@@ -3,7 +3,7 @@
     /// <summary>
     /// Colección de firmas biométricas de un documento
     /// </summary>
-    public class BioSignatureInfoCollection
+    public class BioSignatureCollection
     {
         /// <summary>
         /// Firmas biométricas

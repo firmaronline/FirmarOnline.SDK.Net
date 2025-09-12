@@ -6,8 +6,8 @@ namespace FirmarOnline.Model.eSign
     /// <summary>
     /// Datos para la generación y envío de un nuevo OTP
     /// </summary>    
-    [CustomValidation(typeof(GenerateOTP), nameof(ValidateGenerateOTP), ErrorMessage = "The generate OTP definition is not valid.")]
-    public class GenerateOTP
+    [CustomValidation(typeof(GenerateOtp), nameof(ValidateGenerateOTP), ErrorMessage = "The generate OTP definition is not valid.")]
+    public class GenerateOtp
     {
         /// <summary>
         /// Código hash SHA256
@@ -52,7 +52,7 @@ namespace FirmarOnline.Model.eSign
         /// </summary>
         /// <param name="generateOTP">Datos para la generación y envío de un nuevo OTP</param>
         /// <returns></returns>
-        public static ValidationResult ValidateGenerateOTP(GenerateOTP generateOTP)
+        public static ValidationResult ValidateGenerateOTP(GenerateOtp generateOTP)
         {
             var isValidPhoneNumber = StringValidator<SupportedPhoneValidationType>.IsValid(generateOTP.PhoneNumber, true) 
                                 && !generateOTP.PhoneNumber.Trim().Contains(" "); 

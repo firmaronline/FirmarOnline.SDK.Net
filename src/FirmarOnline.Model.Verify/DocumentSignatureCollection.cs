@@ -8,10 +8,10 @@
         /// <summary>
         /// Firmas Digitales
         /// </summary>
-        public DigitalSignatureInfoCollection DigitalSignatures { get; set; }
+        public DigitalSignatureCollection DigitalSignatures { get; set; }
         /// <summary>
         /// Firmas Biométricas
         /// </summary>
-        public BioSignatureInfoCollection BioSignatures { get; set; }
+        public BioSignatureCollection BioSignatures { get; set; }
     }
 }

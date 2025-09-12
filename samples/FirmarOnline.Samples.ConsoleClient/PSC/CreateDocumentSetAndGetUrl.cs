@@ -26,7 +26,8 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                 Description = "Sobre de ejemplo para FirmarOnline SDK", // Descripción del sobre
                 Reference = "REFERENCE-00001", // Referencia del sobre, puede ser un número de pedido, factura, etc.
                 ExpirationDaysTimeout = 10, // Días de validez del sobre, después de los cuales se considerará expirado
-                Ltv = false, // Indica si la firma debe ser LTV (Long Term Validation)
+                //Ltv = false, // Indica si la firma debe ser LTV (Long Term Validation)
+                //TeamId = "", // Equipo al que va a pertenecer en nuevo sobre, si no se indica, será el equipo por defecto del usuario o empresa
 
                 // Emisor
                 SenderName = "FirmarOnline SDK", // Nombre del emisor del sobre
@@ -39,6 +40,7 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                     Name = "Documento de ejemplo", // Nombre del documento
                     B64PDFContent = SampleValues.GetSampleFileContentInBase64("sample_document.pdf") // Contenido del documento PDF en Base64
                 },
+
                 // Información del destinatario
                 Recipient = new SingleDocumentRecipient
                 {
@@ -46,7 +48,8 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                     Email = "john.sanders@foo.com", // Email del destinatario
                     CardId = "12345678X", // Identificador del destinatario (puede ser un número de documento, NIE, etc.), obligatorio si se utiliza autenticación MRZ
                     PhoneNumber = "", // Número de teléfono del destinatario con el prefijo (Ejemplo: +34600112233), obligatorio si se utiliza una autenticación o acción que lo requiera
-                    AuthType = RecipientAuthenticationType.None, // Tipo de autenticación del destinatario (None, Basic, AccessCode, etc.)
+                    //DeviceId = null, // Si el método de envío es Device, indicaremos el dispositivo al que enviaremos el documento a firmar
+                    AuthType = RecipientAuthenticationType.None, // Tipo de autenticación del destinatario (None, Basic, RecipientAccessCode, etc.)
                     ActionType = RecipientActionType.BioSignature, // Tipo de acción del destinatario (CertifiedNotification, Acceptance, AcceptanceSignature, etc.)
                     Widget = new FixedWidget // Definición de la caja de firma (FixedWidget, FloatWidget, FieldWidget)
                     {
@@ -57,13 +60,20 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                         Height = 100, // Alto de la caja de firma
                         Rotation = RotationType.Degrees_0, // Rotación de la caja de firma (Degrees_0, Degrees_90, Degrees_180, Degrees_270)
                         CustomText = [new() { Text = "Firme aquí" }] // Texto personalizado que se mostrará en la caja de firma
-                    }
-                    // Se debería indicar el AccessCode si se ha indicado el ActionType como AccessCode y DeviceId si el método de envío es Device
+                    },
+                    
+                    // Ver en SampleValues.cs cómo configurar la autenticación por código de acceso
+                    // Descomentando la siguiente línea se configurará el RecipientAccessCode si se ha indicado el ActionType como RecipientAccessCode
+                    //RecipientAccessCode = SampleValues.RecipientAccessCode,
+
+                    // Ver en SampleValues.cs cómo configurar una lista de ficheros a anexar
+                    // Descomentando la siguiente línea se añadirá una lista que indicará los ficheros a anexar antes de firmar desde el visor de documentos
+                    //Attachments = SampleValues.Attachments
                 }
 
                 // Ver en SampleValues.cs cómo configurar una firma corporativa
                 // Descomentando la siguiente línea tomará la configuración de firma corporativa de SampleValues.cs
-                // CorporateSignature = SampleValues.SingleDocumentCorporateSignature,
+                //CorporateSignature = SampleValues.SingleDocumentCorporateSignature,
             };
 
             // Creación del cliente para acceso a la API

@@ -75,9 +75,9 @@ namespace FirmarOnline.Clients.Verify
         /// <returns>Información de verificación de las firmas del documento</returns>
         public async Task<DocumentSignatureCollection> VerifySignedPDFAsync(string b64PDFContent, VerifyMode mode, PKCS12Certificate certificate = null)
         {
-            var result = await PostAsync<VerifyPDFDocument, DocumentSignatureCollection>(
+            var result = await PostAsync<VerifyPdfDocument, DocumentSignatureCollection>(
                 "v40/pdf",
-                new VerifyPDFDocument
+                new VerifyPdfDocument
                 {
                     B64PDFContent = b64PDFContent,
                     Mode = mode,

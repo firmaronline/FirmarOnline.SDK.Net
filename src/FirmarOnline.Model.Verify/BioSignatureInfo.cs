@@ -105,7 +105,7 @@ namespace FirmarOnline.Model.Verify
         /// <summary>
         /// datos de GPS
         /// </summary>
-        public GPSData GPSData { get; set; }
+        public GpsData GPSData { get; set; }
 
         /// <summary>
         /// número de serie del certificado usado para cifrar los datos bio

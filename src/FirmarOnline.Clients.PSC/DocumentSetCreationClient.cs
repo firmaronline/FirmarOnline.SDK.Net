@@ -10,9 +10,9 @@ namespace FirmarOnline.Clients.PSC
         /// </summary>
         /// <param name="documentSetFlow">Definición del sobre creado a partir de un flujo</param>
         /// <returns>Identificador único del sobre creado</returns>
-        public async Task<string> PostDocumentSetFlowAsync(DocumentSetFlow documentSetFlow)
+        public async Task<string> PostDocumentSetFlowAsync(DocumentSetFlowWithOverrides documentSetFlow)
         {
-            var result = await PostAsync<DocumentSetFlow, string>("v40/documentset/flow", documentSetFlow);
+            var result = await PostAsync<DocumentSetFlowWithOverrides, string>("v40/documentset/flow", documentSetFlow);
 
             CheckResponseStatus(result);
             return result.Value;

@@ -5,7 +5,7 @@
     /// Cada forma representa un nivel de mejora sobre la firma básica, con elementos como políticas, sellado de tiempo,
     /// información de validación (OCSP/CRL), y mecanismos de archivo a largo plazo.
     /// </summary>
-    public enum PAdESSignatureForm
+    public enum PadesSignatureForm
     {
         /// <summary>
         /// Firma no PAdES o forma no reconocida/soportada.

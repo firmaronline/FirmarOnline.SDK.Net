@@ -5,7 +5,7 @@ namespace FirmarOnline.Model.eSign
     /// <summary>
     /// Definición de datos para validar un código OTP
     /// </summary>    
-    public class ValidateOTP
+    public class ValidateOtp
     {
         /// <summary>
         /// Código hash SHA256

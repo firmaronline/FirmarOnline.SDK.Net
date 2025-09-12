@@ -77,7 +77,7 @@ namespace FirmarOnline.Clients.eSign
                 throw new ArgumentException("PDF content cannot be null or empty.", nameof(b64PDFContent));
             }
 #endif
-            var result = await PostAndGetFileAsync("v40/", new Signature
+            var result = await PostAndGetFileAsync("v40/signature", new Signature
             {
                 B64PDFContent = b64PDFContent,
                 Widget = widget,
@@ -106,7 +106,7 @@ namespace FirmarOnline.Clients.eSign
         /// <returns>El documento PDF con el sello de tiempo</returns>
         public async Task<Stream> TimeStampAsync(string b64PDFContent)
         {
-            var result = await PostAndGetFileAsync("v40/timestamp", new Timestamp
+            var result = await PostAndGetFileAsync("v40/signature/timestamp", new Timestamp
             {
                 B64PDFContent = b64PDFContent
             });
@@ -119,9 +119,9 @@ namespace FirmarOnline.Clients.eSign
         /// Genera y envía un nuevo OTP (One-Time Password).
         /// </summary>
         /// <param name="generateOTP">Datos para la geneción del OTP.</param>
-        public async Task GenerateOtpAsync(GenerateOTP generateOTP)
+        public async Task GenerateOtpAsync(GenerateOtp generateOTP)
         {
-            var result = await PostAsync("v40/GenerateOTP", generateOTP);
+            var result = await PostAsync("v40/signature/GenerateOtp", generateOTP);
             CheckResponseStatus(result);
         }
 
@@ -129,9 +129,9 @@ namespace FirmarOnline.Clients.eSign
         /// Validación de un código OTP (One-Time Password).
         /// </summary>
         /// <param name="validateOTP">Datos para la validación del OTP.</param>
-        public async Task ValidateOtpAsync(ValidateOTP validateOTP)
+        public async Task ValidateOtpAsync(ValidateOtp validateOTP)
         {
-            var result = await PostAsync("v40/ValidateOTP", validateOTP);
+            var result = await PostAsync("v40/signature/ValidateOtp", validateOTP);
             CheckResponseStatus(result);
         }
     }

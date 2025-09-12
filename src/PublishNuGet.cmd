@@ -32,7 +32,7 @@ set PROJECT=%1
 
 REM Build generates the NuGet package thanks to GeneratePackageOnBuild
 "dotnet" build "%REPOPATH%\%PROJECT%\%PROJECT%.csproj" -c %BUILD_CONFIG% -p:UseProjectReference=false
-"dotnet" pack "%REPOPATH%\%PROJECT%\%PROJECT%.csproj" -c %BUILD_CONFIG% -p:UseProjectReference=false
+"dotnet" pack "%REPOPATH%\%PROJECT%\%PROJECT%.csproj" -c %BUILD_CONFIG% -p:UseProjectReference=false -o %NUGET_REPO_PATH%
 if errorlevel 1 goto :EOF
 
 for %%f in ("%REPOPATH%\%PROJECT%\bin\%BUILD_CONFIG%\%PROJECT%.*.nupkg") do (

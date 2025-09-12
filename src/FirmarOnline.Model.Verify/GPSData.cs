@@ -3,7 +3,7 @@
     /// <summary>
     /// datos de GPS
     /// </summary>
-    public class GPSData
+    public class GpsData
     {
         /// <summary>
         /// GPS válido?

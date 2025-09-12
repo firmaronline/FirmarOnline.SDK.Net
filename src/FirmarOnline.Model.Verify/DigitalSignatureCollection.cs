@@ -4,7 +4,7 @@
     /// <summary>
     /// Colección de firmas digitales de un documento
     /// </summary>
-    public class DigitalSignatureInfoCollection
+    public class DigitalSignatureCollection
     {
         /// <summary>
         /// PDF cifrado o no

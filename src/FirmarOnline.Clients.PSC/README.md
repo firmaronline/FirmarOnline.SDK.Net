@@ -1,288 +1,174 @@
-﻿# FirmarOnline.Clients.PSC
+﻿# 📦 FirmarOnline.Clients.PSC
 
-Cliente para acceso a la API pública del PSC (Prestador de Servicios de Confianza).
+Cliente oficial en .NET para acceder a la API pública de [**PSC (Prestador de Servicios de Confianza)**](https://restapi.firmar.info/index.html?urls.primaryName=Servicio+PSC).  
 
-+ [Incialización del cliente](#inicialización-del-cliente)
-+ [Método PostDocumentSetAsync](#método-postdocumentsetasync)
-+ [Método PostDocumentSetAndGetUrlAsync](#método-postdocumentsetandgeturlasync)
-+ [Método CancelDocumentSetAsync](#método-canceldocumentsetasync)
-+ [Método ResendDocumentSetAsync](#método-resenddocumentsetasync)
-+ [Método PurgeDocumentSetAsync](#método-purgedocumentsetasync)
-+ [Método GetDocumentSetInfoAsync](#método-getdocumentsetinfoasync)
-+ [Método GetDocumentSetErrorInfoAsync](#método-getdocumentseterrorinfoasync)
-+ [Método GetDocumentAsync](#método-getdocumentasync)
-+ [Método GetEvidencesAsync](#método-getevidencesasync)
-+ [Método GetAuditTrailAsync](#método-getaudittrailasync)
-+ [Método GetHistoryAsync](#método-gethistoryasync)
-+ [Método VerifyLegalAuditTrailAsync](#método-verifylegalaudittrailasync)
-+ [Método VerifySignedPDFAsync](#método-verifysignedpdfasync)
+Permite **crear, consultar y gestionar sobres de firma**, así como recuperar **evidencias, adjuntos y ejecutar operaciones de control**.
 
-## Inicialización del cliente
+---
 
-Añadir al proyecto el paquete NuGet `FirmarOnline.Clients.PSC`.
+## 🧭 Índice
+1. [⚙️ Instalación e inicialización](#️-instalación-e-inicialización)  
+2. [🛠️ Compatibilidad](#️-compatibilidad)  
+3. [📡 Métodos disponibles](#-métodos-disponibles)  
+   - ✍️ [Creación de sobres](#️-creación-de-sobres)  
+   - ℹ️ [Consulta de información](#ℹ️-consulta-de-información)  
+   - ⚡ [Operaciones sobre sobres](#⚡-operaciones-sobre-sobres)  
+4. [🖥️ Ejemplos en aplicación de consola](#️-ejemplos-en-aplicación-de-consola)  
 
-```
+---
+
+## ⚙️ Instalación e inicialización
+
+Instalar el paquete NuGet:
+
+```bash
 dotnet add package FirmarOnline.Clients.PSC
 ```
 
-La API se puede llamar a través del objeto `PSCClient` o a través de los métodos de extensión definidos para el `HttpClient`.
-
-### Utilizando PSCClient
-
-Para instanciar el objeto `PSCClient` debemos indicarle la url en la que se encuentra expuesta la API del PSC y la clave de autenticación (ya sea la Api-Key del usuario o un token de cliente):
+Crear instancia del cliente en **sandbox** o **producción**:
 
 ```csharp
-var client = new PSCClient(new Uri("https://restapi.firmar.online/PSC/v40/"), "<api_key_o_token_de_usuario>");
+// Sandbox
+var client = new PSCClient(PSCClient.PSCSandboxEnvironmentUrl, "<api_key_o_token>");
+
+// Producción
+var client = new PSCClient(PSCClient.PSCProductionEnvironmentUrl, "<api_key_o_token>");
 ```
 
-A partir de ahí podemos acceder a la API a través de los diferentes métodos definidos en el objeto `PSCClient`.
+---
 
-Este es el método recomendado y el más simple para acceder a la API del PSC.
+## 🛠️ Compatibilidad
 
-### Utilizando métodos de extensión de HttpClient
+Este cliente se compila para dos frameworks:
 
-Para utilizar los métodos de extensión del `HttpClient` deberemos instanciar un objeto `HttpClient` y añadirle las cabeceras de autenticación correspondeientes.
+- 🟢 **.NET 8.0** → versión moderna y recomendada  
+- 🟦 **.NET Standard 2.0** → compatibilidad con proyectos existentes  
 
-Ya sea utilizando una Api-Key
+---
 
-```csharp
-var httpClient = new HttpClient();
-httpClient.DefaultRequestHeaders.Add("Api-Key", "<api_key_de_usuario>");
+## 📡 Métodos disponibles
+
+### ✍️ Creación de sobres
+
+- **Crear sobre simple (1 documento y 1 destinatario)**  
+  Método: `PostDocumentSetSimpleAsync`  
+  Crea un sobre básico con un único documento y un solo destinatario.  
+
+- **Crear sobre simple y obtener URL del visor**  
+  Método: `PostDocumentSetAndGetUrlAsync`  
+  Genera un sobre simple y devuelve directamente la URL del visor para que el destinatario pueda acceder al documento.  
+
+- **Crear sobre con múltiples documentos y destinatarios**  
+  Método: `PostDocumentSetAsync`  
+  Permite crear un sobre más complejo con varios documentos y múltiples firmantes.  
+
+- **Crear sobre desde flujo simple (1 documento y 1 destinatario)**  
+  Método: `PostDocumentSetFlowSimpleAsync`  
+  Inicializa un sobre a partir de una definición de flujo preconfigurada con un único documento y destinatario.  
+
+- **Crear sobre desde flujo y obtener URL del visor**  
+  Método: `PostDocumentSetFlowAndGetUrlAsync`  
+  Genera un sobre basado en un flujo definido y devuelve la URL del visor para la firma.  
+
+- **Crear sobre desde flujo completo**  
+  Método: `PostDocumentSetFlowAsync`  
+  Permite la creación de sobres avanzados a partir de un flujo completo, con múltiples documentos, destinatarios y reglas.  
+
+### ℹ️ Consulta de información
+
+- **Obtener estado actual del sobre** → `GetDocumentSetStatusAsync`  
+  Devuelve el estado en el que se encuentra un sobre (pendiente, firmado, cancelado, etc.).  
+
+- **Obtener URL del visor** → `GetDocumentSetUrlAsync`  
+  Recupera la URL actual del visor de un sobre para el destinatario.  
+
+- **Obtener detalle de un sobre** → `GetDocumentSetInfoAsync`  
+  Devuelve información completa del sobre: documentos, destinatarios, acciones y configuración.  
+
+- **Recuperar errores de procesamiento** → `GetDocumentSetErrorInfoAsync`  
+  Obtiene los errores registrados en el proceso de creación o gestión del sobre.  
+
+- **Listado por referencia externa** → `GetDocumentSetsInfoByReferenceAsync`  
+  Recupera información de sobres asociados a una referencia externa definida por el integrador.  
+
+- **Histórico de sobres** → `GetHistoryAsync`  
+  Devuelve el histórico de sobres creados, incluyendo estados y fechas.  
+
+- **Dispositivos registrados** → `GetDevicesAsync`  
+  Obtiene los dispositivos vinculados a los firmantes de un sobre.  
+
+- **Eventos (AuditTrail)** → `GetAuditTrailAsync`  
+  Devuelve el registro de eventos (audit trail) asociados al proceso de firma del sobre.  
+
+- **PDF de evidencias** → `GetEvidencesAsync`  
+  Permite descargar un PDF con las evidencias generadas durante el proceso de firma.  
+
+- **LegalAuditTrail (JWT)** → `GetLegalAuditTrailAsync`  
+  Devuelve el LegalAuditTrail en formato JWT para su validación jurídica.  
+
+- **Descargar documento principal** → `GetDocumentAsync`  
+  Descarga el documento principal firmado del sobre.  
+
+- **Descargar documento específico** → `GetDocumentAsync`  
+  Descarga un documento concreto del sobre mediante su identificador.  
+
+- **Descargar adjunto** → `GetAttachmentAsync`  
+  Recupera un archivo adjunto asociado al sobre.  
+
+### ⚡ Operaciones sobre sobres
+
+- **Cancelar sobre** → `CancelDocumentSetAsync`  
+  Cancela un sobre en curso, evitando que los firmantes puedan continuar el proceso.  
+
+- **Reenviar email al destinatario** → `ResendDocumentSetAsync`  
+  Reenvía la notificación por correo electrónico a los destinatarios del sobre.  
+
+- **Borrar documentos de un sobre finalizado** → `PurgeDocumentSetAsync`  
+  Elimina los documentos asociados a un sobre ya cerrado para liberar espacio o cumplir políticas de retención.  
+
+- **Enviar evento de prueba a WebHook** → `TestWebHookAsync`  
+  Envía un evento de prueba al endpoint configurado como WebHook para validar la integración.  
+
+---
+
+## 🖥️ Ejemplos en aplicación de consola
+
+La solución incluye un cliente de consola en **.NET 8** con ejemplos listos para ejecutar:  
+
+📂 Ruta:  
+```plaintext
+\FirmarOnline.SDK\samples\FirmarOnline.Samples.ConsoleClient\FirmarOnline.Samples.ConsoleClient.sln
 ```
 
-o utilizando un token de cliente
+En este proyecto se encuentran implementados los escenarios de **PSC** con su clase correspondiente:
 
-```csharp
-var httpClient = new HttpClient();
-httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer <token_de_cliente>");
-```
+- ✍️ **Creación**
+  - `PostDocumentSetSimpleAsync` → `PSC/CreateDocumentSetSimple.cs`
+  - `PostDocumentSetAndGetUrlAsync` → `PSC/CreateDocumentSetAndGetUrl.cs`
+  - `PostDocumentSetAsync` → `PSC/CreateDocumentSet.cs`
+  - `PostDocumentSetFlowSimpleAsync` → `PSC/CreateDocumentSetFromFlowSimple.cs`
+  - `PostDocumentSetFlowAndGetUrlAsync` → `PSC/CreateDocumentSetFromFlowAndGetUrl.cs`
+  - `PostDocumentSetFlowAsync` → `PSC/CreateDocumentSetFromFlow.cs`
 
-Es conveniente establecer también la propiedad `BaseAddress` con la url en la que se encuentra alojada la API.
-Esto nos permitirá utilizar rutas relativas en las llamadas a los métodos y no tener que introducir la url completa en cada llamada.
+- ℹ️ **Información**
+  - `GetDocumentSetStatusAsync` → `PSC/GetDocumentSetStatus.cs`
+  - `GetDocumentSetUrlAsync` → `PSC/GetDocumentSetUrl.cs`
+  - `GetDocumentSetInfoAsync` → `PSC/GetDocumentSetInfo.cs`
+  - `GetDocumentSetErrorInfoAsync` → `PSC/GetDocumentSetErrorInfo.cs`
+  - `GetDocumentSetsInfoByReferenceAsync` → `PSC/GetDocumentSetInfoByReference.cs`
+  - `GetHistoryAsync` → `PSC/GetDocumentSetHistory.cs`
+  - `GetDevicesAsync` → `PSC/GetDocumentSetDevices.cs`
+  - `GetAuditTrailAsync` → `PSC/GetDocumentSetAuditTrail.cs`
+  - `GetEvidencesAsync` → `PSC/GetDocumentSetEvidences.cs`
+  - `GetLegalAuditTrailAsync` → `PSC/GetDocumentSetLegalAuditTrail.cs`
+  - `GetDocumentAsync` → `PSC/GetDocumentSetDocument.cs`
+  - `GetDocumentAsync` (documento específico) → `PSC/GetDocumentSetDocumentOnlyOne.cs`
+  - `GetAttachmentAsync` → `PSC/GetDocumentSetAttachment.cs`
 
-```csharp
-httpClient.BaseAddress = new Uri("http://restapi.firmar.online/PSC/v40/");
-```
+- ⚡ **Operaciones**
+  - `CancelDocumentSetAsync` → `PSC/PutDocumentSetCancel.cs`
+  - `ResendDocumentSetAsync` → `PSC/PutDocumentSetResend.cs`
+  - `PurgeDocumentSetAsync` → `PSC/PutDocumentSetPurge.cs`
+  - `TestWebHookAsync` → `PSC/PutWebHookTest.cs`
 
-A partir de ahí podemos acceder a la API a través de los métodos de extensión del `HttpClient`.
-
-## Método PostDocumentSetAsync
-
-Crea un nuevo sobre y devuelve un identificador uno del sobre creado.
-
-### Uso
-
-```csharp
-var newDocumentSet = new DocumentSet
-{
-    DocumentSetName = "Contrato comercial",
-    SenderName = "Paz Valladares Castro",
-    SenderMail = "pazvalladarescastro@foo.com",
-    ExpirationDaysTimeout = 30,
-    ReminderDays = 5,
-    SendMethod = SendMethod.Email,
-    Documents = new[]
-    {
-        new Document
-        {
-            Id = "DOC-01",
-            Name = "Contrato",
-            Description = "Contrato comercial",
-            B64PDFContent = "JVBERi0xLjc......"
-        }
-    },
-    Recipients = new[] { new Recipient
-    {
-        Id = "REC-01",
-        Name = "Hannah Pina Domínguez",
-        Email = "hannahpinadominguez@foo.com",
-        CardId = "66666666Q",
-        PhoneNumber = "+34655552638",
-        ActionType = RecipientActionType.BioSignature,
-        Widgets = new[]
-        {
-            new RecipientAction
-            {
-                DocumentId = "DOC-01",
-                Widget = new FixedWidget
-                {
-                    Width = 300,
-                    Height = 120,
-                    Page = 2,
-                    X = 240,
-                    Y = 80,
-                    CustomText = new [] { new TextLine { FontSize = 4, Text = $"Firmado por Hannah Pina"} }
-                }
-            }
-        }
-    } }
-};
-
-var newDocumentSetId = await client.PostDocumentSetAsync(newDocumentSet);
-```
-
-## Método PostDocumentSetAndGetUrlAsync
-
-Crea un nuevo sobre devolviendo, además del identificador único del sobre creado, la url de acceso al visor para la firma.
-Únicamente admite sobres con un único documento y destinatario.
-
-### Uso
-
-```csharp
-var newDocumentSet = new SimpleDocumentSet
-{
-    DocumentSetName = "Contrato comercial",
-    SenderName = "Paz Valladares Castro",
-    SenderMail = "pazvalladarescastro@foo.com",
-    ExpirationDaysTimeout = 30,
-    Document = new Document
-    {
-        Id = "DOC-01",
-        Name = "Contrato",
-        Description = "Contrato comercial",
-        B64PDFContent = "JVBERi0xLjc......"
-    },
-    Recipient = new SingleDocumentRecipient
-    {
-        Name = "Hannah Pina Dominguez",
-        Email = "hannahpinadominguez@foo.com",
-        CardId = "66666666Q",
-        PhoneNumber = "+34655552638",
-        ActionType = RecipientActionType.BioSignature,
-        Widget = new FixedWidget
-        {
-            Width = 300,
-            Height = 120,
-            Page = 2,
-            X = 240,
-            Y = 80,
-            CustomText = new[] { new TextLine { FontSize = 4, Text = "Firmado por Hannah Pina" } }
-        }
-    }
-};
-
-var documentSetInfo = await client.PostDocumentSetAndGetUrlAsync(newDocumentSet);
-```
-
-## Método CancelDocumentSetAsync
-
-Cancela el procesamiento de un sobre.
-
-### Uso
-
-```csharp
-await client.CancelDocumentSetAsync(newDocumentSetId);
-```
-
-## Método ResendDocumentSetAsync
-
-Provoca el reenvío de la notificación al destinatario actual.
-
-### Uso
-
-```csharp
-await client.ResendDocuemntSetAsync(newDocumentSetId);
-```
-
-## Método PurgeDocumentSetAsync
-
-Purga los documentos de un sobre finalizado.
-
-### Uso
-
-```csharp
-await client.PurgeDocumentSetAsync(DocumentSetId);
-```
-
-## Método GetDocumentSetInfoAsync
-
-Devuelve el detalle de la definición y estado actual de procesamiento de un sobre.
-
-### Uso
-
-```chsarp
-var documentSetInfo = await client.GetDocumentSetInfoAsync(newDocumentSetId);
-```
-
-## Método GetDocumentSetErrorInfoAsync
-
-Si se ha producido un error en el procesamiento de un sobre, este método permite recuperar la información detallada del error.
-
-### Uso
-
-```csharp
-var errorInfo = await client.GetDcoumentSetErrorInfoAsync(newDocumentSetId);
-```
-
-## Método GetDocumentAsync
-
-Recupera un documento de un sobre una vez finalizado el procesamiento de éste.
-
-### Uso
-
-```csharp
-var signedDocument = await client.GetDocumentAsync(newDocumentSetId, "DOC-01");
-```
-
-El identificador del documento únicamente es necesario indicarlo cuando el sobre contiene más de un documento.
-
-## Método GetEvidencesAsync
-
-Recupera el documento de evidencias del procesamiento del sobre.
-
-### Uso
-
-```csharp
-var evidences = await client.GetEvidencesAsync(newDocumentSetId);
-```
-
-## Método GetAuditTrailAsync
-
-Devuelve la traza de eventos generados por el procesamiento del sobre.
-
-### Uso
-
-```csharp
-var auditEvents = await client.GetAuditTrailAsync(newDocumentSetId);
-```` 
-
-## Método GetHistoryAsync
-
-Recupera un listado de los sobres enviados a firmar.
-
-Permite filtrar por estado del sobre y fecha de envío.
-Así como establecer un límite de registros a devolver e indicar un offset para implementar paginación.
-
-### Uso
-
-```csharp
-var listOfDcoumentSets = await client.GetHistoryAsync(new DocumentSetFilter
-{
-    Status = new[] { DocumentSetStatusCode.Created, DocumentSetStatusCode.InProcess },
-    FromDateTime = new DateTime(2021, 1, 1),
-    ToDateTime = new DateTime(2021, 6, 1),
-    Reference = "000001",
-    Limit = 20,
-    Offset = 40
-});
-```
-
-## Método VerifyLegalAuditTrailAsync
-
-Comprueba la validez de un certificado de trazabilidad.
-
-### Uso
-
-```csharp
-var verifyResult = await client.VerifyLegalAuditTrail(base64FileConent);
-```
-
-## Método VerifySignedPDFAsync
-
-Verifica las firmas de un documento PDF.
-
-### Uso
-
-```csharp
-var signatures = await client.VerifySignedPDFAsync(signedPDFFileStream);
-```
+👉 Consulta también el [README del Console Client](../../samples/FirmarOnline.Samples.ConsoleClient/README.md) para más información sobre la ejecución.

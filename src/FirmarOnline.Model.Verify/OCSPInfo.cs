@@ -6,7 +6,7 @@ namespace FirmarOnline.Model.Verify
     /// <summary>
     /// Información de revocación de tipo OCSP
     /// </summary>
-    public class OCSPInfo
+    public class OcspInfo
     {
         /// <summary>
         /// nombre del OCSP que nos ha llegado de respuesta

@@ -3,7 +3,7 @@
     /// <summary>
     /// Información de revocación de tipo OCSP
     /// </summary>
-    public class CRLInfo
+    public class CrlInfo
     {
         /// <summary>
         /// información de los certificados contenida
