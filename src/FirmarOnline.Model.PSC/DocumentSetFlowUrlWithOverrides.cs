@@ -120,7 +120,7 @@ namespace FirmarOnline.Model.PSC
         /// <returns></returns>
         public static ValidationResult ValidateDocumentsSortedByType(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
-            if (CheckDocumentsSortedByType(documentSetFlowUrl.Documents))
+            if (DocumentSetValidators.CheckDocumentsSortedByType(documentSetFlowUrl.Documents))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("WebForms and PDFs must be grouped.", [nameof(documentSetFlowUrl.Documents)]);
@@ -131,7 +131,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByRecipients(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
-            if (CheckDocumentTypeByRecipients(documentSetFlowUrl.Documents, documentSetFlowUrl.Recipients.Cast<RecipientBase>()))
+            if (DocumentSetValidators.CheckDocumentTypeByRecipients(documentSetFlowUrl.Documents, documentSetFlowUrl.Recipients.Cast<RecipientBase>()))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("WebForms can only have one recipient.", [nameof(documentSetFlowUrl.Documents)]);
@@ -143,7 +143,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateOnlyOneFormId(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
-            if (CheckOnlyOneFormId(documentSetFlowUrl.Documents))
+            if (DocumentSetValidators.CheckOnlyOneFormId(documentSetFlowUrl.Documents))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("Only one WebForm can be defined by FormId.", [nameof(DocumentContent.FormId)]);

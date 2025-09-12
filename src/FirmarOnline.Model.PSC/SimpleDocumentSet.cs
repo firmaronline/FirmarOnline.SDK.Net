@@ -60,7 +60,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByActionType60(SimpleDocumentSet simpleDocumentSet)
         {
-            if (CheckDocumentTypeByActionType60([simpleDocumentSet.Document], [simpleDocumentSet.Recipient]))
+            if (DocumentSetValidators.CheckDocumentTypeByActionType60([simpleDocumentSet.Document], [simpleDocumentSet.Recipient]))
             {
                 return ValidationResult.Success;
             }

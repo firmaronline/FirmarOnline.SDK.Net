@@ -104,7 +104,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentsSortedByType(DocumentSet documentSet)
         {
-            if (CheckDocumentsSortedByType(documentSet.Documents))
+            if (DocumentSetValidators.CheckDocumentsSortedByType(documentSet.Documents))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("WebForms and PDFs must be grouped.", [nameof(documentSet.Documents)]);
@@ -115,7 +115,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByRecipients(DocumentSet documentSet)
         {
-            if (CheckDocumentTypeByRecipients(documentSet.Documents, documentSet.Recipients.Cast<RecipientBase>()))
+            if (DocumentSetValidators.CheckDocumentTypeByRecipients(documentSet.Documents, documentSet.Recipients.Cast<RecipientBase>()))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("WebForms can only have one recipient.", [nameof(documentSet.Documents)]);
@@ -126,7 +126,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateOnlyOneFormId(DocumentSet documentSet)
         {
-            if (CheckOnlyOneFormId(documentSet.Documents))
+            if (DocumentSetValidators.CheckOnlyOneFormId(documentSet.Documents))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("Only one WebForm can be defined by FormId.", [nameof(DocumentContent.FormId)]);
@@ -155,7 +155,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByActionType60(DocumentSet documentSet)
         {
-            if (CheckDocumentTypeByActionType60(documentSet.Documents, documentSet.Recipients))
+            if (DocumentSetValidators.CheckDocumentTypeByActionType60(documentSet.Documents, documentSet.Recipients))
             {
                 return ValidationResult.Success;
             }
