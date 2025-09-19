@@ -32,20 +32,20 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                 //TeamId = "", // Equipo al que va a pertenecer en nuevo sobre, si no se indica, será el equipo por defecto del usuario o empresa
 
                 // Campos que se pueden sobreescribir del flujo
-                SendMethod = SendMethod.Email, // Método de envío del sobre (Email, SMS, etc.)
-                SenderName = "FirmarOnline SDK", // Nombre del emisor del sobre
-                SenderMail = "noreply.sdk@firmar.online", // Email del emisor del sobre
-                Language = Model.LanguageCode.eu_ES, // Idioma de flujo
-                ExpirationDaysTimeout = 10, // Días de validez del sobre, después de los cuales se considerará expirado
-                ReminderDays = 1, // Número de días tras los que se enviará un recordatorio
-                SendDocToRecipient = false, // Envío a los destinatarios de los documentos del proceso al final del flujo
-                SendDocToSender = true, // Envío al remitente de los documentos y el certificado de trazabilidad del proceso al final del flujo
-                Ltv = false, // Indica si la firma debe ser LTV (Long Term Validation)
-                CorporateSignature = SampleValues.DocumentCorporateSignature, // Ejemplo de firma corporativa
-                Notifications = SampleValues.Notifications, // Ejemplo para configurar destinatarios a los que se enviará una copia firmada de los documentos
-                AuthenticationType = RecipientAuthenticationType.AccessCode, // Tipo de autenticación del destinatario (None, Basic, RecipientAccessCode, etc.)
-                ActionType = RecipientActionType.BioSignature, // // Tipo de acción del destinatario (CertifiedNotification, Acceptance, AcceptanceSignature, etc.)
-                AccessCode = SampleValues.AccessCode, // Si la autenticación es por código de acceso, configuramos la pregunta y opcinalmente el formato de la respuesta
+                //SendMethod = SendMethod.Email, // Método de envío del sobre (Email, SMS, etc.)
+                //SenderName = "FirmarOnline SDK", // Nombre del emisor del sobre
+                //SenderMail = "noreply.sdk@firmar.online", // Email del emisor del sobre
+                //Language = Model.LanguageCode.eu_ES, // Idioma de flujo
+                //ExpirationDaysTimeout = 10, // Días de validez del sobre, después de los cuales se considerará expirado
+                //ReminderDays = 1, // Número de días tras los que se enviará un recordatorio
+                //SendDocToRecipient = false, // Envío a los destinatarios de los documentos del proceso al final del flujo
+                //SendDocToSender = true, // Envío al remitente de los documentos y el certificado de trazabilidad del proceso al final del flujo
+                //Ltv = false, // Indica si la firma debe ser LTV (Long Term Validation)
+                //CorporateSignature = SampleValues.DocumentCorporateSignature, // Ejemplo de firma corporativa
+                //Notifications = SampleValues.Notifications, // Ejemplo para configurar destinatarios a los que se enviará una copia firmada de los documentos
+                //AuthenticationType = RecipientAuthenticationType.AccessCode, // Tipo de autenticación del destinatario (None, Basic, RecipientAccessCode, etc.)
+                //ActionType = RecipientActionType.BioSignature, // // Tipo de acción del destinatario (CertifiedNotification, Acceptance, AcceptanceSignature, etc.)
+                //AccessCode = SampleValues.AccessCode, // Si la autenticación es por código de acceso, configuramos la pregunta y opcinalmente el formato de la respuesta
 
                 // Documentos a firmar
                 Documents = [ 
@@ -61,10 +61,10 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                 Recipients = [
                     new RecipientFlow
                     {
-                        Id = "REC-00001", // Identificador único del destinatario, si no se informa se generará automáticamente un identificador
-                        Order = 1, // Posición del destinatario en el flujo de firma, si se repite la posición se podrá firmar en paralelo
+                        //Id = "REC-00001", // Identificador único del destinatario, si no se informa se generará automáticamente un identificador
+                        //Order = 1, // Posición del destinatario en el flujo de firma, si se repite la posición se podrá firmar en paralelo
                         Name = "John Sanders", // Nombre del destinatario
-                        Email = "javier.almodovar@edatalia.com", // Email del destinatario
+                        Email = "john.sanders@foo.com", // Email del destinatario
                         CardId = "12345678X", // Identificador del destinatario (puede ser un número de documento, NIE, etc.), obligatorio si se utiliza autenticación MRZ
                         PhoneNumber = "", // Número de teléfono del destinatario con el prefijo (Ejemplo: +34600112233), obligatorio si se utiliza una autenticación o acción que lo requiera
                         //DeviceId = null, // Si el método de envío es Device, indicaremos el dispositivo al que enviaremos el documento a firmar
@@ -85,11 +85,11 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                                                 
                         // Ver en SampleValues.cs cómo configurar la autenticación por código de acceso
                         // Descomentando la siguiente línea se configurará el RecipientAccessCode si se ha indicado el ActionType como RecipientAccessCode
-                        AccessCode = SampleValues.RecipientAccessCode,
+                        //AccessCode = SampleValues.RecipientAccessCode,
                     
                         // Ver en SampleValues.cs cómo configurar una lista de ficheros a anexar
                         // Descomentando la siguiente línea se añadirá una lista que indicará los ficheros a anexar antes de firmar desde el visor de documentos
-                        Attachments = SampleValues.Attachments
+                        //Attachments = SampleValues.Attachments
                     }
                 ]
             };

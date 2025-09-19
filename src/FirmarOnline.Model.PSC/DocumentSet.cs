@@ -8,11 +8,9 @@ namespace FirmarOnline.Model.PSC
     /// Define un sobre de documentos para enviar a firma remota
     /// </summary>
     [CustomValidation(typeof(DocumentSet), nameof(ValidateDocumentSet), ErrorMessage = "The documentSet definition is not valid.")]
-    [CustomValidation(typeof(DocumentSet), nameof(ValidateDocumentsSortedByType), ErrorMessage = "The documentSet definition is not valid.")]
     [CustomValidation(typeof(DocumentSet), nameof(ValidateDocumentTypeByRecipients), ErrorMessage = "The documentSet definition is not valid.")]
-    [CustomValidation(typeof(DocumentSet), nameof(ValidateOnlyOneFormId), ErrorMessage = "The documentSet definition is not valid.")]
-    [CustomValidation(typeof(DocumentSet), nameof(ValidateParallelRecipientsWithActionType60), ErrorMessage = "The documentSet definition is not valid.")]
     [CustomValidation(typeof(DocumentSet), nameof(ValidateDocumentTypeByActionType60), ErrorMessage = "The documentSet definition is not valid.")]
+    [CustomValidation(typeof(DocumentSet), nameof(ValidateDocumentTypeByCorporateSignature), ErrorMessage = "The documentSet definition is not valid.")]
     public class DocumentSet : DocumentSetStandAloneBase
     {
         /// <summary>
@@ -23,12 +21,12 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Documentos
         /// </summary>
-        public IEnumerable<Document> Documents { get; set; }
+        public DocumentColletion Documents { get; set; }
 
         /// <summary>
         /// Destinatarios
         /// </summary>
-        public IEnumerable<Recipient> Recipients { get; set; }
+        public RecipientCollection<Recipient> Recipients { get; set; }
 
         /// <summary>
         /// Notificaciones (envío de copia de documento firmado)
@@ -53,7 +51,6 @@ namespace FirmarOnline.Model.PSC
         ///   - que los días de validez del sobre sean más que los días para el envío de recordatorio
         ///   - que no haya más de un envío de SMS para ningún destinatario
         ///   - que si se indica el orden de los destinatarios el metodo de envío no sea por URL.
-        ///   - que se indique el orden a todos o a ninguno de los destinatarios
         ///   - que el email sea opcional si el método de envió es a dispositivo
         /// </summary>
         /// <param name="documentSet">Definición del sobre</param>
@@ -62,8 +59,8 @@ namespace FirmarOnline.Model.PSC
         {
             if (documentSet.ReminderDays >= documentSet.ExpirationDaysTimeout)
             {
-                return new ValidationResult($"The value of {nameof(ReminderDays)} must be less than the value of {nameof(ExpirationDaysTimeout)}.",
-                    [nameof(ReminderDays), nameof(ExpirationDaysTimeout)]);
+                return new ValidationResult($"The value of {nameof(documentSet.ReminderDays)} must be less than the value of {nameof(documentSet.ExpirationDaysTimeout)}.",
+                    [nameof(documentSet.ReminderDays), nameof(documentSet.ExpirationDaysTimeout)]);
             }
 
             if (documentSet.Recipients.Any(
@@ -80,34 +77,17 @@ namespace FirmarOnline.Model.PSC
                 // No se puede usar el metodo de envio por URL
                 if (documentSet.SendMethod == SendMethod.None)
                 {
-                    return new ValidationResult("Cannot indicate the order of the recipients if the send method is not indicated.", [nameof(Recipients)]);
-                }
-
-                // Validamos que se indique un orden a todos los destinatarios y que no sea 0
-                if (documentSet.Recipients.Any(r => r.Order == null || r.Order == 0))
-                {
-                    return new ValidationResult("You must indicate the order to all recipients.", [nameof(Recipients)]);
+                    return new ValidationResult("Cannot indicate the order of the recipients if the send method is not indicated.", [nameof(documentSet.Recipients)]);
                 }
             }
 
             // El email solo es opcional si el método de envió es a dispositivo
             if (documentSet.SendMethod != SendMethod.Device && documentSet.Recipients.Any(r => r.Email == null))
             {
-                return new ValidationResult("The Email field is required.", [nameof(Recipients)]);
+                return new ValidationResult("The Email field is required.", [nameof(documentSet.Recipients)]);
             }
 
             return ValidationResult.Success;
-        }
-
-        /// <summary>
-        /// Validación de que los documentos estén agrupados. Todos los PDFs juntos y todos los Forms juntos.
-        /// </summary>
-        public static ValidationResult ValidateDocumentsSortedByType(DocumentSet documentSet)
-        {
-            if (CheckDocumentsSortedByType(documentSet.Documents))
-                return ValidationResult.Success;
-            else
-                return new ValidationResult("WebForms and PDFs must be grouped.", [nameof(documentSet.Documents)]);
         }
 
         /// <summary>
@@ -115,39 +95,10 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByRecipients(DocumentSet documentSet)
         {
-            if (CheckDocumentTypeByRecipients(documentSet.Documents, documentSet.Recipients.Cast<RecipientBase>()))
+            if (DocumentSetRules.CheckDocumentTypeByRecipients(documentSet.Documents, documentSet.Recipients))
                 return ValidationResult.Success;
             else
                 return new ValidationResult("WebForms can only have one recipient.", [nameof(documentSet.Documents)]);
-        }
-
-        /// <summary>
-        /// Validación de que no puede haber más de un formulario definido mediante un identificador de formulario.
-        /// </summary>
-        public static ValidationResult ValidateOnlyOneFormId(DocumentSet documentSet)
-        {
-            if (CheckOnlyOneFormId(documentSet.Documents))
-                return ValidationResult.Success;
-            else
-                return new ValidationResult("Only one WebForm can be defined by FormId.", [nameof(DocumentContent.FormId)]);
-        }
-
-        /// <summary>
-        /// Validación de que si hay destinatarios en paralelo no puede haber ningún Action Type 60.
-        /// </summary>
-        public static ValidationResult ValidateParallelRecipientsWithActionType60(DocumentSet documentSet)
-        {
-            var recipientsCryptoAPISignature = documentSet.Recipients
-                .Where(r => r.ActionType == RecipientActionType.CryptoAPISignature && r.Order != null);
-
-            if (recipientsCryptoAPISignature.Any() && recipientsCryptoAPISignature.GroupBy(r => r.Order).Where(g => g.Count() > 1).Any())
-            {
-                return new ValidationResult("A document set cannot contain parallel recipients and Action Type 60.", [nameof(Recipients)]);
-            }
-            else
-            {
-                return ValidationResult.Success;
-            }
         }
 
         /// <summary>
@@ -155,14 +106,21 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByActionType60(DocumentSet documentSet)
         {
-            if (CheckDocumentTypeByActionType60(documentSet.Documents, documentSet.Recipients))
-            {
+            if (DocumentSetRules.CheckDocumentTypeByActionType60(documentSet.Documents, documentSet.Recipients))
                 return ValidationResult.Success;
-            }
             else
-            {
                 return new ValidationResult("A document set cannot contain recipients with Action Type 60 and WebForms.", [nameof(documentSet.Documents)]);
-            }
+        }
+
+        /// <summary>
+        /// Valida que si el documento es un WebForm, no se configure una firma corporativa al inicio.
+        /// </summary>
+        public static ValidationResult ValidateDocumentTypeByCorporateSignature(DocumentSet documentSet)
+        {
+            if (DocumentSetRules.CheckDocumentTypeByCorporateSignature(documentSet.CorporateSignature, documentSet.Documents))
+                return ValidationResult.Success;
+            else
+                return new ValidationResult("It is not possible set a corporate signature at the beginning if the content of the document is a WebForm.");                
         }
     }
 }

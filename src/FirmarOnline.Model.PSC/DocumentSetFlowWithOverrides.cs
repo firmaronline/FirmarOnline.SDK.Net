@@ -6,7 +6,7 @@ namespace FirmarOnline.Model.PSC
     /// <summary>
     /// Define un sobre de documentos a partir de un flujo para enviar a firma remota
     /// </summary>
-    [CustomValidation(typeof(DocumentSetFlowWithOverrides), nameof(ValidateDocumentSetFlow), ErrorMessage = "The documentSetFlow definition is not valid.")]
+    [CustomValidation(typeof(DocumentSetFlowWithOverrides), nameof(ValidateDocumentSetFlowWithOverrides), ErrorMessage = "The documentSetFlow definition is not valid.")]
     public class DocumentSetFlowWithOverrides : DocumentSetFlowUrlWithOverrides
     {
         /// <summary>
@@ -19,12 +19,12 @@ namespace FirmarOnline.Model.PSC
         /// Validación de definición del sobre.
         /// Comprueba
         ///   - que si se indica el orden de los destinatarios el metodo de envio no sea por URL.
-        ///   - que se indique el orden a todos o a ninguno de los destinatarios
+        ///   - que el email sea opcional si el método de envió es a dispositivo
         ///   - no se puede enviar mas de un mensaje SMS o WhatsApp por destinatario
         /// </summary>
         /// <param name="documentSetFlow">Definición del sobre</param>
         /// <returns>Un <see cref="ValidationResult"/> con el resultado de la validación</returns>
-        public static ValidationResult ValidateDocumentSetFlow(DocumentSetFlowWithOverrides documentSetFlow)
+        public static ValidationResult ValidateDocumentSetFlowWithOverrides(DocumentSetFlowWithOverrides documentSetFlow)
         {
             // Si se ha indicado el orden de los destinatarios
             if (documentSetFlow.Recipients.Any(r => r.Order != null))
@@ -34,12 +34,12 @@ namespace FirmarOnline.Model.PSC
                 {
                     return new ValidationResult("Cannot indicate the order of the recipients if the send method is not indicated.", [nameof(Recipients)]);
                 }
+            }
 
-                // Validamos que se indique un orden a todos los destinatarios y que no sea 0
-                if (documentSetFlow.Recipients.Any(r => r.Order == null || r.Order == 0))
-                {
-                    return new ValidationResult("You must indicate the order to all recipients.", [nameof(Recipients)]);
-                }
+            // El email solo es opcional si el método de envió es a dispositivo
+            if (documentSetFlow.SendMethod != PSC.SendMethod.Device && documentSetFlow.Recipients.Any(r => r.Email == null))
+            {
+                return new ValidationResult("The Email field is required.", [nameof(documentSetFlow.Recipients)]);
             }
 
             // Solo se puede enviar un mensaje por SMS o WhatsApp a cada destinatario

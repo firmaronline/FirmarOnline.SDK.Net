@@ -28,7 +28,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// En este ejemplo se estabece en una propiedad estática para facilitar su uso en el código de ejemplo.
         /// Las claves de autenticación no deben exponerse en código fuente público ni compartirse de forma insegura.
         /// </remarks>
-        public static readonly string AuthenticationToken = "89ee784c-a4c5-417d-aab7-1685cb97eaaa"; // (LOCAL)"4869eb2c-7187-4f08-bf7e-d9eff564145a"; // (Sandbox)"89ee784c-a4c5-417d-aab7-1685cb97eaaa";
+        public static readonly string AuthenticationToken = "e199ba90-3c50-4715-9be8-dee52f9a87c7";
 
         // Valores avanzados para la creación de sobres
 
@@ -60,7 +60,7 @@ namespace FirmarOnline.Samples.ConsoleClient
         /// </summary>
         public static readonly CorporateSignature DocumentCorporateSignature = new()
         {
-            CorporateSignatureId = "XXX2FEF5B258E435A8887138C2D5BC1E", // Identificador de la firma corporativa
+            CorporateSignatureId = "XXXXXXXXXXXXXXXXXXXXXXXXXX", // Identificador de la firma corporativa
             Type = CorporateSignatureType.Start,
             Widgets = [
                 // Definición de la caj ade firma para el 1º documento

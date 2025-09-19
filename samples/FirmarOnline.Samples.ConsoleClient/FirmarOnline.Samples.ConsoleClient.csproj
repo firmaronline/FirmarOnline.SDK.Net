@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FirmarOnline.Clients.eSign" Version="6.0.0-beta007" />
-    <PackageReference Include="FirmarOnline.Clients.PSC" Version="6.0.0-beta007" />
-    <PackageReference Include="FirmarOnline.Clients.Verify" Version="6.0.0-beta007" />
+    <PackageReference Include="FirmarOnline.Clients.eSign" Version="6.0.0-beta008" />
+    <PackageReference Include="FirmarOnline.Clients.PSC" Version="6.0.0-beta008" />
+    <PackageReference Include="FirmarOnline.Clients.Verify" Version="6.0.0-beta008" />
   </ItemGroup>
 
 </Project>

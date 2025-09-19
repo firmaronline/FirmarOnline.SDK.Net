@@ -3,43 +3,46 @@
   <Class Name="FirmarOnline.Model.PSC.DocumentSetFlowWithOverrides">
     <Position X="11.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DocumentSetFlowWithOverrides.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.DocumentSetFlowUrlWithOverrides">
-    <Position X="7.25" Y="1.5" Width="2.75" />
+    <Position X="7.25" Y="1.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AABEAAAACAIgAIAACEIAAIAgAAAEEAAAAABAAEAgQAA=</HashCode>
+      <HashCode>AAQAAAAACAIgAAAACAIAAIAgAAAEEAAAAABAAEAgQAA=</HashCode>
       <FileName>DocumentSetFlowUrlWithOverrides.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="CorporateSignature" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Notifications" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.DocumentSetFlow">
     <Position X="3.75" Y="1.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAEAIAAAEAAAAAAAEAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAAAAEAAAAAAAAAAAAAEAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>DocumentSetFlow.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="FirmarOnline.Model.PSC.Document">
-    <Position X="2.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Document.cs</FileName>
-    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Documents" />
+      <Property Name="Recipients" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.RecipientFlow">
-    <Position X="5" Y="4.75" Width="1.5" />
+    <Position X="5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAECAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RecipientFlow.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Widgets" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.RecipientBase">
-    <Position X="4.75" Y="6.75" Width="2" />
+    <Position X="4.75" Y="8" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAEAAAIAQBQAAAAAAAAAEAAAAAgAAAA=</HashCode>
       <FileName>RecipientBase.cs</FileName>
@@ -49,7 +52,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.DocumentContent">
-    <Position X="1.75" Y="6.75" Width="2.25" />
+    <Position X="2" Y="8" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAAABIAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DocumentContent.cs</FileName>
@@ -61,6 +64,9 @@
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CorporateSignature.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Widgets" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.CorporateSignatureBase">
     <Position X="11.25" Y="6.25" Width="2.25" />
@@ -77,7 +83,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.RecipientAction">
-    <Position X="7.5" Y="6.75" Width="1.5" />
+    <Position X="7.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RecipientAction.cs</FileName>
@@ -86,7 +92,7 @@
   <Class Name="FirmarOnline.Model.PSC.DocumentSetBase">
     <Position X="0.5" Y="1.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAABAACBAAAgAAAAAAABAAACAAIAABAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAACAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DocumentSetBase.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -98,10 +104,31 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.RecipientAccessCode">
-    <Position X="5" Y="9.75" Width="1.75" />
+    <Position X="5" Y="11.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>RecipientAccessCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.RecipientCollection&lt;T&gt;">
+    <Position X="4.5" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEAAAAA=</HashCode>
+      <FileName>RecipientCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.DocumentColletion">
+    <Position X="1.75" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DocumentColletion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirmarOnline.Model.PSC.Document">
+    <Position X="2.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Document.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

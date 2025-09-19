@@ -33,7 +33,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         /// <param name="recipient">Definición del firmante</param>
         /// <returns>Un <see cref="ValidationResult"/> con el resultado de la validación</returns>
-        public static ValidationResult ValidateRecipient(RecipientWithSignatureType recipient)
+            public static ValidationResult ValidateRecipient(RecipientWithSignatureType recipient)
         {
             if (recipient.AuthType == RecipientAuthenticationType.AccessCode
                 && string.IsNullOrEmpty(recipient.AccessCode?.Challenge))

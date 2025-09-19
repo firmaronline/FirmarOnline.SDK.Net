@@ -6,7 +6,7 @@ namespace FirmarOnline.Model.PSC
     /// <summary>
     /// Define un sobre de firma remota con un único documento y destinatario
     /// </summary>
-    [CustomValidation(typeof(SimpleDocumentSet), nameof(ValidateSimpleDocumentSet), ErrorMessage = "The simple documentSet definition is not valid.")]
+    [CustomValidation(typeof(SimpleDocumentSet), nameof(ValidateDocumentTypeByCorporateSignature), ErrorMessage = "The documentSet definition is not valid.")]
     [CustomValidation(typeof(SimpleDocumentSet), nameof(ValidateDocumentTypeByActionType60), ErrorMessage = "The documentSet definition is not valid.")]
     public class SimpleDocumentSet : DocumentSetStandAloneBase
     {
@@ -26,48 +26,25 @@ namespace FirmarOnline.Model.PSC
         public SingleDocumentRecipient Recipient { get; set; }
 
         /// <summary>
-        /// Validación de la definición del sobre simple.
-        /// </summary>
-        /// <param name="simpleDocumentSet">Definición del sobre simple.</param>
-        /// <returns></returns>
-        public static ValidationResult ValidateSimpleDocumentSet(SimpleDocumentSet simpleDocumentSet)
-        {
-            // Validaciones si el contenido del documento es WebForm.
-#if NET6_0_OR_GREATER
-            if (simpleDocumentSet.Document.Form != null || simpleDocumentSet.Document.FormId != null)
-#else
-            if (simpleDocumentSet.Document.FormId != null)
-#endif
-            {
-                // Hay que verificar que el documento WebForm no tenga firma corporativa al inicio.
-                if (simpleDocumentSet.CorporateSignature != null &&
-                    (simpleDocumentSet.CorporateSignature.Type == CorporateSignatureType.Start || simpleDocumentSet.CorporateSignature.Type == CorporateSignatureType.StartAndEnd))
-                {
-                    return new ValidationResult("It is not possible set a corporate signature at the beginning if the content of the document is a WebForm.");
-                }
-
-                // Hay que verificar que el documento WebForm no se firme con certificado.
-                if (simpleDocumentSet.Recipient.ActionType == RecipientActionType.CryptoAPISignature)
-                {
-                    return new ValidationResult("It is not possible to set sign with customer certificate as the recipient action type if the content of the document is a WebFrom.");
-                }
-            }
-            return ValidationResult.Success;
-        }
-
-        /// <summary>
         /// Validación de que si hay un Action Type 60 no puede haber ningún WebForm.
         /// </summary>
         public static ValidationResult ValidateDocumentTypeByActionType60(SimpleDocumentSet simpleDocumentSet)
         {
-            if (CheckDocumentTypeByActionType60([simpleDocumentSet.Document], [simpleDocumentSet.Recipient]))
-            {
+            if (DocumentSetRules.CheckDocumentTypeByActionType60([simpleDocumentSet.Document], [simpleDocumentSet.Recipient]))
                 return ValidationResult.Success;
-            }
             else
-            {
                 return new ValidationResult("A document set cannot contain recipients with Action Type 60 and WebForms.", [nameof(simpleDocumentSet.Document)]);
-            }
+        }
+
+        /// <summary>
+        /// Validación de que si hay firma corporativa al inicio no puede haber ningún WebForm.
+        /// </summary>
+        public static ValidationResult ValidateDocumentTypeByCorporateSignature(SimpleDocumentSet simpleDocumentSet)
+        {
+            if (DocumentSetRules.CheckDocumentTypeByCorporateSignature(simpleDocumentSet.CorporateSignature, [simpleDocumentSet.Document]))
+                return ValidationResult.Success;
+            else
+                return new ValidationResult("It is not possible set a corporate signature at the beginning if the content of the document is a WebForm.");
         }
     }
 

@@ -44,7 +44,7 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                 Recipient = new SingleDocumentRecipient
                 {
                     Name = "John Sanders", // Nombre del destinatario
-                    Email = "javier.almodovar@edatalia.com", // Email del destinatario
+                    Email = "john.sanders@foo.com", // Email del destinatario
                     CardId = "12345678X", // Identificador del destinatario (puede ser un número de documento, NIE, etc.), obligatorio si se utiliza autenticación MRZ
                     PhoneNumber = "", // Número de teléfono del destinatario con el prefijo (Ejemplo: +34600112233), obligatorio si se utiliza una autenticación o acción que lo requiera
                     // DeviceId = "d8b64f3a-a1d4-4442-80df-7301eaa18bc1", // Si el método de envío es Device, indicaremos el dispositivo al que enviaremos el documento a firmar

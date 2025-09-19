@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirmarOnline.Model.Verify",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirmarOnline.Clients.Verify", "FirmarOnline.Clients.Verify\FirmarOnline.Clients.Verify.csproj", "{37A79EE5-7477-4CA7-A5F8-78601FD981F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirmarOnline.Model.PSC.Tests", "FirmarOnline.Model.PSC.Tests\FirmarOnline.Model.PSC.Tests.csproj", "{D83E9DAC-F1C1-4B58-82CB-973316CF158E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,12 @@ Global
 		{37A79EE5-7477-4CA7-A5F8-78601FD981F4}.Development|Any CPU.Build.0 = Development|Any CPU
 		{37A79EE5-7477-4CA7-A5F8-78601FD981F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37A79EE5-7477-4CA7-A5F8-78601FD981F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D83E9DAC-F1C1-4B58-82CB-973316CF158E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D83E9DAC-F1C1-4B58-82CB-973316CF158E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D83E9DAC-F1C1-4B58-82CB-973316CF158E}.Development|Any CPU.ActiveCfg = Release|Any CPU
+		{D83E9DAC-F1C1-4B58-82CB-973316CF158E}.Development|Any CPU.Build.0 = Release|Any CPU
+		{D83E9DAC-F1C1-4B58-82CB-973316CF158E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D83E9DAC-F1C1-4B58-82CB-973316CF158E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -48,7 +48,7 @@ namespace FirmarOnline.Samples.ConsoleClient.PSC
                     //Id = "REC-00001", // Identificador único del destinatario, si no se informa se generará automáticamente un identificador
                     //Order = 1, // Posición del destinatario en el flujo de firma, si se repite la posición se podrá firmar en paralelo
                     Name = "John Sanders", // Nombre del destinatario
-                    Email = "javier.almodovar@edatalia.com", // Email del destinatario
+                    Email = "john.sanders@foo.com", // Email del destinatario
                     CardId = "12345678X", // Identificador del destinatario (puede ser un número de documento, NIE, etc.), obligatorio si se utiliza autenticación MRZ
                     PhoneNumber = "", // Número de teléfono del destinatario con el prefijo (Ejemplo: +34600112233), obligatorio si se utiliza una autenticación o acción que lo requiera
                     AuthType = RecipientAuthenticationType.None, // Tipo de autenticación del destinatario (None, Basic, RecipientAccessCode, etc.)
