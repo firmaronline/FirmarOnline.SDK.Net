@@ -22,11 +22,12 @@ De esta forma, el SDK puede integrarse tanto en proyectos actuales como en soluc
 
 ---
 
-El repositorio incluye además una **aplicación de consola en .NET 8** que actúa como guía práctica para aprender a utilizar los paquetes NuGet y realizar llamadas reales a las APIs de FirmarOnline.  
+El repositorio incluye además **aplicaciones de ejemplo en .NET 8** que actúan como guía práctica para aprender a utilizar los paquetes NuGet y realizar llamadas reales a las APIs de FirmarOnline.  
 
-📂 Solución de ejemplos:  
+📂 Soluciones de ejemplo:  
 ```plaintext
 \FirmarOnline.SDK\samples\FirmarOnline.Samples.ConsoleClient\FirmarOnline.Samples.ConsoleClient.sln
+\FirmarOnline.SDK\samples\FirmarOnline.Samples.WebApi\FirmarOnline.Samples.WebApi.sln
 ```
 
 ---
@@ -34,7 +35,7 @@ El repositorio incluye además una **aplicación de consola en .NET 8** que act�
 ## 📑 Índice
 1. [🚀 Quickstart](#-quickstart)  
 2. [📦 Paquetes disponibles](#-paquetes-disponibles)  
-3. [🖥️ Ejemplos de uso (Console Client)](#️-ejemplos-de-uso-console-client)  
+3. [🖥️ Ejemplos de uso](#️-ejemplos-de-uso)  
 
 ---
 
@@ -112,19 +113,34 @@ Cada cliente dispone de su propia documentación con ejemplos de uso y listado d
 
 ---
 
-## 🖥️ Ejemplos de uso (Console Client)
+## 🖥️ Ejemplos de uso
 
+El repositorio incluye **aplicaciones de ejemplo en .NET 8** dentro de la carpeta `samples` que sirven como **guía práctica** para aprender a utilizar los paquetes NuGet del SDK y realizar llamadas reales a las APIs de FirmarOnline.
 
-El repositorio incluye una **aplicación de consola en .NET 8** dentro de la carpeta `samples`.  
-Este proyecto sirve como **guía práctica** para aprender a utilizar los paquetes NuGet del SDK y probar las APIs de **PSC**, **ESign** y **Verify** mediante un menú interactivo.
+### 🖥️ Console Client
 
-📂 Proyecto de ejemplo:  
+**Aplicación de consola** con menú interactivo para probar las APIs de **PSC**, **ESign** y **Verify**.
+
+📂 Proyecto:  
 ```plaintext
 \FirmarOnline.SDK\samples\FirmarOnline.Samples.ConsoleClient\FirmarOnline.Samples.ConsoleClient.sln
 ```
 
-La aplicación contiene **ejemplos listos para ejecutar**, que muestran cómo realizar llamadas reales a la API utilizando los clientes NuGet del SDK.
+La aplicación contiene **ejemplos listos para ejecutar** que muestran cómo realizar llamadas reales a la API utilizando los clientes NuGet del SDK.
 
 👉 Para más detalles consulta el [README del Console Client](samples/FirmarOnline.Samples.ConsoleClient/README.md).
+
+### 🌐 Web API
+
+**Aplicación ASP.NET Core** que demuestra cómo integrar el cliente PSC usando inyección de dependencias y exponer funcionalidades a través de una API REST.
+
+📂 Proyecto:  
+```plaintext
+\FirmarOnline.SDK\samples\FirmarOnline.Samples.WebApi\FirmarOnline.Samples.WebApi.sln
+```
+
+La aplicación incluye endpoints para **crear sobres de ejemplo** y **consultar el estado** de sobres existentes, mostrando cómo usar `PostDocumentSetSimpleAsync` y `GetDocumentSetStatusAsync` en un entorno web.
+
+👉 Para más detalles consulta el [README de la Web API](samples/FirmarOnline.Samples.WebApi/README.md).
 
 ---

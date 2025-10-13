@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FirmarOnline.Clients.PSC" Version="6.0.0-beta008" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="resources\sample_document.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="resources\sample_document.pdf" />
+  </ItemGroup>
+
+</Project>
