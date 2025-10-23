@@ -3,7 +3,15 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
         <Description>Cliente para acceso a la API pública de Firma Avanzada</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </Content>
+    </ItemGroup>
 
     <ItemGroup Condition="'$(UseProjectReference)' == 'true'">
         <ProjectReference Include="..\FirmarOnline.Clients.Common\FirmarOnline.Clients.Common.csproj" />
