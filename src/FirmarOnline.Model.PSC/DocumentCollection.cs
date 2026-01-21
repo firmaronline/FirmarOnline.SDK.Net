@@ -7,14 +7,14 @@ namespace FirmarOnline.Model.PSC
     /// <summary>
     /// Define una colección de documentos a firmar
     /// </summary>
-    [CustomValidation(typeof(DocumentColletion), nameof(ValidateOnlyOneFormId), ErrorMessage = "The documentSet definition is not valid.")]
-    [CustomValidation(typeof(DocumentColletion), nameof(ValidateDocumentsSortedByType), ErrorMessage = "The documentSet definition is not valid.")]
-    public class DocumentColletion : List<Document>
+    [CustomValidation(typeof(DocumentCollection), nameof(ValidateOnlyOneFormId), ErrorMessage = "The documentSet definition is not valid.")]
+    [CustomValidation(typeof(DocumentCollection), nameof(ValidateDocumentsSortedByType), ErrorMessage = "The documentSet definition is not valid.")]
+    public class DocumentCollection : List<Document>
     {
         /// <summary>
         /// Validación de que no puede haber más de un formulario definido mediante un identificador de formulario.
         /// </summary>
-        public static ValidationResult ValidateOnlyOneFormId(DocumentColletion documents)
+        public static ValidationResult ValidateOnlyOneFormId(DocumentCollection documents)
         {
             if (documents.Count(d => d.FormId != null) > 1)
                 return new ValidationResult("Only one WebForm can be defined by FormId.", [nameof(DocumentContent.FormId)]);
@@ -25,7 +25,7 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Validación de que los documentos estén agrupados. Todos los PDFs juntos y todos los Forms juntos.
         /// </summary>
-        public static ValidationResult ValidateDocumentsSortedByType(DocumentColletion documents)
+        public static ValidationResult ValidateDocumentsSortedByType(DocumentCollection documents)
         {
             if (!documents.Any()) return ValidationResult.Success;
 

@@ -24,9 +24,9 @@ namespace FirmarOnline.Model.PSC.Tests
         };
 #endif
 
-        internal static DocumentColletion DocumentColletionWithPdf(int count = 1)
+        internal static DocumentCollection DocumentColletionWithPdf(int count = 1)
         {
-            var coll = new DocumentColletion();
+            var coll = new DocumentCollection();
             coll.AddRange(Enumerable.Range(1, count).Select(n => new Document
             {
                 Id = $"doctest{n:D2}",

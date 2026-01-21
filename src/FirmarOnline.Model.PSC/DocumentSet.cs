@@ -21,7 +21,7 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Documentos
         /// </summary>
-        public DocumentColletion Documents { get; set; }
+        public DocumentCollection Documents { get; set; }
 
         /// <summary>
         /// Destinatarios

@@ -117,7 +117,7 @@ namespace FirmarOnline.Clients.Common
         }
 
         /// <summary>
-        /// Envía una petición PUT a la url especificada
+        /// Envía una petición DELETE a la url especificada
         /// </summary>
         /// <param name="url">La <see cref="Uri"/> a la que se enviará la petición</param>
         /// <returns>Un objeto <see cref="ApiResponse"/> con el estado devuelto.</returns>
@@ -127,7 +127,7 @@ namespace FirmarOnline.Clients.Common
         }
 
         /// <summary>
-        /// Envía una petición PUT a la url especificada
+        /// Envía una petición DELETE a la url especificada
         /// </summary>
         /// <param name="url">La url a la que se enviará la petición</param>
         /// <returns>Un objeto <see cref="ApiResponse"/> con el estado devuelto.</returns>
@@ -137,7 +137,7 @@ namespace FirmarOnline.Clients.Common
         }
 
         /// <summary>
-        /// Envía una petición PUT a la url especificada
+        /// Envía una petición DELETE a la url especificada
         /// </summary>
         /// <param name="url">La <see cref="Uri"/> a la que se enviará la petición</param>
         /// <typeparam name="TResponseData">Tipo de datos del valor devuelto</typeparam>
@@ -148,7 +148,7 @@ namespace FirmarOnline.Clients.Common
         }
 
         /// <summary>
-        /// Envía una petición PUT a la url especificada
+        /// Envía una petición DELETE a la url especificada
         /// </summary>
         /// <param name="url">La url a la que se enviará la petición</param>
         /// <typeparam name="TResponseData">Tipo de datos del valor devuelto</typeparam>
