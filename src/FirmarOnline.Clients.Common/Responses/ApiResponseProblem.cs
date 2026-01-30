@@ -55,11 +55,6 @@ namespace FirmarOnline.Clients.Common.Responses
                 RequestUri = response.RequestMessage?.RequestUri != null ? response.RequestMessage.RequestUri : null,
                 RequestMethod = response.RequestMessage?.Method != null ? new HttpMethod(response.RequestMessage.Method.Method) : null
             };
-            //try
-            //{
-            //    responseProblem.ProblemDetails = JsonSerializer.Deserialize<ProblemDetails>(responseContent, ApiDefaults.JsonSerializerOptions);
-            //}
-            //catch (JsonException) { }
             return responseProblem;
         }
     }

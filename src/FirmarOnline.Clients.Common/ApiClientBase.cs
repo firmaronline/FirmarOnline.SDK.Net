@@ -189,7 +189,14 @@ namespace FirmarOnline.Clients.Common
                 {
                     HttpStatusCode.Unauthorized => new UnauthorizedAccessException($"Unauthorized request to {uri}."),
                     HttpStatusCode.RequestTimeout => new TimeoutException($"Request to {uri} timed out."),
+#if NET6_0_OR_GREATER
+                    _ => new HttpRequestException(HttpRequestError.Unknown, message: reason, statusCode: status)
+                    {
+                        Source = uri
+                    }
+#else
                     _ => new HttpRequestException($"Request error calling {uri}. Status Code: {status}. Reason: {reason}. Content: {content}")
+#endif
                 };
             }
         }
