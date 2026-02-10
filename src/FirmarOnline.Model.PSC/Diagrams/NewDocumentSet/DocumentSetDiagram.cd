@@ -39,11 +39,11 @@
       <FileName>DocumentSetStandAloneBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="FirmarOnline.Model.PSC.DocumentColletion">
+  <Class Name="FirmarOnline.Model.PSC.DocumentCollection">
     <Position X="3.75" Y="3.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DocumentColletion.cs</FileName>
+      <FileName>DocumentCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.DocumentContent">
@@ -90,7 +90,7 @@
   <Class Name="FirmarOnline.Model.PSC.DocumentSetBase">
     <Position X="0.5" Y="4.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAABAACBAAAgAAAAAAABAAACAAIAABAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAACAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DocumentSetBase.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -102,7 +102,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.CorporateSignatureAction">
-    <Position X="14" Y="5.5" Width="2" />
+    <Position X="14.25" Y="5.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CorporateSignatureAction.cs</FileName>
@@ -125,7 +125,7 @@
   <Class Name="FirmarOnline.Model.PSC.RecipientCollection&lt;T&gt;">
     <Position X="7" Y="3.75" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RecipientCollection.cs</FileName>
     </TypeIdentifier>
   </Class>

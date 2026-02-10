@@ -103,11 +103,11 @@
       <FileName>RecipientAccessCode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="FirmarOnline.Model.PSC.DocumentColletion">
+  <Class Name="FirmarOnline.Model.PSC.DocumentCollection">
     <Position X="3.25" Y="3.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DocumentColletion.cs</FileName>
+      <FileName>DocumentCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.RecipientCollection&lt;T&gt;">

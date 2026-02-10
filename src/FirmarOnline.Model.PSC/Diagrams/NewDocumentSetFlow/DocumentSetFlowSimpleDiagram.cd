@@ -7,8 +7,8 @@
       <FileName>DocumentSetFlow.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Recipients" />
       <Property Name="Documents" />
+      <Property Name="Recipients" />
     </ShowAsAssociation>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.DocumentSetBase">
@@ -73,11 +73,11 @@
       <FileName>RecipientCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="FirmarOnline.Model.PSC.DocumentColletion">
+  <Class Name="FirmarOnline.Model.PSC.DocumentCollection">
     <Position X="5.5" Y="2.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DocumentColletion.cs</FileName>
+      <FileName>DocumentCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -3,14 +3,14 @@
   <Class Name="FirmarOnline.Model.PSC.DocumentSetFlowWithOverrides">
     <Position X="11.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAACAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DocumentSetFlowWithOverrides.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.DocumentSetFlowUrlWithOverrides">
     <Position X="7.25" Y="1.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAACAIgAAAACAIAAIAgAAAEEAAAAABAAEAgQAA=</HashCode>
+      <HashCode>AARAAAAACAIgAAACCAIAAIAgAAAEEAAABABAAEAgQAA=</HashCode>
       <FileName>DocumentSetFlowUrlWithOverrides.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -113,15 +113,15 @@
   <Class Name="FirmarOnline.Model.PSC.RecipientCollection&lt;T&gt;">
     <Position X="4.5" Y="4.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RecipientCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="FirmarOnline.Model.PSC.DocumentColletion">
+  <Class Name="FirmarOnline.Model.PSC.DocumentCollection">
     <Position X="1.75" Y="4.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DocumentColletion.cs</FileName>
+      <FileName>DocumentCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FirmarOnline.Model.PSC.Document">
