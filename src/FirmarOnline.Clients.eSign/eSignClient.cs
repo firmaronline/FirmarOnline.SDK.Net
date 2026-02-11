@@ -26,7 +26,7 @@ namespace FirmarOnline.Clients.eSign
         /// Inicializa una nueva instancia de <see cref="ESignClient"/>
         /// </summary>
         /// <param name="httpClientFactory">Factoría para crear instancias de <see cref="HttpClient"/></param>
-        protected ESignClient(IHttpClientFactory httpClientFactory)
+        public ESignClient(IHttpClientFactory httpClientFactory)
             : base(httpClientFactory) { }
 
         /// <summary>
