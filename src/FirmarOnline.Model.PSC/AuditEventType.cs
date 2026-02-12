@@ -286,7 +286,7 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// You may see the following drop reasons: Invalid SMTPAPI header, Spam Content (if Spam Checker app is enabled), Unsubscribed Address, Bounced Address, Spam Reporting Address, Invalid, Recipient List over Package Quota
         /// </summary>
-        [Display(Name = "Correo caido")]
+        [Display(Name = "Correo descartado")]
         DroppedMail = 404,
 
         /// <summary>
