@@ -63,9 +63,12 @@ namespace FirmarOnline.Model.PSC
                     [nameof(documentSet.ReminderDays), nameof(documentSet.ExpirationDaysTimeout)]);
             }
 
-            if (documentSet.Recipients.Any(
-                r => ((documentSet.SendMethod.UseSMS() ? 1 : 0) +
-                    (r.ActionType.UseSMS() ? 1 : 0) + (r.AuthType?.UseSMS() ?? false ? 1 : 0)) > 1))
+            if (documentSet.Recipients.Any(r => (
+                (documentSet.SendMethod.RequiresPhoneVerification() ? 1 : 0) +
+                (r.ActionType.RequiresPhoneVerification() ? 1 : 0) +
+                (r.AuthType == RecipientAuthenticationType.Mfa
+                    ? r.AuthSteps?.Count(s => s.Type.RequiresPhoneVerification()) ?? 0
+                    : (r.AuthType?.RequiresPhoneVerification() ?? false ? 1 : 0))) > 1))
             {
                 return new ValidationResult("Only one SMS or WhatsApp message per recipient is allowed.",
                     [nameof(SendMethod), nameof(Recipient.ActionType), nameof(Recipient.AuthType)]);
@@ -120,7 +123,7 @@ namespace FirmarOnline.Model.PSC
             if (DocumentSetRules.CheckDocumentTypeByCorporateSignature(documentSet.CorporateSignature, documentSet.Documents))
                 return ValidationResult.Success;
             else
-                return new ValidationResult("It is not possible set a corporate signature at the beginning if the content of the document is a WebForm.");                
+                return new ValidationResult("It is not possible set a corporate signature at the beginning if the content of the document is a WebForm.");
         }
     }
 }

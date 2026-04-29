@@ -1,7 +1,7 @@
 using Xunit;
 
 namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
-{ 
+{
     public class DocumentSetFlowUrlTests
     {
         private static DocumentSetFlowUrlWithOverrides NewBaseFlow(int countDocument = 1, int countRecipient = 1)
@@ -86,7 +86,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             ds.AuthenticationType = RecipientAuthenticationType.OtpWhatsApp;
             ds.ActionType = RecipientActionType.BioOTPWhatsAppSignature;
         }
-              
+
         [Fact]
         public void Fails_When_Parallel_Recipients_With_ActionType60()
         {
@@ -115,7 +115,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("corporate signature") || r.MemberNames != null);
         }
 
-        #endregion
+        #endregion "DocumentSetUrl"
 
         #region "Documents"
 
@@ -132,7 +132,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             var results = ValidationHelper.Validate(ds);
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("Exactly one of the following properties must be provided: B64PDFContent, Form, or FormId"));
         }
-        
+
         [Fact]
         public void Succeeds_When_WebFormTemplete()
         {
@@ -165,7 +165,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("Only one WebForm can be defined by FormId"));
         }
 
-        #endregion
+        #endregion "Documents"
 
         #region "Recpients"
 
@@ -199,8 +199,148 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("minimum length of '5'"));
         }
 
-        #endregion
+        #endregion "Recpients"
 
+        #region "Authentication"
+
+        [Fact]
+        public void Fails_When_AuthenticationType_AccessCode_Without_Challenge()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.AccessCode;
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("The access code challenge data is required"));
+        }
+
+        [Fact]
+        public void Succeeds_When_AuthenticationType_AccessCode_With_Challenge()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.AccessCode;
+            ds.AccessCode = new AccessCode { Challenge = "Informe su DNI:" };
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public void Succeeds_When_AuthenticationType_Mfa_With_Two_AuthSteps()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = "Informe su DNI:" }
+                },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public void Fails_When_AuthenticationType_Mfa_With_Less_Than_Two_AuthSteps()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+
+            // AuthSteps null
+            ds.AuthSteps = null;
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("MFA authentication requires at least two AuthSteps"));
+
+            // AuthSteps empty
+            ds.AuthSteps = [];
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("MFA authentication requires at least two AuthSteps"));
+
+            // AuthSteps with only one step
+            ds.AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("MFA authentication requires at least two AuthSteps"));
+        }
+
+        [Fact]
+        public void Fails_When_AuthenticationType_Mfa_With_Duplicated_AuthStep_Types()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = "DNI:" }
+                },
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = "Otro:" }
+                }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain duplicated Type values"));
+
+            ds.AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain duplicated Type values"));
+        }
+
+        [Fact]
+        public void Fails_When_AuthenticationType_Mfa_With_AccessCode_Step_Without_Challenge()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = null }
+                },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("The access code challenge data is required"));
+        }
+
+        [Fact]
+        public void Fails_When_AuthenticationType_Not_Mfa_With_AuthSteps()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Basic;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps can only be set when AuthenticationType is MFA"));
+
+            // También con AuthenticationType AccessCode (con AccessCode válido para aislar el fallo en AuthSteps)
+            ds.AuthenticationType = RecipientAuthenticationType.AccessCode;
+            ds.AccessCode = new AccessCode { Challenge = "DNI:" };
+
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps can only be set when AuthenticationType is MFA"));
+        }
+
+        #endregion "Authentication"
 
 #if NET6_0_OR_GREATER
 
@@ -229,7 +369,6 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             var results = ValidationHelper.Validate(ds);
             Assert.Contains(results, r => r.ErrorMessage != null && (r.ErrorMessage.Contains("A document set cannot contain recipients with Action Type 60 and WebForms")));
         }
-
 
         [Fact]
         public void Fails_When_WebForm_With_Multiple_Recipients()

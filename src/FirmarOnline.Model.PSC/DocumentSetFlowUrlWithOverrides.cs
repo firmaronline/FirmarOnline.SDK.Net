@@ -10,7 +10,7 @@ namespace FirmarOnline.Model.PSC
     [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentSetFlowUrlWithOverrides), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
     [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateParallelRecipientsWithActionType60), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
     [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentTypeByRecipients), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
-    [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentTypeByActionType60), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]    
+    [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentTypeByActionType60), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
     [CustomValidation(typeof(DocumentSetFlowUrlWithOverrides), nameof(ValidateDocumentTypeByCorporateSignature), ErrorMessage = "The documentSetFlowUrl definition is not valid.")]
     public class DocumentSetFlowUrlWithOverrides : DocumentSetFlow
     {
@@ -73,6 +73,11 @@ namespace FirmarOnline.Model.PSC
         public AccessCode AccessCode { get; set; }
 
         /// <summary>
+        /// Secuencia ordenada de pasos de autenticación (requerido si AuthenticationType = MFA).
+        /// </summary>
+        public AuthenticationStep[] AuthSteps { get; set; }
+
+        /// <summary>
         /// Notificaciones (envío de copia de documento firmado)
         /// </summary>
         public List<Notification> Notifications { get; set; }
@@ -91,6 +96,11 @@ namespace FirmarOnline.Model.PSC
         /// Validación de definición del sobre, comprueba:
         ///   - no se puede indicar un orden a los destinatarios cuando el método de envío es por Url
         ///   - que los días de validez del sobre sean más que los días para el envío de recordatorio
+        ///   - si el AuthenticationType es MFA, haya al menos dos AuthSteps
+        ///   - si el AuthenticationType es MFA, no haya AuthSteps con el mismo Type
+        ///   - si el AuthenticationType es MFA y existe un AuthStep con tipo AccessCode, su Challenge no esté vacío
+        ///   - si el AuthenticationType es AccessCode, se haya introducido la información para autenticación por código de acceso
+        ///   - si el AuthenticationType no es MFA, no se hayan definido AuthSteps
         ///   - no se puede enviar mas de un mensaje SMS o WhatsApp por destinatario
         /// </summary>
         /// <param name="documentSetFlowUrl">Definición del sobre</param>
@@ -108,15 +118,33 @@ namespace FirmarOnline.Model.PSC
                     [nameof(documentSetFlowUrl.ReminderDays), nameof(documentSetFlowUrl.ExpirationDaysTimeout)]);
             }
 
+            var authResult = ValidateAuthentication(documentSetFlowUrl);
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
             // Solo se puede enviar un mensaje por SMS o WhatsApp a cada destinatario
-            if (((documentSetFlowUrl.ActionType.HasValue && documentSetFlowUrl.ActionType.Value.UseSMS() ? 1 : 0) +
-                (documentSetFlowUrl.AuthenticationType.HasValue && documentSetFlowUrl.AuthenticationType.Value.UseSMS() ? 1 : 0)) > 1)
+            if (((documentSetFlowUrl.ActionType.HasValue && documentSetFlowUrl.ActionType.Value.RequiresPhoneVerification() ? 1 : 0) +
+                (documentSetFlowUrl.AuthenticationType == RecipientAuthenticationType.Mfa
+                    ? documentSetFlowUrl.AuthSteps?.Count(s => s.Type.RequiresPhoneVerification()) ?? 0
+                    : (documentSetFlowUrl.AuthenticationType.HasValue && documentSetFlowUrl.AuthenticationType.Value.RequiresPhoneVerification() ? 1 : 0))) > 1)
             {
                 return new ValidationResult("Only the sending of an SMS or WhatsApp by envelope generated to authenticate the recipient(s) is allowed.", [nameof(ActionType), nameof(AuthenticationType)]);
             }
 
             return ValidationResult.Success;
         }
+
+        private static ValidationResult ValidateAuthentication(DocumentSetFlowUrlWithOverrides flow) =>
+            flow.AuthenticationType switch
+            {
+                RecipientAuthenticationType.Mfa => AuthenticationStepRules.ValidateMfaSteps(flow.AuthSteps),
+                RecipientAuthenticationType.AccessCode =>
+                    AuthenticationStepRules.ValidateAccessCodeChallenge(flow.AccessCode?.Challenge)
+                        ?? AuthenticationStepRules.ValidateNoAuthSteps(flow.AuthSteps, nameof(AuthenticationType)),
+                _ => AuthenticationStepRules.ValidateNoAuthSteps(flow.AuthSteps, nameof(AuthenticationType))
+            };
 
         /// <summary>
         /// Validación de que si hay formularios no puede haber más de un destinatario.
@@ -154,7 +182,7 @@ namespace FirmarOnline.Model.PSC
         /// </summary>
         public static ValidationResult ValidateParallelRecipientsWithActionType60(DocumentSetFlowUrlWithOverrides documentSetFlowUrl)
         {
-            if (documentSetFlowUrl.ActionType == RecipientActionType.CryptoAPISignature && 
+            if (documentSetFlowUrl.ActionType == RecipientActionType.CryptoAPISignature &&
                 documentSetFlowUrl.Recipients.Where(r => r.Order != null).Any() &&
                 documentSetFlowUrl.Recipients.Where(r => r.Order != null).GroupBy(r => r.Order).Where(g => g.Count() > 1).Any())
             {

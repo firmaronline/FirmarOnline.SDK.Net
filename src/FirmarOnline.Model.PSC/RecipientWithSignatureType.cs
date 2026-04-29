@@ -26,28 +26,45 @@ namespace FirmarOnline.Model.PSC
         public RecipientActionType ActionType { get; set; }
 
         /// <summary>
+        /// Secuencia ordenada de pasos de autenticación (requerido si AuthType = MFA)
+        /// </summary>
+        public AuthenticationStep[] AuthSteps { get; set; }
+
+        /// <summary>
         /// Valida la definición del destinatario.
         /// Comprueba que
-        ///   - se haya introducido la información para autenticación por código de acceso
+        ///   - si el AuthType es MFA, haya al menos dos AuthSteps
+        ///   - si el AuthType es MFA, no haya AuthSteps con el mismo Type
+        ///   - si el AuthType es MFA y existe un AuthStep con tipo AccessCode, su Challenge no esté vacío
+        ///   - si el AuthType es AccessCode, se haya introducido la información para autenticación por código de acceso
+        ///   - si el AuthType no es MFA, no se hayan definido AuthSteps
         ///   - no se hayan definido anexos para el actionType de notificación
         /// </summary>
         /// <param name="recipient">Definición del firmante</param>
         /// <returns>Un <see cref="ValidationResult"/> con el resultado de la validación</returns>
-            public static ValidationResult ValidateRecipient(RecipientWithSignatureType recipient)
+        public static ValidationResult ValidateRecipient(RecipientWithSignatureType recipient)
         {
-            if (recipient.AuthType == RecipientAuthenticationType.AccessCode
-                && string.IsNullOrEmpty(recipient.AccessCode?.Challenge))
-            {
-                return new ValidationResult("The access code challenge data is required.", [nameof(AccessCode)]);
-            }
+            return ValidateAuthentication(recipient)
+                ?? ValidateAttachments(recipient)
+                ?? ValidationResult.Success;
+        }
 
-            if (recipient.ActionType == RecipientActionType.CertifiedNotification
-                && (recipient.Attachments?.Count() ?? 0) > 0)
+        private static ValidationResult ValidateAuthentication(RecipientWithSignatureType recipient) =>
+            recipient.AuthType switch
             {
-                return new ValidationResult($"The field {nameof(Attachments)} is not valid.", [nameof(Attachments)]);
-            }
+                RecipientAuthenticationType.Mfa => AuthenticationStepRules.ValidateMfaSteps(recipient.AuthSteps),
+                RecipientAuthenticationType.AccessCode =>
+                    AuthenticationStepRules.ValidateAccessCodeChallenge(recipient.AccessCode?.Challenge)
+                        ?? AuthenticationStepRules.ValidateNoAuthSteps(recipient.AuthSteps, nameof(AuthType)),
+                _ => AuthenticationStepRules.ValidateNoAuthSteps(recipient.AuthSteps, nameof(AuthType))
+            };
 
-            return ValidationResult.Success;
+        private static ValidationResult ValidateAttachments(RecipientWithSignatureType recipient)
+        {
+            return recipient.ActionType == RecipientActionType.CertifiedNotification
+                && (recipient.Attachments?.Any() ?? false)
+                ? new ValidationResult($"The field {nameof(Attachments)} is not valid.", [nameof(Attachments)])
+                : null;
         }
     }
 }

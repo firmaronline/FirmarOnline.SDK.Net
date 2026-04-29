@@ -47,7 +47,13 @@ namespace FirmarOnline.Model.PSC
         /// Autenticación mediante OTP por Whatsapp
         /// </summary>
         [Display(Name = "OTP WhatsApp")]
-        OtpWhatsApp = 41
+        OtpWhatsApp = 41,
+
+        /// <summary>
+        /// Autenticación multifactor
+        /// </summary>
+        [Display(Name = "MFA")]
+        Mfa = 100
     }
 
     /// <summary>
@@ -56,13 +62,11 @@ namespace FirmarOnline.Model.PSC
     public static class RecipientAuthenticationTypeExtensions
     {
         /// <summary>
-        /// Indica si el <see cref="RecipientAuthenticationType"/> utiliza
-        /// envío de mensajes SMS.
+        /// Indica si el <see cref="RecipientAuthenticationType"/> requiere verificación del teléfono.
         /// </summary>
-        /// <param name="authenticationType"><see cref="RecipientAuthenticationType"/>
-        /// a comprobar.</param>
-        /// <returns>True si utiliza envío de SMS, en otro caso devuelve False.</returns>
-        public static bool UseSMS(this RecipientAuthenticationType authenticationType)
+        /// <param name="authenticationType"><see cref="RecipientAuthenticationType"/> a comprobar.</param>
+        /// <returns>True si utiliza verificación del teléfono, en otro caso devuelve False.</returns>
+        public static bool RequiresPhoneVerification(this RecipientAuthenticationType authenticationType)
         {
             return authenticationType == RecipientAuthenticationType.Otp || authenticationType == RecipientAuthenticationType.OtpWhatsApp;
         }

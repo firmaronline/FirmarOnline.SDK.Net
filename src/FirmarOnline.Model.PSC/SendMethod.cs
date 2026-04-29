@@ -35,7 +35,7 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Dispositivo.
         /// </summary>
-        [Display(Name ="Device")]
+        [Display(Name = "Device")]
         Device
     }
 
@@ -47,25 +47,24 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Lista con todos los métodos de envío que no son a dispositivo
         /// </summary>
-        static readonly SendMethod[] _sendMethodsToCheck = [SendMethod.None, SendMethod.SMS, SendMethod.Email, SendMethod.WhatsApp];
+        private static readonly SendMethod[] _sendMethodsToCheck = [SendMethod.None, SendMethod.SMS, SendMethod.Email, SendMethod.WhatsApp];
 
         /// <summary>
-        /// Indica si el <see cref="SendMethod"/> utiliza envío
-        /// de mensajes SMS o WhatsApp.
+        /// Indica si el <see cref="SendMethod"/> requiere verificación del teléfono.
         /// </summary>
         /// <param name="sendMethod"><see cref="SendMethod"/> a comprobar.</param>
-        /// <returns>True si utiliza envío de SMS o WhatsApp, en otro caso devuelve False</returns>
-        public static bool UseSMS(this SendMethod sendMethod)
+        /// <returns>True si utiliza verificación del teléfono, en otro caso devuelve False</returns>
+        public static bool RequiresPhoneVerification(this SendMethod sendMethod)
         {
             return sendMethod == SendMethod.SMS || sendMethod == SendMethod.WhatsApp;
         }
 
         /// <summary>
-        /// Indica si la lista de <see cref="SendMethod"/> contiene todos los metodos de 
+        /// Indica si la lista de <see cref="SendMethod"/> contiene todos los metodos de
         /// envío que no son a dispositivo.
         /// </summary>
         /// <param name="sendMethod"><see cref="SendMethod"/> a comprobar.</param>
-        /// <returns>True se indican todos los métodos de envío que no son a dispotivo, 
+        /// <returns>True se indican todos los métodos de envío que no son a dispotivo,
         /// en otro caso devuelve False</returns>
         public static bool IsAllNotDevice(this SendMethod[] sendMethod)
         {

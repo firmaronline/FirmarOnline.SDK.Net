@@ -243,6 +243,117 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
             Assert.Empty(results);
         }
 
+        [Fact]
+        public void Succeeds_When_Recipient_AuthType_Mfa_With_Two_AuthSteps()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode
+                    {
+                        Challenge = "Informe su DNI:",
+                        Response = "12345678X"
+                    }
+                },
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.Otp
+                }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public void Fails_When_Recipient_AuthType_Mfa_With_Less_Than_Two_AuthSteps()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+
+            // AuthSteps null
+            ds.Recipients[0].AuthSteps = null;
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("MFA authentication requires at least two AuthSteps"));
+
+            // AuthSteps empty
+            ds.Recipients[0].AuthSteps = [];
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("MFA authentication requires at least two AuthSteps"));
+
+            // AuthSteps with only one step
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.Otp
+                }
+            ];
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("MFA authentication requires at least two AuthSteps"));
+        }
+
+        [Fact]
+        public void Fails_When_Recipient_AuthType_Not_Mfa_With_AuthSteps()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Basic;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.Otp
+                }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps can only be set when AuthType is MFA"));
+
+            // También con AuthType AccessCode (con AccessCode válido, para aislar el fallo en AuthSteps)
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.AccessCode;
+            ds.Recipients[0].AccessCode = new RecipientAccessCode { Challenge = "DNI:" };
+
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps can only be set when AuthType is MFA"));
+        }
+
+        [Fact]
+        public void Fails_When_Recipient_AuthType_Mfa_With_Duplicated_AuthStep_Types()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = "DNI:" }
+                },
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = "Otro:" }
+                }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain duplicated Type values"));
+
+            // También con otro tipo (Otp)
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain duplicated Type values"));
+        }
+
         #endregion
 
 #if NET6_0_OR_GREATER

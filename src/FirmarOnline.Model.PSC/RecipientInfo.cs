@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC
 {
     /// <summary>
-    /// Información del interesado
+    /// Información del destinatario.
     /// </summary>
     public class RecipientInfo
     {
@@ -47,6 +48,11 @@ namespace FirmarOnline.Model.PSC
         /// Tipo de autenticación que debe realizar el destinatario sobre los documentos
         /// </summary>
         public RecipientAuthenticationType AuthType { get; set; }
+
+        /// <summary>
+        /// Secuencia de pasos de autenticación (presente si AuthType = MFA)
+        /// </summary>
+        public AuthenticationStepInfo[] AuthSteps { get; set; }
 
         /// <summary>
         /// Acción que debe realizar el destinatario sobre los documentos

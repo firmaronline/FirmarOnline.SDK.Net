@@ -43,12 +43,14 @@ namespace FirmarOnline.Model.PSC
             }
 
             // Solo se puede enviar un mensaje por SMS o WhatsApp a cada destinatario
-            if (((documentSetFlow.SendMethod.HasValue && documentSetFlow.SendMethod.Value.UseSMS() ? 1 : 0) +
-                 (documentSetFlow.ActionType.HasValue && documentSetFlow.ActionType.Value.UseSMS() ? 1 : 0) +
-                 (documentSetFlow.AuthenticationType.HasValue && documentSetFlow.AuthenticationType.Value.UseSMS() ? 1 : 0)) > 1)
+            if (((documentSetFlow.SendMethod.HasValue && documentSetFlow.SendMethod.Value.RequiresPhoneVerification() ? 1 : 0) +
+                 (documentSetFlow.ActionType.HasValue && documentSetFlow.ActionType.Value.RequiresPhoneVerification() ? 1 : 0) +
+                 (documentSetFlow.AuthenticationType == RecipientAuthenticationType.Mfa
+                    ? documentSetFlow.AuthSteps?.Count(s => s.Type.RequiresPhoneVerification()) ?? 0
+                    : (documentSetFlow.AuthenticationType.HasValue && documentSetFlow.AuthenticationType.Value.RequiresPhoneVerification() ? 1 : 0))) > 1)
             {
                 return new ValidationResult("Only the sending of an SMS or WhatsApp by envelope generated to authenticate the recipient(s) is allowed.",
-                        [nameof(SendMethod), nameof(ActionType), nameof(AuthenticationType)]);
+                    [nameof(SendMethod), nameof(ActionType), nameof(AuthenticationType)]);
             }
 
             return ValidationResult.Success;

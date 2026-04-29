@@ -74,12 +74,11 @@ namespace FirmarOnline.Model.PSC
     public static class RecipientActionTypeExtensions
     {
         /// <summary>
-        /// Indica si el <see cref="RecipientActionType"/> utiliza envío
-        /// de mensajes SMS
+        /// Indica si el <see cref="RecipientActionType"/> requiere verificación de teléfono.
         /// </summary>
         /// <param name="actionType"><see cref="RecipientActionType"/> a comprobar.</param>
-        /// <returns>True si utiliza envío de SMS, en otro caso devuelve False.</returns>
-        public static bool UseSMS(this RecipientActionType actionType)
+        /// <returns>True si utiliza verificación del teléfono, en otro caso devuelve False.</returns>
+        public static bool RequiresPhoneVerification(this RecipientActionType actionType)
         {
             return actionType == RecipientActionType.OTPSignature ||
                 actionType == RecipientActionType.OTPWhatsAppSignature ||
