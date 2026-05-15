@@ -25,6 +25,11 @@ namespace FirmarOnline.Model.PSC
                 return new ValidationResult("MFA authentication requires at least two AuthSteps.", [AuthStepsName]);
             }
 
+            if (authSteps.Any(s => s.Type == RecipientAuthenticationType.None))
+            {
+                return new ValidationResult("AuthSteps cannot contain a step with Type None.", [AuthStepsName]);
+            }
+
             if (authSteps.GroupBy(s => s.Type).Any(g => g.Count() > 1))
             {
                 return new ValidationResult("AuthSteps cannot contain duplicated Type values.", [AuthStepsName]);

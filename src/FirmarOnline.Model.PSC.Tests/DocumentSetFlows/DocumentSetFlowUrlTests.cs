@@ -301,6 +301,21 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
         }
 
         [Fact]
+        public void Fails_When_AuthenticationType_Mfa_With_AuthStep_Type_None()
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.None },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain a step with Type None"));
+        }
+
+        [Fact]
         public void Fails_When_AuthenticationType_Mfa_With_AccessCode_Step_Without_Challenge()
         {
             var ds = NewBaseFlow();

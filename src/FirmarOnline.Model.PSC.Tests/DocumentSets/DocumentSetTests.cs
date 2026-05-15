@@ -7,7 +7,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
         private static DocumentSet NewBaseDocSet(int countDocument = 1, int countRecipient = 1)
         {
             return new DocumentSet
-            {               
+            {
                 DocumentSetName = "DocumentSet for testing",
                 SenderName = "Test Sender",
                 SenderMail = "testsender@foo.com",
@@ -145,7 +145,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
             Assert.Contains(results, r => r.ErrorMessage != null && (r.ErrorMessage.Contains("parallel") || r.ErrorMessage.Contains("Action Type 60")));
         }
 
-        #endregion
+        #endregion "DocumentSet"
 
         #region "Documents"
 
@@ -167,7 +167,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
         public void Succeeds_When_Multiple_Pdf()
         {
             var ds = NewBaseDocSet(countDocument: 2);
-            
+
             var results = ValidationHelper.Validate(ds);
             Assert.Empty(results);
         }
@@ -185,7 +185,7 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("Only one WebForm can be defined by FormId"));
         }
 
-        #endregion
+        #endregion "Documents"
 
         #region "Recpients"
 
@@ -234,7 +234,8 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
         {
             var ds = NewBaseDocSet();
             ds.Recipients[0].AuthType = RecipientAuthenticationType.AccessCode;
-            ds.Recipients[0].AccessCode = new RecipientAccessCode() {
+            ds.Recipients[0].AccessCode = new RecipientAccessCode()
+            {
                 Challenge = "Informe su DNI:",
                 Response = "12345678X"
             };
@@ -354,7 +355,22 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain duplicated Type values"));
         }
 
-        #endregion
+        [Fact]
+        public void Fails_When_Recipient_AuthType_Mfa_With_AuthStep_Type_None()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.None },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain a step with Type None"));
+        }
+
+        #endregion "Recpients"
 
 #if NET6_0_OR_GREATER
         [Fact]
@@ -454,6 +470,5 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("WebForms and PDFs must be groupe"));
         }
 #endif
-
     }
 }

@@ -97,6 +97,7 @@ namespace FirmarOnline.Model.PSC
         ///   - no se puede indicar un orden a los destinatarios cuando el método de envío es por Url
         ///   - que los días de validez del sobre sean más que los días para el envío de recordatorio
         ///   - si el AuthenticationType es MFA, haya al menos dos AuthSteps
+        ///   - si el AuthenticationType es MFA, ningún AuthStep tenga Type None
         ///   - si el AuthenticationType es MFA, no haya AuthSteps con el mismo Type
         ///   - si el AuthenticationType es MFA y existe un AuthStep con tipo AccessCode, su Challenge no esté vacío
         ///   - si el AuthenticationType es AccessCode, se haya introducido la información para autenticación por código de acceso

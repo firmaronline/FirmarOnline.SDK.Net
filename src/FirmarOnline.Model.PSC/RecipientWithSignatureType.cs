@@ -34,6 +34,7 @@ namespace FirmarOnline.Model.PSC
         /// Valida la definición del destinatario.
         /// Comprueba que
         ///   - si el AuthType es MFA, haya al menos dos AuthSteps
+        ///   - si el AuthType es MFA, ningún AuthStep tenga Type None
         ///   - si el AuthType es MFA, no haya AuthSteps con el mismo Type
         ///   - si el AuthType es MFA y existe un AuthStep con tipo AccessCode, su Challenge no esté vacío
         ///   - si el AuthType es AccessCode, se haya introducido la información para autenticación por código de acceso
