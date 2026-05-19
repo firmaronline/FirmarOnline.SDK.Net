@@ -50,6 +50,18 @@ namespace FirmarOnline.Model.PSC
         OtpWhatsApp = 41,
 
         /// <summary>
+        /// Autenticación mediante OTP por email.
+        /// </summary>
+        [Display(Name = "OTP Email")]
+        OtpEmail = 42,
+
+        /// <summary>
+        /// Autenticación mediante reconocimiento facial (Liveness).
+        /// </summary>
+        [Display(Name = "Liveness")]
+        Liveness = 70,
+
+        /// <summary>
         /// Autenticación multifactor
         /// </summary>
         [Display(Name = "MFA")]
@@ -68,7 +80,19 @@ namespace FirmarOnline.Model.PSC
         /// <returns>True si utiliza verificación del teléfono, en otro caso devuelve False.</returns>
         public static bool RequiresPhoneVerification(this RecipientAuthenticationType authenticationType)
         {
-            return authenticationType == RecipientAuthenticationType.Otp || authenticationType == RecipientAuthenticationType.OtpWhatsApp;
+            return
+                authenticationType == RecipientAuthenticationType.Otp ||
+                authenticationType == RecipientAuthenticationType.OtpWhatsApp;
+        }
+
+        /// <summary>
+        /// Indica si el <see cref="RecipientAuthenticationType"/> requiere verificación por email.
+        /// </summary>
+        /// <param name="authenticationType"><see cref="RecipientAuthenticationType"/> a comprobar.</param>
+        /// <returns>True si utiliza verificación por email, en otro caso devuelve False.</returns>
+        public static bool RequiresEmailVerification(this RecipientAuthenticationType authenticationType)
+        {
+            return authenticationType == RecipientAuthenticationType.OtpEmail;
         }
     }
 }

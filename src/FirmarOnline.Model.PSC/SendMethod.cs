@@ -60,6 +60,16 @@ namespace FirmarOnline.Model.PSC
         }
 
         /// <summary>
+        /// Indica si el <see cref="SendMethod"/> utiliza envío por email.
+        /// </summary>
+        /// <param name="sendMethod"><see cref="SendMethod"/> a comprobar.</param>
+        /// <returns>True si utiliza envío por email, en otro caso devuelve False.</returns>
+        public static bool RequiresEmailDelivery(this SendMethod sendMethod)
+        {
+            return sendMethod == SendMethod.Email;
+        }
+
+        /// <summary>
         /// Indica si la lista de <see cref="SendMethod"/> contiene todos los metodos de
         /// envío que no son a dispositivo.
         /// </summary>

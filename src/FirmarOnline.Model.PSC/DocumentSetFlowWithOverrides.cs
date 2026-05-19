@@ -53,6 +53,16 @@ namespace FirmarOnline.Model.PSC
                     [nameof(SendMethod), nameof(ActionType), nameof(AuthenticationType)]);
             }
 
+            // No se puede usar envío por email y autenticación OTP Email a la vez
+            if (documentSetFlow.SendMethod.HasValue && documentSetFlow.SendMethod.Value.RequiresEmailDelivery() &&
+                (documentSetFlow.AuthenticationType == RecipientAuthenticationType.Mfa
+                    ? documentSetFlow.AuthSteps?.Any(s => s.Type.RequiresEmailVerification()) ?? false
+                    : (documentSetFlow.AuthenticationType.HasValue && documentSetFlow.AuthenticationType.Value.RequiresEmailVerification())))
+            {
+                return new ValidationResult("Email delivery and OTP Email authentication cannot be used together.",
+                    [nameof(SendMethod), nameof(AuthenticationType)]);
+            }
+
             return ValidationResult.Success;
         }
     }

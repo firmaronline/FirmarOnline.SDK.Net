@@ -104,6 +104,28 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
         }
 
         [Fact]
+        public void Fails_When_Email_SendMethod_And_OtpEmail_Authentication()
+        {
+            var ds = NewBaseDocSet();
+            ds.SendMethod = SendMethod.Email;
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.OtpEmail;
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("Email delivery and OTP Email authentication cannot be used together"));
+
+            // También con MFA que incluya un paso OtpEmail
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.OtpEmail },
+                new AuthenticationStep { Type = RecipientAuthenticationType.AccessCode, AccessCode = new RecipientAccessCode { Challenge = "DNI:" } }
+            ];
+
+            results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("Email delivery and OTP Email authentication cannot be used together"));
+        }
+
+        [Fact]
         public void Fails_When_RecipientsOrder_Not_SendMethodUrl()
         {
             var ds = NewBaseDocSet(countRecipient: 2);

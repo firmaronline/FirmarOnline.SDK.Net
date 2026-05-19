@@ -251,6 +251,30 @@ namespace FirmarOnline.Model.PSC
         [Display(Name = "Anexo.")]
         Attachment = 326,
 
+        /// <summary>
+        /// Autenticación por OTP Email válida.
+        /// </summary>
+        [Display(Name = "Autenticación por OTP Email válida")]
+        AuthenticationOtpEmailValidated = 327,
+
+        /// <summary>
+        /// Autenticación por OTP Email inválida.
+        /// </summary>
+        [Display(Name = "Autenticación por OTP Email inválida")]
+        AuthenticationOtpEmailNotValidated = 328,
+
+        /// <summary>
+        /// Autenticación por Liveness válida.
+        /// </summary>
+        [Display(Name = "Autenticación por Liveness válida")]
+        AuthenticationLivenessValidated = 329,
+
+        /// <summary>
+        /// Autenticación por Liveness inválida.
+        /// </summary>
+        [Display(Name = "Autenticación por Liveness inválida")]
+        AuthenticationLivenessNotValidated = 330,
+
         // Notificaciones
         /// <summary>
         /// Inicio del proceso mail a proveedor

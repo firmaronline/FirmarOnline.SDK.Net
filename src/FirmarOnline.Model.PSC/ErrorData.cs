@@ -63,6 +63,16 @@
         /// <summary>
         /// Error enviado por un dispositivo
         /// </summary>
-        DeviceError
+        DeviceError,
+
+        /// <summary>
+        /// Error en la validación de los OTP por Email.
+        /// </summary>
+        ValidationOTPEmail,
+
+        /// <summary>
+        /// Error en la validación de Liveness.
+        /// </summary>
+        ValidationLiveness
     }
 }
