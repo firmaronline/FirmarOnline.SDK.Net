@@ -4,7 +4,7 @@ using System.Linq;
 namespace FirmarOnline.Model.PSC
 {
     /// <summary>
-    /// Método de envío
+    /// Método de envío.
     /// </summary>
     public enum SendMethod
     {
@@ -12,31 +12,31 @@ namespace FirmarOnline.Model.PSC
         /// Ninguno
         /// </summary>
         [Display(Name = "Ninguno")]
-        None,
+        None = 0,
 
         /// <summary>
         /// Email
         /// </summary>
         [Display(Name = "Email")]
-        Email,
+        Email = 1,
 
         /// <summary>
         /// SMS
         /// </summary>
         [Display(Name = "SMS")]
-        SMS,
+        SMS = 2,
 
         /// <summary>
         /// WhatsApp
         /// </summary>
         [Display(Name = "WhatsApp")]
-        WhatsApp,
+        WhatsApp = 3,
 
         /// <summary>
         /// Dispositivo.
         /// </summary>
         [Display(Name = "Device")]
-        Device
+        Device = 4
     }
 
     /// <summary>

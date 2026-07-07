@@ -12,6 +12,7 @@ using System.IO;
 using System.Net.Http.Json;
 #else
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 #endif
 
@@ -184,21 +185,51 @@ namespace FirmarOnline.Clients.Common
                 var status = response.StatusCode;
                 var reason = response.Problem?.ReasonPhrase ?? "No reason provided";
                 var content = response.Problem?.Content ?? string.Empty;
+                var detail = GetDetailFromContent(content);
 
                 throw response.StatusCode switch
                 {
                     HttpStatusCode.Unauthorized => new UnauthorizedAccessException($"Unauthorized request to {uri}."),
                     HttpStatusCode.RequestTimeout => new TimeoutException($"Request to {uri} timed out."),
 #if NET6_0_OR_GREATER
-                    _ => new HttpRequestException(HttpRequestError.Unknown, message: reason, statusCode: status)
+                    _ => new HttpRequestException(HttpRequestError.Unknown, message: detail ?? reason, statusCode: status)
                     {
                         Source = uri
                     }
 #else
-                    _ => new HttpRequestException($"Request error calling {uri}. Status Code: {status}. Reason: {reason}. Content: {content}")
+                    _ => new HttpRequestException($"Request error calling {uri}. Status Code: {status}. Reason: {detail ?? reason}. Content: {content}")
 #endif
                 };
             }
+        }
+
+        /// <summary>
+        /// Extrae el valor de la propiedad "detail" de un contenido JSON de respuesta de error.
+        /// </summary>
+        /// <param name="content">Contenido JSON de la respuesta</param>
+        /// <returns>El valor de "detail" si existe, o <see langword="null"/> si no se puede extraer.</returns>
+        private static string GetDetailFromContent(string content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+                return null;
+
+            try
+            {
+#if NET6_0_OR_GREATER
+                using var doc = System.Text.Json.JsonDocument.Parse(content);
+                if (doc.RootElement.TryGetProperty("detail", out var detailElement))
+                    return detailElement.GetString();
+#else
+                var json = JObject.Parse(content);
+                return json["detail"]?.Value<string>();
+#endif
+            }
+            catch
+            {
+                // Si el contenido no es JSON válido, se ignora y se devuelve null
+            }
+
+            return null;
         }
 
         /// <summary>
