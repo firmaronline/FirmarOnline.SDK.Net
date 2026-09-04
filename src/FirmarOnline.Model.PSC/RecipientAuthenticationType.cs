@@ -62,6 +62,12 @@ namespace FirmarOnline.Model.PSC
         Liveness = 70,
 
         /// <summary>
+        /// Autenticación mediante reconocimiento facial con verificación de documento (Liveness con Documento).
+        /// </summary>
+        [Display(Name = "Liveness y CardId")]
+        LivenessAndCardId = 71,
+
+        /// <summary>
         /// Autenticación multifactor
         /// </summary>
         [Display(Name = "MFA")]

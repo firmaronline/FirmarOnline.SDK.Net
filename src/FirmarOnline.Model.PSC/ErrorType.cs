@@ -73,6 +73,11 @@
         /// <summary>
         /// Error en la validación de Liveness.
         /// </summary>
-        ValidationLiveness = 13
+        ValidationLiveness = 13,
+
+        /// <summary>
+        /// Error en la validación de Liveness con Documento.
+        /// </summary>
+        ValidationLivenessAndCardId = 14
     }
 }

@@ -275,6 +275,18 @@ namespace FirmarOnline.Model.PSC
         [Display(Name = "Autenticación por Liveness inválida")]
         AuthenticationLivenessNotValidated = 330,
 
+        /// <summary>
+        /// Autenticación por Liveness con Documento válida.
+        /// </summary>
+        [Display(Name = "Autenticación por Liveness y CardIdválida")]
+        AuthenticationLivenessAndCardIdValidated = 331,
+
+        /// <summary>
+        /// Autenticación por Liveness con Documento inválida.
+        /// </summary>
+        [Display(Name = "Autenticación por Liveness y CardId inválida")]
+        AuthenticationLivenessAndCardIdNotValidated = 332,
+
         // Notificaciones
         /// <summary>
         /// Inicio del proceso mail a proveedor
