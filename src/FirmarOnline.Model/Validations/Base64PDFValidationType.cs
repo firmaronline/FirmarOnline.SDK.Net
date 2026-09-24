@@ -6,7 +6,7 @@ namespace FirmarOnline.Model.Validations
     /// <summary>
     /// Tipo para validar archivos PDF en base64
     /// </summary>
-    public class Base64PDFValidationType : StringValidationTypeBase
+    public class Base64PDFValidationType : Base64ValidationType
     {
         /// <summary>
         /// Comprueba si el contenido comienza con la cabecera de PDF %PDF-
@@ -15,6 +15,7 @@ namespace FirmarOnline.Model.Validations
         /// <returns>true si el valor es válido, de lo contrario false</returns>
         public override bool IsValid(string value)
         {
+            if (!base.IsValid(value)) { return false; }
             var pdfHeader = Encoding.ASCII.GetBytes("%PDF-");
 
             try

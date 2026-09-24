@@ -3,7 +3,7 @@
     /// <summary>
     /// Valida si una cadena base64 es una imagen JPG válida
     /// </summary>
-    public class Base64JPGValidationType : StringValidationTypeBase
+    public class Base64JPGValidationType : Base64ValidationType
     {
         /// <summary>
         /// Implementación comprobación
@@ -12,6 +12,7 @@
         /// <returns>true es jpg, false no</returns>
         public override bool IsValid(string value)
         {
+            if (!base.IsValid(value)) {  return false; }
             if (string.IsNullOrWhiteSpace(value) || value.Length < 5)
             {
                 return false;

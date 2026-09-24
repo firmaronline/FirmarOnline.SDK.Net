@@ -26,7 +26,6 @@ namespace FirmarOnline.Samples.ConsoleClient.ESign
                 SessionCode = "String_123456", // Código de sesión para el cálculo de hashes del OTP
                 UserId = "String_430", // Identificador de usuario para el cálculo de hashes del OTP
                 PhoneNumber = phoneNumber,  // N.º de teléfono al que se enviará el SMS con el código OTP
-                From = "Firmaonline", // Emisor del SMS
                 Text = "Hola! Introduzca FO-##OTP## para firmar." // Texto del SMS, usar ##OTP## para poner el OTP
             };
 

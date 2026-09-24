@@ -42,12 +42,6 @@ namespace FirmarOnline.Model.eSign
         public string Text { get; set; }
 
         /// <summary>
-        /// Emisor del SMS
-        /// </summary>
-        [MaxLength(11)]
-        public string From { get; set; } = "firmaonline";
-
-        /// <summary>
         /// Validaciones del modelo de datos
         /// </summary>
         /// <param name="generateOTP">Datos para la generación y envío de un nuevo OTP</param>
