@@ -75,6 +75,12 @@ namespace FirmarOnline.Model.PSC
         [Display(Name = "Purgado manual")]
         DocumentSetPurgeManual = 110,
 
+        /// <summary>
+        /// Purgado automático
+        /// </summary>
+        [Display(Name = "Purgado automático")]
+        DocumentSetPurgeAuto = 111,
+
         #endregion Eventos a nivel de sobre
 
         #region Eventos a nivel de destinatario
