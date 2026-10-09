@@ -1,4 +1,4 @@
-﻿using FirmarOnline.Clients.Common.Responses;
+using FirmarOnline.Clients.Common.Responses;
 using System;
 using System.Threading.Tasks;
 using System.Net.Http;
@@ -91,9 +91,9 @@ namespace FirmarOnline.Clients.Common
         private async Task<ApiResponse<TResponseData>> HttpPostAsync<TRequestData, TResponseData>(TRequestData data, string url = null, Uri uri = null)
         {
 #if NET6_0_OR_GREATER
-            using HttpContent content = JsonContent.Create(data, options: ApiDefaults.JsonSerializerOptions);
+            using HttpContent content = JsonContent.Create(data);
 #else
-            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, ApiDefaults.JsonSerializerOptions),
+            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, _jsonSerializerSettings),
                         Encoding.UTF8, "application/json");
 #endif
             using var response = await (uri == null ? _httpClient.PostAsync(url, content) : _httpClient.PostAsync(uri, content));
@@ -104,9 +104,9 @@ namespace FirmarOnline.Clients.Common
         private async Task<ApiResponse> HttpPostAsync<TRequestData>(TRequestData data, string url = null, Uri uri = null)
         {
 #if NET6_0_OR_GREATER
-            using HttpContent content = JsonContent.Create(data, options: ApiDefaults.JsonSerializerOptions);
+            using HttpContent content = JsonContent.Create(data);
 #else
-            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, ApiDefaults.JsonSerializerOptions),
+            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, _jsonSerializerSettings),
                         Encoding.UTF8, "application/json");
 #endif
             using var response = await (uri == null ? _httpClient.PostAsync(url, content) : _httpClient.PostAsync(uri, content));
@@ -119,9 +119,9 @@ namespace FirmarOnline.Clients.Common
             // No hacemos dispose del HttpResponseMessage para que el stream devuelto esté disponible
             // Si no habría que hacer una copia del stream y devolver la copia
 #if NET6_0_OR_GREATER
-            using HttpContent content = JsonContent.Create(data, options: ApiDefaults.JsonSerializerOptions);
+            using HttpContent content = JsonContent.Create(data);
 #else
-            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, ApiDefaults.JsonSerializerOptions),
+            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, _jsonSerializerSettings),
                         Encoding.UTF8, "application/json");
 #endif
             var response = await (uri == null ? _httpClient.PostAsync(url, content) : _httpClient.PostAsync(uri, content));

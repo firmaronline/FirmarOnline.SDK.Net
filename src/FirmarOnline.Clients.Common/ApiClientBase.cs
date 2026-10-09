@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System;
 using FirmarOnline.Clients.Common.Responses;
@@ -13,6 +13,7 @@ using System.Net.Http.Json;
 #else
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System.Text;
 #endif
 
@@ -24,6 +25,13 @@ namespace FirmarOnline.Clients.Common
     public abstract partial class ApiClientBase
     {
         private readonly HttpClient _httpClient;
+
+#if !NET6_0_OR_GREATER
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = new()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
+#endif
 
         /// <summary>
         /// Inicializa una nueva instancia de <see cref="ApiClientBase"/>
@@ -107,9 +115,9 @@ namespace FirmarOnline.Clients.Common
         private async Task<ApiResponse> HttpPutAsync<TRequestData>(TRequestData data, string url = null, Uri uri = null)
         {
 #if NET6_0_OR_GREATER
-            using HttpContent content = JsonContent.Create(data, options: ApiDefaults.JsonSerializerOptions);
+            using HttpContent content = JsonContent.Create(data);
 #else
-            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, ApiDefaults.JsonSerializerOptions),
+            using HttpContent content = new StringContent(JsonConvert.SerializeObject(data, _jsonSerializerSettings),
                         Encoding.UTF8, "application/json");
 #endif
             using var response = await (uri == null ? _httpClient.PutAsync(url, content) : _httpClient.PutAsync(uri, content));

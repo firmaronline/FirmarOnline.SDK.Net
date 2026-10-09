@@ -11,6 +11,7 @@ namespace FirmarOnline.Clients.Common
     /// <summary>
     /// Valores por defecto utilizados por las APIs de Edatalia
     /// </summary>
+    [Obsolete("Utilice System.Text.Json.JsonSerializerDefaults.Web en su lugar.")]
     public static class ApiDefaults
     {
 #if NET6_0_OR_GREATER

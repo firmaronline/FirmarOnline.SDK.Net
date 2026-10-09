@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 #if NET6_0_OR_GREATER
 using System.Net.Http.Json;
 #else
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 #endif
 
 namespace FirmarOnline.Clients.Common
@@ -14,6 +15,13 @@ namespace FirmarOnline.Clients.Common
     /// </summary>
     public static class HttpContentExtensions
     {
+#if !NET6_0_OR_GREATER
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = new()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
+#endif
+
         /// <summary>
         /// Lee el contenido HTTP y devuelve el valor resultante de la deserialización del contenido como JSON en una operación asíncrona
         /// aplicando las opciones de serialización por defecto de las APIs de Edatalia
@@ -24,10 +32,10 @@ namespace FirmarOnline.Clients.Common
         public async static Task<T> ReadFromApiJsonAsync<T>(this HttpContent content)
         {
 #if NET6_0_OR_GREATER
-            return await content.ReadFromJsonAsync<T>(options: ApiDefaults.JsonSerializerOptions);
+            return await content.ReadFromJsonAsync<T>();
 #else
             var json = await content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<T>(json, ApiDefaults.JsonSerializerOptions);
+            return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
 #endif
         }
     }
