@@ -355,6 +355,49 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSetFlows
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps can only be set when AuthenticationType is MFA"));
         }
 
+        [Theory]
+        [InlineData(RecipientAuthenticationType.MrzOcr, RecipientAuthenticationType.Mrz)]
+        [InlineData(RecipientAuthenticationType.Mrz, RecipientAuthenticationType.MrzOcr)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.MrzOcr)]
+        [InlineData(RecipientAuthenticationType.MrzOcr, RecipientAuthenticationType.LivenessAndCardId)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Mrz)]
+        [InlineData(RecipientAuthenticationType.Mrz, RecipientAuthenticationType.LivenessAndCardId)]
+        [InlineData(RecipientAuthenticationType.Liveness, RecipientAuthenticationType.LivenessAndCardId)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Liveness)]
+        public void Fails_When_AuthenticationType_Mfa_With_Forbidden_AuthStep_Combination(
+            RecipientAuthenticationType first, RecipientAuthenticationType second)
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep { Type = first },
+                new AuthenticationStep { Type = second }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot combine the"));
+        }
+
+        [Theory]
+        [InlineData(RecipientAuthenticationType.Liveness, RecipientAuthenticationType.MrzOcr)]
+        [InlineData(RecipientAuthenticationType.Liveness, RecipientAuthenticationType.Mrz)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Otp)]
+        public void Succeeds_When_AuthenticationType_Mfa_With_Allowed_AuthStep_Combination(
+            RecipientAuthenticationType first, RecipientAuthenticationType second)
+        {
+            var ds = NewBaseFlow();
+            ds.AuthenticationType = RecipientAuthenticationType.Mfa;
+            ds.AuthSteps =
+            [
+                new AuthenticationStep { Type = first },
+                new AuthenticationStep { Type = second }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Empty(results);
+        }
+
         #endregion "Authentication"
 
 #if NET6_0_OR_GREATER

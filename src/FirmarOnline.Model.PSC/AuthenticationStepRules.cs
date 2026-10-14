@@ -13,7 +13,8 @@ namespace FirmarOnline.Model.PSC
 
         /// <summary>
         /// Valida la secuencia de pasos de autenticación cuando se utiliza autenticación MFA.
-        /// Comprueba que haya al menos dos pasos, que no haya pasos con tipos duplicados,
+        /// Comprueba que haya al menos dos pasos, que no haya pasos con tipo None ni con tipos duplicados,
+        /// que no se combinen tipos prohibidos (<see cref="RecipientAuthenticationTypeExtensions.ForbiddenMfaCombinations"/>)
         /// y que, si existe un paso con tipo AccessCode, su Challenge esté informado.
         /// </summary>
         /// <param name="authSteps">Secuencia de pasos de autenticación.</param>
@@ -33,6 +34,15 @@ namespace FirmarOnline.Model.PSC
             if (authSteps.GroupBy(s => s.Type).Any(g => g.Count() > 1))
             {
                 return new ValidationResult("AuthSteps cannot contain duplicated Type values.", [AuthStepsName]);
+            }
+
+            var forbiddenCombination = authSteps.Select(s => s.Type).FindForbiddenMfaCombination();
+            if (forbiddenCombination.HasValue)
+            {
+                var (first, second) = forbiddenCombination.Value;
+                return new ValidationResult(
+                    $"AuthSteps cannot combine the {first} ({(int)first}) and {second} ({(int)second}) authentication types.",
+                    [AuthStepsName]);
             }
 
             var accessCodeStep = authSteps.FirstOrDefault(s => s.Type == RecipientAuthenticationType.AccessCode);

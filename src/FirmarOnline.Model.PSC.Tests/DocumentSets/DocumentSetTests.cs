@@ -392,6 +392,85 @@ namespace FirmarOnline.Model.PSC.Tests.DocumentSets
             Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot contain a step with Type None"));
         }
 
+        [Theory]
+        [InlineData(RecipientAuthenticationType.MrzOcr, RecipientAuthenticationType.Mrz)]
+        [InlineData(RecipientAuthenticationType.Mrz, RecipientAuthenticationType.MrzOcr)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.MrzOcr)]
+        [InlineData(RecipientAuthenticationType.MrzOcr, RecipientAuthenticationType.LivenessAndCardId)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Mrz)]
+        [InlineData(RecipientAuthenticationType.Mrz, RecipientAuthenticationType.LivenessAndCardId)]
+        [InlineData(RecipientAuthenticationType.Liveness, RecipientAuthenticationType.LivenessAndCardId)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Liveness)]
+        public void Fails_When_Recipient_AuthType_Mfa_With_Forbidden_AuthStep_Combination(
+            RecipientAuthenticationType first, RecipientAuthenticationType second)
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep { Type = first },
+                new AuthenticationStep { Type = second }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot combine the"));
+        }
+
+        [Fact]
+        public void Fails_When_Recipient_AuthType_Mfa_With_Forbidden_AuthStep_Combination_Among_Other_Steps()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep { Type = RecipientAuthenticationType.Liveness },
+                new AuthenticationStep { Type = RecipientAuthenticationType.Otp },
+                new AuthenticationStep { Type = RecipientAuthenticationType.LivenessAndCardId }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("AuthSteps cannot combine the Liveness (70) and LivenessAndCardId (71) authentication types"));
+        }
+
+        [Theory]
+        [InlineData(RecipientAuthenticationType.Liveness, RecipientAuthenticationType.MrzOcr)]
+        [InlineData(RecipientAuthenticationType.Liveness, RecipientAuthenticationType.Mrz)]
+        [InlineData(RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Otp)]
+        [InlineData(RecipientAuthenticationType.MrzOcr, RecipientAuthenticationType.Otp)]
+        public void Succeeds_When_Recipient_AuthType_Mfa_With_Allowed_AuthStep_Combination(
+            RecipientAuthenticationType first, RecipientAuthenticationType second)
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep { Type = first },
+                new AuthenticationStep { Type = second }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public void Succeeds_When_Recipient_AuthType_Mfa_With_AccessCode_And_MrzOcr()
+        {
+            var ds = NewBaseDocSet();
+            ds.Recipients[0].AuthType = RecipientAuthenticationType.Mfa;
+            ds.Recipients[0].AuthSteps =
+            [
+                new AuthenticationStep
+                {
+                    Type = RecipientAuthenticationType.AccessCode,
+                    AccessCode = new RecipientAccessCode { Challenge = "Informe su DNI:", Response = "12345678X" }
+                },
+                new AuthenticationStep { Type = RecipientAuthenticationType.MrzOcr }
+            ];
+
+            var results = ValidationHelper.Validate(ds);
+            Assert.Empty(results);
+        }
+
         #endregion "Recpients"
 
 #if NET6_0_OR_GREATER

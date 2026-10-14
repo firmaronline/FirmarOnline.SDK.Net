@@ -46,21 +46,21 @@ namespace FirmarOnline.Model.PSC.Tests.Recipients
         public void RecipientAuthenticationType_LivenessAndCardId_Has_Expected_DisplayName()
         {
             var displayName = GetDisplayName(RecipientAuthenticationType.LivenessAndCardId);
-            Assert.Equal("Liveness con Documento", displayName);
+            Assert.Equal("Liveness y CardId", displayName);
         }
 
         [Fact]
         public void AuditEventType_AuthenticationLivenessAndCardIdValidated_Has_Expected_DisplayName()
         {
             var displayName = GetDisplayName(AuditEventType.AuthenticationLivenessAndCardIdValidated);
-            Assert.Equal("Autenticación por Liveness con Documento válida", displayName);
+            Assert.Equal("Autenticación por Liveness y CardId válida", displayName);
         }
 
         [Fact]
         public void AuditEventType_AuthenticationLivenessAndCardIdNotValidated_Has_Expected_DisplayName()
         {
             var displayName = GetDisplayName(AuditEventType.AuthenticationLivenessAndCardIdNotValidated);
-            Assert.Equal("Autenticación por Liveness con Documento inválida", displayName);
+            Assert.Equal("Autenticación por Liveness y CardId inválida", displayName);
         }
 
         #endregion Metadatos (DisplayAttribute)

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirmarOnline.Model.PSC
 {
@@ -99,6 +101,42 @@ namespace FirmarOnline.Model.PSC
         public static bool RequiresEmailVerification(this RecipientAuthenticationType authenticationType)
         {
             return authenticationType == RecipientAuthenticationType.OtpEmail;
+        }
+
+        /// <summary>
+        /// Parejas de <see cref="RecipientAuthenticationType"/> que no se pueden combinar en los pasos
+        /// de una misma autenticación MFA. El orden dentro de cada pareja es indiferente.
+        /// </summary>
+        public static IReadOnlyList<(RecipientAuthenticationType First, RecipientAuthenticationType Second)> ForbiddenMfaCombinations { get; } =
+            Array.AsReadOnly(new[]
+            {
+                (RecipientAuthenticationType.MrzOcr, RecipientAuthenticationType.Mrz),                  // 30 - 31
+                (RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.MrzOcr),    // 71 - 30
+                (RecipientAuthenticationType.LivenessAndCardId, RecipientAuthenticationType.Mrz),       // 71 - 31
+                (RecipientAuthenticationType.Liveness, RecipientAuthenticationType.LivenessAndCardId),  // 70 - 71
+            });
+
+        /// <summary>
+        /// Busca la primera combinación prohibida de <see cref="ForbiddenMfaCombinations"/> presente
+        /// en los tipos de autenticación de los pasos de una autenticación MFA.
+        /// </summary>
+        /// <param name="stepTypes">Tipos de autenticación de los pasos MFA.</param>
+        /// <returns>La combinación prohibida encontrada, o <see langword="null"/> si no hay ninguna.</returns>
+        public static (RecipientAuthenticationType First, RecipientAuthenticationType Second)? FindForbiddenMfaCombination(
+            this IEnumerable<RecipientAuthenticationType> stepTypes)
+        {
+            if (stepTypes == null) return null;
+
+            var types = new HashSet<RecipientAuthenticationType>(stepTypes);
+            foreach (var combination in ForbiddenMfaCombinations)
+            {
+                if (types.Contains(combination.First) && types.Contains(combination.Second))
+                {
+                    return combination;
+                }
+            }
+
+            return null;
         }
     }
 }

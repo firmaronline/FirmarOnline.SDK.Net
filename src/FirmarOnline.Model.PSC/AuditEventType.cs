@@ -284,7 +284,7 @@ namespace FirmarOnline.Model.PSC
         /// <summary>
         /// Autenticación por Liveness con Documento válida.
         /// </summary>
-        [Display(Name = "Autenticación por Liveness y CardIdválida")]
+        [Display(Name = "Autenticación por Liveness y CardId válida")]
         AuthenticationLivenessAndCardIdValidated = 331,
 
         /// <summary>

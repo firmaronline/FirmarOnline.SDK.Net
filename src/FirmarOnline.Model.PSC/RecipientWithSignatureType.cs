@@ -36,6 +36,7 @@ namespace FirmarOnline.Model.PSC
         ///   - si el AuthType es MFA, haya al menos dos AuthSteps
         ///   - si el AuthType es MFA, ningún AuthStep tenga Type None
         ///   - si el AuthType es MFA, no haya AuthSteps con el mismo Type
+        ///   - si el AuthType es MFA, los AuthSteps no combinen tipos prohibidos (MrzOcr-Mrz, LivenessAndCardId-MrzOcr, LivenessAndCardId-Mrz, Liveness-LivenessAndCardId)
         ///   - si el AuthType es MFA y existe un AuthStep con tipo AccessCode, su Challenge no esté vacío
         ///   - si el AuthType es AccessCode, se haya introducido la información para autenticación por código de acceso
         ///   - si el AuthType no es MFA, no se hayan definido AuthSteps
