@@ -117,6 +117,26 @@ namespace FirmarOnline.Model.PSC
         public string SignedSms { get; set; }
 
         /// <summary>
+        /// Cuerpo de SMS de código OTP (máximo 400 caracteres). Si no se indica, se utiliza el texto
+        /// por defecto del idioma. Debe contener la variable {otp}, que se sustituye por el código OTP.
+        /// La línea de autocompletado (@dominio #código) se añade automáticamente al final del mensaje.
+        /// </summary>
+        public string OtpSms { get; set; }
+
+        /// <summary>
+        /// Asunto de email de código OTP. Si no se indica, se utiliza el asunto por defecto del idioma.
+        /// Variables opcionales: {RecipientName}, {RecipientEmail}, {SenderName} y {SenderMail}.
+        /// </summary>
+        public string OtpEmailSubject { get; set; }
+
+        /// <summary>
+        /// Cuerpo de email de código OTP. Si no se indica, se utiliza el cuerpo por defecto del idioma.
+        /// Variables opcionales: {RecipientName}, {RecipientEmail}, {SenderName} y {SenderMail}.
+        /// El código OTP se muestra siempre en el email, por lo que no requiere variable.
+        /// </summary>
+        public string OtpEmailBody { get; set; }
+
+        /// <summary>
         /// Validación de template
         /// </summary>
         /// <param name="template">Template</param>
@@ -140,6 +160,20 @@ namespace FirmarOnline.Model.PSC
                 if (!template.SignedSms.Contains("{url}"))
                 {
                     return new ValidationResult("Signature request SMS must contain the pattern {url}", [nameof(SignedSms)]);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(template?.OtpSms))
+            {
+                // SMS de código OTP debe contener la variable {otp}
+                if (!template.OtpSms.Contains("{otp}"))
+                {
+                    return new ValidationResult("OTP SMS text must contain {otp} tag template", [nameof(OtpSms)]);
+                }
+                // SMS de código OTP no puede contener más de 400 caracteres
+                if (template.OtpSms.Length > 400)
+                {
+                    return new ValidationResult("OTP SMS text length must be <= 400", [nameof(OtpSms)]);
                 }
             }
 
